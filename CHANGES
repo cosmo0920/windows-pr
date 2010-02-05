@@ -1,3 +1,10 @@
+= 1.0.9 - ???
+* A couple of modules that were checking against $KCODE now check against
+  __ENCODING__ or the string encoding for Ruby 1.9.x.
+* Removed an indentation warning that was revealed by Ruby 1.9.x.
+* Refactored the Rakefile, scoping and adding additional tasks.
+* Updated some tests to handling Ruby 1.9.x better.
+
 = 1.0.8 - 24-Aug-2009
 * Several return value constants that were set at -1 are now set to
   0xFFFFFFFF instead because win32-api returns unsigned longs.
