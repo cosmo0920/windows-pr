@@ -3,7 +3,7 @@ require 'rake/testtask'
 require 'rbconfig'
 include Config
 
-desc "Install the windows-pr package (non-gem)"
+desc "Install the windows-pr library (non-gem)"
 task :install do
   sitelibdir         = CONFIG["sitelibdir"]
   installdir         = File.join(sitelibdir, 'windows')
@@ -58,7 +58,7 @@ namespace 'gem' do
     Gem::Builder.new(spec).build
   end
 
-  desc 'Install the windows-pr library'
+  desc 'Install the windows-pr gem'
   task :install => [:build] do
     file = Dir["*.gem"].first
     sh "gem install #{file}"
