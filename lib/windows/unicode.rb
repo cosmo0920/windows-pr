@@ -1,3 +1,4 @@
+# encoding: ascii-8bit
 require 'windows/api'
 require 'windows/msvcrt/string'
 require 'windows/error'
