@@ -1,9 +1,11 @@
-= 1.0.9 - ???
+= 1.0.9 - 6-Feb-2010
 * A couple of modules that were checking against $KCODE now check against
   __ENCODING__ or the string encoding for Ruby 1.9.x.
 * Removed an indentation warning that was revealed by Ruby 1.9.x.
 * Refactored the Rakefile, scoping and adding additional tasks.
-* Updated some tests to handling Ruby 1.9.x better.
+* Updated some tests to handling Ruby 1.9.x better. All tests now pass
+  without warning with 1.9.x.
+* Added SERVICE_ACCEPT_PRESHUTDOWN constant to service.rb.
 
 = 1.0.8 - 24-Aug-2009
 * Several return value constants that were set at -1 are now set to
