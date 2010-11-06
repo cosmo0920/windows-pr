@@ -1,4 +1,4 @@
-= 1.1.0 - ???
+= 1.1.0 - 5-Nov-2010
 * Added the get_volume_type method to the Windows::Volume module.
 * Added more tests for the Windows::Volume module.
 * Removed the non-gem installation task and added a clean task.
