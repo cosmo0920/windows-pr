@@ -42,3 +42,5 @@ namespace 'test' do
     t.test_files = FileList['test/tc_volume.rb']
   end
 end
+
+task :default => 'test:all'
