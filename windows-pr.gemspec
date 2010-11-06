@@ -2,7 +2,7 @@ require 'rubygems'
 
 Gem::Specification.new do |spec|
   spec.name       = 'windows-pr'
-  spec.version    = '1.0.9'
+  spec.version    = '1.1.0'
   spec.license    = 'Artistic 2.0'
   spec.authors    = ['Daniel J. Berger', 'Park Heesob']
   spec.email      = 'djberg96@gmail.com'
