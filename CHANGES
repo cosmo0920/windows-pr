@@ -1,3 +1,8 @@
+= 1.1.0 - ???
+* Added the get_volume_type method to the Windows::Volume module.
+* Added more tests for the Windows::Volume module.
+* Removed the non-gem installation task and added a clean task.
+
 = 1.0.9 - 6-Feb-2010
 * A couple of modules that were checking against $KCODE now check against
   __ENCODING__ or the string encoding for Ruby 1.9.x.
