@@ -111,7 +111,6 @@ module Windows
 
     begin
       API.new('AddSIDToBoundaryDescriptor', 'PP', 'B')
-      API.new('AddIntegrityLabelToBoundaryDescriptor', 'PP', 'B')
       API.new('ClosePrivateNamespace', 'LL', 'B')
       API.new('CreateBoundaryDescriptor', 'SL', 'L')
       API.new('DeleteBoundaryDescriptor', 'L', 'V')
@@ -119,6 +118,14 @@ module Windows
       API.new('OpenPrivateNamespace', 'PS', 'L')
     rescue Win32::API::LoadLibraryError
       # Windows Vista or later
+    end
+
+    # Windows 7 or later
+
+    begin
+      API.new('AddIntegrityLabelToBoundaryDescriptor', 'PP', 'B')
+    rescue Win32::API::LoadLibraryError
+      # Windows 7 or later
     end
   end
 end
