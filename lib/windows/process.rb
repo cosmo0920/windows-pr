@@ -96,6 +96,15 @@ module Windows
       JOB_OBJECT_LIMIT_SILENT_BREAKAWAY_OK         = 0x00001000
       JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE           = 0x00002000
 
+      # Job Access Rights
+ 
+      JOB_OBJECT_ASSIGN_PROCESS          = 0x0001
+      JOB_OBJECT_SET_ATTRIBUTES          = 0x0002
+      JOB_OBJECT_OBJECT_QUERY            = 0x0004
+      JOB_OBJECT_TERMINATE               = 0x0008
+      JOB_OBJECT_SET_SECURITY_ATTRIBUTES = 0x0010
+      JOB_OBJECT_ALL_ACCESS              = 0x1F001F
+
       # Functions
       
       API.new('AssignProcessToJobObject', 'LL', 'B')
