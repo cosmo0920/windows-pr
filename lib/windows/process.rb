@@ -100,7 +100,7 @@ module Windows
  
       JOB_OBJECT_ASSIGN_PROCESS          = 0x0001
       JOB_OBJECT_SET_ATTRIBUTES          = 0x0002
-      JOB_OBJECT_OBJECT_QUERY            = 0x0004
+      JOB_OBJECT_QUERY                   = 0x0004
       JOB_OBJECT_TERMINATE               = 0x0008
       JOB_OBJECT_SET_SECURITY_ATTRIBUTES = 0x0010
       JOB_OBJECT_ALL_ACCESS              = 0x1F001F

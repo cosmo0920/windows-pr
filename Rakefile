@@ -6,13 +6,13 @@ CLEAN << FileList['*.gem']
 
 namespace 'gem' do
   desc 'Build the windows-pr gem'
-  task :build do
+  task :create do
     spec = eval(IO.read('windows-pr.gemspec'))
     Gem::Builder.new(spec).build
   end
 
   desc 'Install the windows-pr gem'
-  task :install => [:build] do
+  task :install => [:create] do
     file = Dir["*.gem"].first
     sh "gem install #{file}"
   end

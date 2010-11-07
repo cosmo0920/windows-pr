@@ -1,3 +1,6 @@
+= 1.1.2 - 6-Nov-2010
+* Fixed a job security flag name.
+
 = 1.1.1 - 6-Nov-2010
 * Added some security flags for Job objects to the Windows::Process module.
 * Added namespace functions to the Windows::Synchronize module.
