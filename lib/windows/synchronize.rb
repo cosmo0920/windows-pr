@@ -110,8 +110,11 @@ module Windows
     # Vista or later
 
     begin
+      API.new('AddSIDToBoundaryDescriptor', 'PP', 'B')
+      API.new('AddIntegrityLabelToBoundaryDescriptor', 'PP', 'B')
       API.new('ClosePrivateNamespace', 'LL', 'B')
       API.new('CreateBoundaryDescriptor', 'SL', 'L')
+      API.new('DeleteBoundaryDescriptor', 'L', 'V')
       API.new('CreatePrivateNamespace', 'PLS', 'L')
       API.new('OpenPrivateNamespace', 'PS', 'L')
     rescue Win32::API::LoadLibraryError
