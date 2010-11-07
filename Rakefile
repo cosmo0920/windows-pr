@@ -30,6 +30,12 @@ namespace 'test' do
     t.test_files = FileList['test/tc_clipboard.rb']
   end
 
+  Rake::TestTask.new('synchronize') do |t|
+    t.warning = true
+    t.verbose = true
+    t.test_files = FileList['test/tc_synchronize.rb']
+  end
+
   Rake::TestTask.new('unicode') do |t|
     t.warning = true
     t.verbose = true
