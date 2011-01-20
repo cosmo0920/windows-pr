@@ -1,3 +1,7 @@
+= 1.1.3 - 20-Jan-2011
+* Added the windows_7? method to the Windows::SystemInfo module.
+* Some minor cosmetic updates to other files.
+
 = 1.1.2 - 6-Nov-2010
 * Fixed a job security flag name.
 
@@ -215,7 +219,7 @@
   statically linked runtime DLL is local to that runtime and not shared with
   the Ruby process.
 * Now requires windows-api 0.2.2 or later.
-* Added more MSVCRT tests. 
+* Added more MSVCRT tests.
 
 = 0.8.1 - 27-Mar-2008
 * Added waitable timer functions to the Windows::Synchronize module.
@@ -254,7 +258,7 @@
   module.
 * The multi_to_wide and wide_to_multi methods were refactored slightly. Both
   now only use MSVCRT string functions internally in case any Ruby String
-  methods are redefined.  
+  methods are redefined.
 
 = 0.7.2 - 15-Oct-2007
 * Added the Windows::MSVCRT::Time module.
@@ -350,7 +354,7 @@
 * Added a test case for the Windows::Library module.
 * Added the LOCKFILE_EXCLUSIVE_LOCK and LOCKFILE_FAIL_IMMEDIATELY constants
   to the Windows::File module.
-  
+
 = 0.5.3 - 10-Aug-2006
 * Added wide character functions to the EventLog module.
 * Added a test suite for the EventLog module.
@@ -368,7 +372,7 @@
 * Added more test cases.
 * Added wide character methods to the Windows::Directory class.
 * Added wide character helper methods.
-* Added a few more methods to MSVCRT::String. 
+* Added a few more methods to MSVCRT::String.
 
 = 0.5.1 - 26-May-2006
 * Minor updates and fixes for the Unicode and DeviceIO modules.
