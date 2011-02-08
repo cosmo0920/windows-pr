@@ -91,11 +91,11 @@ module Windows
     # declared in this module.
 
     def MAKEWORD(a, b)
-      ((a & 0xff) | (b & 0xff)) << 8
+      ((a & 0xff) | ((b & 0xff) << 8))
     end
 
     def MAKELONG(a, b)
-      ((a & 0xffff) | (b & 0xffff)) << 16
+      ((a & 0xffff) | ((b & 0xffff) << 16))
     end
 
     def LOWORD(l)
