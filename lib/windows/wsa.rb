@@ -17,9 +17,9 @@ module Windows
     WSA_FLAG_ACCESS_SYSTEM_SECURITY = 0x40
     WSA_FLAG_NO_HANDLE_INHERIT      = 0x80
 
-    # RNRSERVICE_REGISTER   = 0x01
-    # RNRSERVICE_DEREGISTER = 0x02
-    # RNRSERVICE_DELETE     = 0x04
+    RNRSERVICE_REGISTER   = 0
+    RNRSERVICE_DEREGISTER = 1
+    RNRSERVICE_DELETE     = 2
     
     # Functions
 
@@ -46,7 +46,6 @@ module Windows
     API.new('WSAEnumNetworkEvents', 'LLP', 'I', 'ws2_32')
     API.new('WSAEnumProtocols', 'PPP', 'I', 'ws2_32')
     API.new('WSAEventSelect', 'LLL', 'I', 'ws2_32')
-    #API.new('__WSAFDIsSet', 'LP', 'I', 'ws2_32')
     API.new('WSAGetLastError', 'V', 'I', 'ws2_32')
     API.new('WSAGetOverlappedResult', 'LPPIP', 'B', 'ws2_32')
     API.new('WSAGetQOSByName', 'LPP', 'B', 'ws2_32')
@@ -71,7 +70,6 @@ module Windows
     API.new('WSARecvDisconnect', 'LP', 'I', 'ws2_32')
     API.new('WSARecvEx', 'LPIP', 'I', 'mswsock')
     API.new('WSARecvFrom', 'LPLPPPPPP', 'I', 'ws2_32')
-    #API.new('WSARecvMsg', 'LPPPP', 'I', 'mswsock')
     API.new('WSARemoveServiceClass', 'P', 'I', 'ws2_32')
     API.new('WSAResetEvent', 'L', 'B', 'ws2_32')
     API.new('WSARevertImpersonation', 'V', 'I', 'fwpuclnt')
