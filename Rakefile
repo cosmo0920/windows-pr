@@ -2,7 +2,7 @@ require 'rake'
 require 'rake/clean'
 require 'rake/testtask'
 
-CLEAN << FileList['*.gem']
+CLEAN.include("**/*.gem") 
 
 namespace 'gem' do
   desc 'Build the windows-pr gem'
@@ -46,6 +46,12 @@ namespace 'test' do
     t.warning = true
     t.verbose = true
     t.test_files = FileList['test/tc_volume.rb']
+  end
+
+  Rake::TestTask.new('wsa') do |t|
+    t.warning = true
+    t.verbose = true
+    t.test_files = FileList['test/tc_wsa.rb']
   end
 end
 
