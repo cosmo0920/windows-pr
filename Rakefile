@@ -2,7 +2,7 @@ require 'rake'
 require 'rake/clean'
 require 'rake/testtask'
 
-CLEAN.include("**/*.gem") 
+CLEAN.include("**/*.gem", "**/*.rbc") 
 
 namespace 'gem' do
   desc 'Build the windows-pr gem'
@@ -24,35 +24,14 @@ namespace 'test' do
     t.test_files = FileList['test/tc*']
   end
 
-  Rake::TestTask.new('clipboard') do |t|
-    t.warning = true
-    t.verbose = true
-    t.test_files = FileList['test/tc_clipboard.rb']
-  end
-
-  Rake::TestTask.new('synchronize') do |t|
-    t.warning = true
-    t.verbose = true
-    t.test_files = FileList['test/tc_synchronize.rb']
-  end
-
-  Rake::TestTask.new('unicode') do |t|
-    t.warning = true
-    t.verbose = true
-    t.test_files = FileList['test/tc_unicode.rb']
-  end
-
-  Rake::TestTask.new('volume') do |t|
-    t.warning = true
-    t.verbose = true
-    t.test_files = FileList['test/tc_volume.rb']
-  end
-
-  Rake::TestTask.new('wsa') do |t|
-    t.warning = true
-    t.verbose = true
-    t.test_files = FileList['test/tc_wsa.rb']
-  end
+  # Dynamically generate individual test tasks.
+  Dir['test/*.rb'].each{ |file|
+    name = File.basename(file.split('tc_').last, '.rb')
+    Rake::TestTask.new(name) do |t|
+      t.warning = true
+      t.test_files = FileList[file]
+    end
+  }
 end
 
 task :default => 'test:all'
