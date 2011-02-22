@@ -7,23 +7,30 @@ require "windows/ntfs/winternl"
 require "test/unit"
 
 class WinternlFoo
-   include Windows::NTFS::Winternl
 end
 
 class TC_Windows_NTFS_Winternl < Test::Unit::TestCase
-   def setup
-      @foo = WinternlFoo.new
-   end
+  include Windows::NTFS::Winternl
+
+  def setup
+    @name = "winternl_test.txt"
+    @handle = File.open(@name, 'w')
+  end
    
-   def test_numeric_constants
-      assert_equal(8, WinternlFoo::FileAccessInformation)
-   end
-   
-   def test_method_constants
-      assert_not_nil(WinternlFoo::NtQueryInformationFile)
-   end
-   
-   def teardown
-      @foo = nil
-   end
+  def test_numeric_constants
+    assert_equal(8, FileAccessInformation)
+  end
+  
+  def test_methods_defined
+    assert_respond_to(self, :NtQueryInformationFile)
+  end
+
+  def test_get_final_path_name_by_handle
+    assert_respond_to(self, :GetFinalPathNameByHandle)
+  end
+
+  def teardown
+    @handle.close if @handle
+    File.delete(@name) if File.exists?(@name)
+  end
 end
