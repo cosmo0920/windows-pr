@@ -26,7 +26,7 @@ class TC_Windows_MSVCRT_String < Test::Unit::TestCase
   end
 
   def test_strchr
-    assert_respond_to(self, :strchr)
+    assert(self.respond_to?(:strchr, true))
     assert_equal('llo', strchr('hello', 108))
     assert_equal(nil, strchr('hello', 120))
   end
@@ -42,7 +42,7 @@ class TC_Windows_MSVCRT_String < Test::Unit::TestCase
   end
 
   def test_strcmp
-    assert_respond_to(self, :strcmp)
+    assert(self.respond_to?(:strcmp, true))
     assert_equal(-1, strcmp('alpha', 'beta'))
     assert_equal(1, strcmp('beta', 'alpha'))
     assert_equal(0, strcmp('alpha', 'alpha'))
@@ -54,13 +54,13 @@ class TC_Windows_MSVCRT_String < Test::Unit::TestCase
   end
 
   def test_strcpy
-    assert_respond_to(self, :strcpy)
+    assert(self.respond_to?(:strcpy, true))
     assert_kind_of(Fixnum, strcpy(@buf, ['hello'].pack('p*').unpack('L')[0]))
     assert_equal('hello', @buf.strip)
   end
 
   def test_strcspn
-    assert_respond_to(self, :strcspn)
+    assert(self.respond_to?(:strcspn, true))
     assert_equal(3, strcspn('abcxyz123', '&^(x'))
     assert_equal(9, strcspn('abcxyz123', '&^(('))
   end
@@ -71,7 +71,7 @@ class TC_Windows_MSVCRT_String < Test::Unit::TestCase
   end
 
   def test_strlen
-    assert_respond_to(self, :strlen)
+    assert(self.respond_to?(:strlen, true))
     assert_equal(5, strlen('hello'))
     assert_equal(0, strlen(''))
   end
@@ -82,12 +82,13 @@ class TC_Windows_MSVCRT_String < Test::Unit::TestCase
   end
 
   def test_strncpy
-    assert_respond_to(self, :strncpy)
+    assert(self.respond_to?(:strncpy, true))
     assert_equal('alp', strncpy(@buf, 'alpha', 3))
     assert_equal('alp', @buf.strip)
   end
 
   def teardown
     @buf = nil
+    @str = nil
   end
 end

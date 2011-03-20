@@ -40,7 +40,7 @@ class TC_Windows_Volume < Test::Unit::TestCase
   end
 
   def test_get_volume_type
-    assert_respond_to(self, :get_volume_type)
+    assert(self.respond_to?(:get_volume_type, true))
     assert_nothing_raised{ get_volume_type }
     assert_kind_of(String, get_volume_type)
   end

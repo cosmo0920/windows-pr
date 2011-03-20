@@ -6,24 +6,14 @@
 require 'windows/msvcrt/time'
 require 'test/unit'
 
-class MTimeFoo
-   include Windows::MSVCRT::Time
-end
-
 class TC_Windows_MSVCRT_Time < Test::Unit::TestCase
-   def setup
-      @foo = MTimeFoo.new
-   end
+  include Windows::MSVCRT::Time
+
+  def test_method_constants
+    assert_not_nil(Asctime)
+  end
    
-   def test_method_constants
-      assert_not_nil(MTimeFoo::Asctime)
-   end
-   
-   def test_asctime
-      assert_respond_to(@foo, :asctime)
-   end
-   
-   def teardown
-      @foo  = nil
-   end
+  def test_asctime
+    assert(self.respond_to?(:asctime, true))
+  end
 end
