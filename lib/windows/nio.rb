@@ -7,6 +7,8 @@ module Windows
     API.auto_method    = true
     API.auto_unicode   = false
 
+    private
+
     # OpenFile() constants
 
     OF_READ             = 0x00000000

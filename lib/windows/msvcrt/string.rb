@@ -7,6 +7,8 @@ module Windows
       API.auto_method    = false # We need to handle 0 & nil explicitly
       API.auto_unicode   = false
 
+      private
+
       Strchr   = API.new('strchr', 'PI', 'P', MSVCRT_DLL)
       Strcmp   = API.new('strcmp', 'PP', 'I', MSVCRT_DLL)
       Strcpy   = API.new('strcpy', 'PL', 'L', MSVCRT_DLL)

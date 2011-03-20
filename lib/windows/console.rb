@@ -7,6 +7,8 @@ module Windows
       API.auto_method    = true
       API.auto_unicode   = true
 
+      private
+
       CTRL_C_EVENT        = 0
       CTRL_BREAK_EVENT    = 1
       CTRL_CLOSE_EVENT    = 2

@@ -7,6 +7,8 @@ module Windows
   module Unicode
     include Windows::MSVCRT::String
     include Windows::Error
+
+    private
     
     API.auto_namespace = 'Windows::Unicode'
     API.auto_constant  = true

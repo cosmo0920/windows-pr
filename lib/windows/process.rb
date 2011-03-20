@@ -10,6 +10,8 @@ module Windows
     API.auto_method    = true
     API.auto_unicode   = true
 
+    private
+
     # Process access rights
 
     PROCESS_ALL_ACCESS                = 0x1F0FFF

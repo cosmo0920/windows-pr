@@ -7,6 +7,8 @@ module Windows
     API.auto_method    = true
     API.auto_unicode   = false
 
+    private
+
     # These constants are from wtypes.h but are only used in a COM context
     # as far as I know.
 

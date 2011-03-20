@@ -7,6 +7,8 @@ module Windows
     API.auto_method    = true
     API.auto_unicode   = false
 
+    private
+
     GHND          = 0x0042
     GMEM_FIXED    = 0x0000
     GMEM_MOVABLE  = 0002

@@ -1,5 +1,7 @@
 module Windows
   module Limits
+    private
+
     MINCHAR  = 0x80
     MAXCHAR  = 0x7f
     MINSHORT = 0x8000
@@ -14,6 +16,7 @@ module Windows
     # for most functions that deal with paths, but in the interests of not
     # wasting huge chunks of memory on buffers I limit it to 1k, which
     # should be more than enough in practice.
+    #
     if RUBY_VERSION.to_f >= 1.9
       if __ENCODING__.name == 'UTF-8'
         MAXPATH = 1024

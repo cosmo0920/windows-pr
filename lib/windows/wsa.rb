@@ -7,6 +7,8 @@ module Windows
     API.auto_method    = true
     API.auto_unicode   = true
 
+    private
+
     # Constants
 
     WSA_FLAG_OVERLAPPED             = 0x01

@@ -7,6 +7,8 @@ module Windows
     API.auto_method    = true
     API.auto_unicode   = true
 
+    private
+
     # Constants
 
     IPPROTO_IP            = 0         # dummy for IP

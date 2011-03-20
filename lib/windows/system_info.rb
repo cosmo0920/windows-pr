@@ -7,6 +7,8 @@ module Windows
     API.auto_method    = true
     API.auto_unicode   = true
 
+    private
+
     # Obsolete processor info constants
 
     PROCESSOR_INTEL_386     = 386

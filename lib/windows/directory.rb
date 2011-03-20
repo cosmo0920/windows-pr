@@ -12,6 +12,8 @@ module Windows
     API.auto_method    = true
     API.auto_unicode   = true
 
+    private
+
     API.new('CreateDirectory', 'PP', 'B')
     API.new('CreateDirectoryEx', 'PPP', 'B')
     API.new('FindCloseChangeNotification', 'L', 'B')

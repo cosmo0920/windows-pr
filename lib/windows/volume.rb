@@ -7,6 +7,8 @@ module Windows
     API.auto_method    = true
     API.auto_unicode   = true
 
+    private
+
     DRIVE_UNKNOWN     = 0
     DRIVE_NO_ROOT_DIR = 1
     DRIVE_REMOVABLE   = 2

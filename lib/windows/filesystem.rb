@@ -7,6 +7,8 @@ module Windows
     API.auto_method    = true
     API.auto_unicode   = true
 
+    private
+
     API.new('GetDiskFreeSpace', 'SPPPP', 'B')
     API.new('GetDiskFreeSpaceEx', 'SPPP', 'B')
   end

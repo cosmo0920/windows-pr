@@ -18,6 +18,8 @@ module Windows
     API.auto_constant  = true
     API.auto_unicode   = true
 
+    private
+
     FORMAT_MESSAGE_ALLOCATE_BUFFER   = 0x00000100
     FORMAT_MESSAGE_IGNORE_INSERTS    = 0x00000200
     FORMAT_MESSAGE_FROM_STRING       = 0x00000400

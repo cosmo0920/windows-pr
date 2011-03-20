@@ -7,6 +7,8 @@ module Windows
       API.auto_method    = true
       API.auto_unicode   = true
 
+      private
+
       FILE_MAP_COPY       = 0x0001
       FILE_MAP_WRITE      = 0x0002
       FILE_MAP_READ       = 0x0004

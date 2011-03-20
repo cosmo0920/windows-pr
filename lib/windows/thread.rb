@@ -7,6 +7,8 @@ module Windows
     API.auto_method    = true
     API.auto_unicode   = true
 
+    private
+
     SYNCHRONIZE                 = 0x00100000
     THREAD_ALL_ACCESS           = 0x1F03FF
     THREAD_DIRECT_IMPERSONATION = 0x0200

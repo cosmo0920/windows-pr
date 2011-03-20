@@ -7,6 +7,8 @@ module Windows
     API.auto_method    = true
     API.auto_unicode   = true
 
+    private
+
     INFINITE         = 0xFFFFFFFF
     WAIT_OBJECT_0    = 0
     WAIT_TIMEOUT     = 0x102

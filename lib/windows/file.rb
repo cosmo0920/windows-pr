@@ -10,6 +10,8 @@ module Windows
       API.auto_constant  = true
       API.auto_method    = true
       API.auto_unicode   = true
+
+      private
       
       FILE_BEGIN   = 0
       FILE_CURRENT = 1

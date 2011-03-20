@@ -10,6 +10,8 @@ module Windows
     API.auto_method    = true
     API.auto_unicode   = true
 
+    private
+
     # Constants
 
     MAILSLOT_WAIT_FOREVER = 0xFFFFFFFF

@@ -7,6 +7,8 @@ module Windows
     API.auto_method    = true
     API.auto_unicode   = true
 
+    private
+
     CF_TEXT            = 1
     CF_BITMAP          = 2
     CF_METAFILEPICT    = 3

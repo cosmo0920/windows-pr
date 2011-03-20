@@ -6,6 +6,8 @@ module Windows
     API.auto_constant  = true
     API.auto_method    = true
     API.auto_unicode   = true
+
+    private
           
     include Windows::File
     

@@ -7,6 +7,8 @@ module Windows
       API.auto_method    = true
       API.auto_unicode   = false
 
+      private
+
       API.new('ContinueDebugEvent', 'LLL', 'B')
       API.new('DebugActiveProcess', 'L', 'B')
       API.new('DebugBreak', 'V', 'V')

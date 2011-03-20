@@ -7,6 +7,8 @@ module Windows
     API.auto_method    = true
     API.auto_unicode   = true
 
+    private
+
     EVENTLOG_SEQUENTIAL_READ = 0x0001
     EVENTLOG_SEEK_READ       = 0x0002
     EVENTLOG_FORWARDS_READ   = 0x0004

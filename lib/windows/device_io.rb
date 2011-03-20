@@ -7,6 +7,8 @@ module Windows
       API.auto_method    = true
       API.auto_unicode   = false
 
+      private
+
       # Device Types
       FILE_DEVICE_BEEP                = 0x00000001
       FILE_DEVICE_CD_ROM              = 0x00000002

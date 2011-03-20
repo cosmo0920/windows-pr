@@ -7,6 +7,8 @@ module Windows
     API.auto_method    = true
     API.auto_unicode   = true
 
+    private
+
     DLL_PROCESS_DETACH = 0
     DLL_PROCESS_ATTACH = 1
     DLL_THREAD_ATTACH  = 2
