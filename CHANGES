@@ -1,8 +1,13 @@
-= 1.1.4 - ???
+= 1.2.0 - ???
+* All methods and constants are now private. These methods were never meant
+  to be used by individual objects, but are only meant to be used internally.
+  Note that, because of an issue currently in the windows-api library, some
+  methods may still be currently public, but users of this library should not
+  count on that for long.
 * Added the Windows::WSA and Windows::Socket modules.
-* Fixed the MAKEWORD and MAKELONG methods in the SystemInfo module.
+* Fixed the MAKEWORD and MAKELONG macro methods in the SystemInfo module.
 * Added the RegGetValue function and related constants to the
-  Windows::Registry module.
+  Windows::Registry module. Thanks go to Dan Rathbun for the suggestion.
 
 = 1.1.3 - 20-Jan-2011
 * Added the windows_7? method to the Windows::SystemInfo module.
