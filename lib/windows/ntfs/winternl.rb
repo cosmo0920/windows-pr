@@ -71,27 +71,32 @@ module Windows
         require 'windows/error'
         require 'windows/unicode'
           
-        # TODO: Busted. Fix it.
-        def GetFinalPathNameByHandle(file)
-          begin
-            max_path = 256
-            fh = File.open(file, 'r')
-            handle = get_osfhandle(fh.fileno)
-            object_name_information = 0.chr * (8 + (max_path*2))
+        # Get the file name by handle. For Windows 2000 and Windows XP.
+        def GetFinalPathNameByHandle(fh)
+          maxpath = 1024
+          handle = get_osfhandle(fh.fileno)
+          object_name_information = 0.chr * (8 + (maxpath * 2))
 
-            status = NtQueryObject(
-               handle,
-               ObjectNameInformation,
-               object_name_information,
-               object_name_information.size,
-               0
-            )
+          status = NtQueryObject(
+            handle,
+            ObjectNameInformation,
+            object_name_information,
+            object_name_information.size,
+            0
+          )
 
-            name = wide_to_multi(object_name_information[8..-1])
-          ensure
-            fh.close
-          end
-          name
+          path = wide_to_multi(object_name_information[8..-1])
+
+          'A'.upto('Z'){ |device|
+            buffer = 0.chr * maxpath
+            device += ":"
+            if QueryDosDevice(device, buffer, buffer.size) > 0
+              path = ::File.basename(path.sub(buffer.strip, device))
+              break
+            end
+          }
+
+          path
         end
       end
     end
