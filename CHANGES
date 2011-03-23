@@ -6,8 +6,9 @@
   count on that for long.
 * Added the Windows::WSA and Windows::Socket modules.
 * Fixed the MAKEWORD and MAKELONG macro methods in the SystemInfo module.
-* Added the RegGetValue function and related constants to the
-  Windows::Registry module. Thanks go to Dan Rathbun for the suggestion.
+* Added many more functions and some constants to the Windows::Registry module.
+  Thanks go to Dan Rathbun for the suggestion.
+* Fixed the HKEY_CURRENT_USER constant in the Windows::Registry module.
 * The custom GetFinalPathNameByHandle method for Windows XP and 2000 has been
   fixed and reworked. It is limited to a defacto VOLUME_NAME_NT flag value,
   however. See the comments for details.

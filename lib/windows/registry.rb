@@ -118,6 +118,7 @@ module Windows
     API.new('RegEnumKeyEx', 'LLPPPPPP', 'L', 'advapi32')
     API.new('RegEnumValue', 'LLPPPPPP', 'L', 'advapi32')
     API.new('RegFlushKey', 'L', 'L', 'advapi32')
+    API.new('RegGetKeySecurity','LLPP','L','advapi32')  
     API.new('RegLoadKey', 'LPP', 'L', 'advapi32')
     API.new('RegNotifyChangeKeyValue', 'LILLI', 'L', 'advapi32')
     API.new('RegOpenCurrentUser', 'LP', 'L', 'advapi32')
@@ -131,6 +132,7 @@ module Windows
     API.new('RegReplaceKey', 'LPPP', 'L', 'advapi32')
     API.new('RegRestoreKey', 'LPL', 'L', 'advapi32')
     API.new('RegSaveKey', 'LPP', 'L', 'advapi32')
+    API.new('RegSetKeySecurity','LLP','L','advapi32')
     API.new('RegSetValueEx', 'LPLLPL', 'L', 'advapi32')
     API.new('RegUnLoadKey', 'LP', 'L', 'advapi32')
 
@@ -144,6 +146,26 @@ module Windows
       API.new('RegSaveKeyEx', 'LPPL', 'L', 'advapi32')
     rescue Win32::API::LoadLibraryError
       # Windows XP or later
+    end
+
+    begin
+      API.new('GetSystemRegistryQuota','LPLL','L')
+      API.new('RegDeleteKeyEx','LPLL','L','advapi32')  
+      API.new('RegDisableReflectionKey', 'L', 'L', 'advapi32')  
+      API.new('RegEnableReflectionKey', 'L', 'L', 'advapi32')  
+      API.new('RegQueryReflectionKey','LB','L','advapi32')
+      API.new('RegCopyTree','LPL','L','advapi32')  
+      API.new('RegCreateKeyTransacted','LPLPLLPPPLV','L','advapi32')  
+      API.new('RegDeleteKeyValue','LP','L','advapi32')  
+      API.new('RegDeleteTree','LP','L','advapi32')  
+      API.new('RegDeleteKeyTransacted','LPLLLV','L','advapi32')  
+      API.new('RegDisablePredefinedCacheEx', 'V', 'L', 'advapi32')  
+      API.new('RegLoadAppKey','PPLLL','L','advapi32')  
+      API.new('RegLoadMUIString', 'LPPLPLP', 'L', 'advapi32')  
+      API.new('RegOpenKeyTransacted','LPLLPLV','L','advapi32')  
+      API.new('RegSetKeyValue','LPPLPL','L','advapi32') 
+    rescue Win32::API::LoadLibraryError
+      # Windows Vista or later
     end
   end
 end
