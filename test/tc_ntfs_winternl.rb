@@ -6,9 +6,6 @@
 require "windows/ntfs/winternl"
 require "test/unit"
 
-class WinternlFoo
-end
-
 class TC_Windows_NTFS_Winternl < Test::Unit::TestCase
   include Windows::NTFS::Winternl
 
@@ -22,15 +19,26 @@ class TC_Windows_NTFS_Winternl < Test::Unit::TestCase
   end
   
   def test_methods_defined
-    assert_respond_to(self, :NtQueryInformationFile)
+    assert(self.respond_to?(:NtQueryInformationFile, true))
   end
 
   def test_get_final_path_name_by_handle
-    assert_respond_to(self, :GetFinalPathNameByHandle)
+    assert(self.respond_to?(:GetFinalPathNameByHandle, true))
+  end
+
+  def test_get_final_path_name_by_handle_returns_expected_result
+    buf = 0.chr * 260
+    res = nil
+    assert_nothing_raised{
+      res = GetFinalPathNameByHandle(@handle, buf, buf.size, 2)
+    }
+    assert_kind_of(Fixnum, res)
+    assert_equal(true, File.basename(buf) == @name)
   end
 
   def teardown
     @handle.close if @handle
     File.delete(@name) if File.exists?(@name)
+    @name = nil
   end
 end
