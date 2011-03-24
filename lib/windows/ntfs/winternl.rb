@@ -63,7 +63,12 @@ module Windows
       API.new('NtQueryObject', 'LLPLP', 'L', 'ntdll')
       API.new('NtQuerySystemInformation', 'LPLP', 'L', 'ntdll')
       API.new('RtlAdjustPrivilege', 'LIIP', 'L', 'ntdll')
-      API.new('RtlSetProcessIsCritical', 'IPI', 'L', 'ntdll')
+
+      begin
+        API.new('RtlSetProcessIsCritical', 'IPI', 'L', 'ntdll')
+      rescue Win32::API::LoadLibraryError
+        # XP or later
+      end
        
       # Should work for Windows XP/2000
       unless defined? GetFinalPathNameByHandle
