@@ -1,4 +1,4 @@
-= 1.2.0 - ???
+= 1.2.0 - 24-Mar-2011
 * All methods and constants are now private. These methods were never meant
   to be used by individual objects, but are only meant to be used internally.
   Note that, because of an issue currently in the windows-api library, some
