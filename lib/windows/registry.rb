@@ -155,14 +155,14 @@ module Windows
       API.new('RegEnableReflectionKey', 'L', 'L', 'advapi32')  
       API.new('RegQueryReflectionKey','LB','L','advapi32')
       API.new('RegCopyTree','LPL','L','advapi32')  
-      API.new('RegCreateKeyTransacted','LPLPLLPPPLV','L','advapi32')  
+      API.new('RegCreateKeyTransacted','LPLPLLPPPLP','L','advapi32')  
       API.new('RegDeleteKeyValue','LP','L','advapi32')  
       API.new('RegDeleteTree','LP','L','advapi32')  
-      API.new('RegDeleteKeyTransacted','LPLLLV','L','advapi32')  
+      API.new('RegDeleteKeyTransacted','LPLLLP','L','advapi32')  
       API.new('RegDisablePredefinedCacheEx', 'V', 'L', 'advapi32')  
       API.new('RegLoadAppKey','PPLLL','L','advapi32')  
       API.new('RegLoadMUIString', 'LPPLPLP', 'L', 'advapi32')  
-      API.new('RegOpenKeyTransacted','LPLLPLV','L','advapi32')  
+      API.new('RegOpenKeyTransacted','LPLLPLP','L','advapi32')  
       API.new('RegSetKeyValue','LPPLPL','L','advapi32') 
     rescue Win32::API::LoadLibraryError
       # Windows Vista or later
