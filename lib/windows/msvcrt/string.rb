@@ -21,17 +21,26 @@ module Windows
       Strspn   = API.new('strspn', 'PP', 'L', MSVCRT_DLL)
       Strstr   = API.new('strstr', 'PP', 'P', MSVCRT_DLL)
       Strtok   = API.new('strtok', 'PP', 'P', MSVCRT_DLL)
+
+      StrcpyPL = API.new('strcpy', 'PL', 'L', MSVCRT_DLL)
+      StrcpyPP = API.new('strcpy', 'PP', 'L', MSVCRT_DLL)
         
       Mbscmp   = API.new('_mbscmp', 'PP', 'I', 'msvcrt')
       Mbscpy   = API.new('_mbscpy', 'PL', 'L', 'msvcrt')
       Mbslen   = API.new('_mbslen', 'P', 'L', 'msvcrt')
       Mbsrev   = API.new('_mbsrev', 'P', 'P', 'msvcrt')
+
+      MbscpyPL = API.new('_mbscpy', 'PL', 'L', 'msvcrt')
+      MbscpyPP = API.new('_mbscpy', 'PP', 'L', 'msvcrt')
       
       Wcscmp   = API.new('wcscmp', 'PP', 'I', MSVCRT_DLL)
       Wcscpy   = API.new('wcscpy', 'PL', 'L', MSVCRT_DLL)
       Wcslen   = API.new('wcslen', 'P', 'L', MSVCRT_DLL)
       Wcsncpy  = API.new('wcsncpy', 'PPL', 'P', MSVCRT_DLL)
       Wcsrev   = API.new('_wcsrev', 'P', 'P', MSVCRT_DLL)
+
+      WcscpyPL = API.new('wcscpy', 'PL', 'L', MSVCRT_DLL)
+      WcscpyPP = API.new('wcscpy', 'PP', 'L', MSVCRT_DLL)
        
       begin
         Strtok_s = API.new('strtok_s', 'PPI', 'P', MSVCRT_DLL)
@@ -52,8 +61,12 @@ module Windows
       end
        
       def strcpy(dest, src)
-        return nil if src == 0
-        Strcpy.call(dest, src)
+        if src.is_a?(Numeric)
+          return nil if src == 0
+          StrcpyPL.call(dest, src)
+        else
+          StrcpyPP.call(dest, src)
+        end
       end
        
       def strlen(string)
@@ -116,8 +129,12 @@ module Windows
       end
        
       def mbscpy(dest, src)
-        return nil if src == 0
-        Mbscpy.call(dest, src)
+        if src.is_a?(Numeric)
+          return nil if src == 0
+          MbscpyPL.call(dest, src)
+        else
+          MbscpyPP.call(dest, src)
+        end
       end
        
       def mbslen(string)
@@ -138,8 +155,12 @@ module Windows
       end
 
       def wcscpy(dest, src)
-        return nil if src == 0
-        Wcscpy.call(dest, src)
+        if src.is_a?(Numeric)
+          return nil if src == 0
+          WcscpyPL.call(dest, src)
+        else
+          WcscpyPP.call(dest, src)
+        end
       end
        
       def wcslen(string)
