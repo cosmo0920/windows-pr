@@ -1,7 +1,8 @@
-= 1.2.1 - ???
+= 1.2.1 - 25-Aug-2011
 * The strcpy, mbscpy and wsccpy functions in the Windows::MSVCRT::String
   module have been made friendlier. They will now accept either a string
   or an address for the second argument.
+* Minor modification to one GetFinalPathNameByHandle test.
 
 = 1.2.0 - 24-Mar-2011
 * All methods and constants are now private. These methods were never meant
