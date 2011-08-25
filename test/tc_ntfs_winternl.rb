@@ -33,7 +33,7 @@ class TC_Windows_NTFS_Winternl < Test::Unit::TestCase
       res = GetFinalPathNameByHandle(@handle, buf, buf.size, 2)
     }
     assert_kind_of(Fixnum, res)
-    assert_equal(File.basename(buf), @name)
+    assert_equal(@name, File.basename(buf))
   end
 
   def teardown
