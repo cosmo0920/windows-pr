@@ -111,7 +111,7 @@ module Windows
 
     API.new('AssignProcessToJobObject', 'LL', 'B')
     API.new('CreateJobObject', 'PS', 'L')
-    API.new('CreateProcess', 'PPPPLLLPPP', 'B')
+    API.new('CreateProcess', 'SPPPLLLPPP', 'B')
     API.new('CreateProcessAsUser', 'LPPLLILPPPP', 'B', 'advapi32')
     API.new('CreateProcessWithLogonW', 'PPPLPPLLPPP', 'B', 'advapi32')
     API.new('EnumProcesses', 'PLP', 'B', 'psapi')
