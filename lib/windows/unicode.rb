@@ -9,7 +9,7 @@ module Windows
     include Windows::Error
 
     private
-    
+
     API.auto_namespace = 'Windows::Unicode'
     API.auto_constant  = true
     API.auto_method    = true
@@ -28,7 +28,7 @@ module Windows
     MB_USEGLYPHCHARS     = 0x00000004
     MB_ERR_INVALID_CHARS = 0x00000008
 
-    WC_COMPOSITECHECK    = 0x00000200 
+    WC_COMPOSITECHECK    = 0x00000200
     WC_DISCARDNS         = 0x00000010
     WC_SEPCHARS          = 0x00000020
     WC_DEFAULTCHAR       = 0x00000040
@@ -85,19 +85,19 @@ module Windows
     API.new('WideCharToMultiByte', 'ILSIPIPP', 'I')
 
     # Convenient wrapper methods
-     
-    # Maps a wide character string to a new character string using the
-    # specified +encoding+.  If no encoding is specified, then CP_UTF8 
+
+    # Maps a character string to a UTF-16 (wide) character string using the
+    # specified +encoding+.  If no encoding is specified, then CP_UTF8
     # is used if $KCODE (or the encoding name in Ruby 1.9.x) is set to UTF8.
     # Otherwise, CP_ACP is used.
-    # 
+    #
     # If the function fails it simply returns the string as-is.
-    # 
+    #
     def multi_to_wide(string, encoding=nil)
       return nil unless string
       raise TypeError unless string.is_a?(String)
       return string if IsTextUnicode(string, string.size, nil)
-       
+
       unless encoding
         if RUBY_VERSION.to_f >= 1.9
           encoding = (string.encoding.name == 'UTF-8') ? CP_UTF8 : CP_ACP
@@ -105,9 +105,9 @@ module Windows
           encoding = ($KCODE == 'UTF8') ? CP_UTF8 : CP_ACP
         end
       end
-       
+
       int = MultiByteToWideChar(encoding, 0, string, -1, nil, 0)
-       
+
       # Trailing nulls are retained
       if int > 0
         buf = ' ' * int * 2
@@ -115,20 +115,20 @@ module Windows
         buf
       else
         raise ArgumentError, get_last_error
-      end         
+      end
     end
-    
+
     # Maps a wide character string to a new character string using the
-    # specified +encoding+. If no encoding is specified, then CP_UTF8 
+    # specified +encoding+. If no encoding is specified, then CP_UTF8
     # is used if $KCODE (or the encoding name in Ruby 1.9.x) is set to UTF8.
     # Otherwise, CP_ACP is used.
-    # 
+    #
     # If the function fails it simply returns the string as-is.
-    # 
+    #
     def wide_to_multi(wstring, encoding=nil)
       return nil unless wstring
       raise TypeError unless wstring.is_a?(String)
-       
+
       unless encoding
         if RUBY_VERSION.to_f >= 1.9
           encoding = (wstring.encoding.name == 'UTF-8') ? CP_UTF8 : CP_ACP
@@ -141,7 +141,7 @@ module Windows
       wstring << "\000\000" if wstring[-1].chr != "\000"
 
       int = WideCharToMultiByte(encoding, 0, wstring, -1, 0, 0, nil, nil)
-       
+
       # Trailing nulls are stripped
       if int > 0
         buf = ' ' * int
@@ -149,7 +149,7 @@ module Windows
         buf[ /^[^\0]*/ ]
       else
         raise ArgumentError, get_last_error
-      end         
+      end
     end
   end
 end
