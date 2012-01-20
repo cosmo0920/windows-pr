@@ -8,7 +8,7 @@ module Windows
 
       private
 
-      attach_function :ObjectFromLResult, [:long, :pointer, :uint, :pointer], :long
+      attach_function :ObjectFromLresult, [:long, :pointer, :uint, :pointer], :long
     end
   end
 end
