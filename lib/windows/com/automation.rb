@@ -1,12 +1,9 @@
-require 'windows/api'
+require 'ffi'
 
 module Windows
   module COM
     module Automation
-      API.auto_namespace = 'Windows::COM::Automation'
-      API.auto_constant  = true
-      API.auto_method    = true
-      API.auto_unicode   = false
+      extend FFI::Library
 
       private
          
@@ -99,51 +96,59 @@ module Windows
       VARFLAG_FREPLACEABLE     = 0x800
       VARFLAG_FIMMEDIATEBIND   = 0x1000
 
-      API.new('BstrFromVector', 'PP', 'L', 'oleaut32')
-      API.new('CreateErrorInfo', 'P', 'L', 'oleaut32')
-      API.new('CreateTypeLib2', 'PPP', 'L', 'oleaut32')
-      API.new('DispGetIDsOfNames', 'PPLP', 'L', 'oleaut32')
-      API.new('DispGetParam', 'PLLPP', 'L', 'oleaut32')
-      API.new('DispInvoke', 'PPPLPPPP', 'L', 'oleaut32')
-      API.new('GetActiveObject', 'PPP', 'L', 'oleaut32')
-      API.new('LoadRegTypeLib', 'PLLLP', 'L', 'oleaut32')
-      API.new('LoadTypeLib', 'PP', 'L', 'oleaut32')
-      API.new('LoadTypeLibEx', 'PLP', 'L', 'oleaut32')
-      API.new('RegisterActiveObject', 'PPLP', 'L', 'oleaut32')
-      API.new('RevokeActiveObject', 'LP', 'L', 'oleaut32')       
-      API.new('RegisterTypeLib', 'PPP', 'L', 'oleaut32')
-      API.new('SafeArrayAccessData', 'PP', 'L', 'oleaut32')
-      API.new('SafeArrayAllocData', 'P', 'L', 'oleaut32')
-      API.new('SafeArrayAllocDescriptor', 'LP', 'L', 'oleaut32')
-      API.new('SafeArrayCopy', 'PP', 'L', 'oleaut32')
-      API.new('SafeArrayCopyData', 'PP', 'L', 'oleaut32')
-      API.new('SafeArrayCreate', 'LLP', 'L', 'oleaut32')
-      API.new('SafeArrayCreateVector', 'LLL', 'L', 'oleaut32')
-      API.new('SafeArrayDestroy', 'P', 'L', 'oleaut32')
-      API.new('SafeArrayDestroyData', 'P', 'L', 'oleaut32')
-      API.new('SafeArrayDestroyDescriptor', 'P', 'L', 'oleaut32')
-      API.new('SafeArrayGetDim', 'P', 'L', 'oleaut32')
-      API.new('SafeArrayGetElement', 'PLP', 'L', 'oleaut32')
-      API.new('SafeArrayGetElemsize', 'P', 'L', 'oleaut32')
-      API.new('SafeArrayGetLBound', 'PLP', 'L', 'oleaut32')
-      API.new('SafeArrayGetUBound', 'PLP', 'L', 'oleaut32')
-      API.new('SafeArrayLock', 'P', 'L', 'oleaut32')
-      API.new('SafeArrayPtrOfIndex', 'PPP', 'L', 'oleaut32')
-      API.new('SafeArrayPutElement', 'PPP', 'L', 'oleaut32')
-      API.new('SafeArrayRedim', 'PP', 'L', 'oleaut32')
-      API.new('SafeArrayUnaccessData', 'P', 'L', 'oleaut32')
-      API.new('SafeArrayUnlock', 'P', 'L', 'oleaut32')
-      API.new('SetErrorInfo', 'LP', 'L', 'oleaut32')
-      API.new('SysAllocString', 'P', 'L', 'oleaut32')
-      API.new('SysAllocStringByteLen', 'PI', 'L', 'oleaut32')
-      API.new('SysFreeString', 'P', 'V', 'oleaut32')
-      API.new('SysReAllocString', 'PP', 'L', 'oleaut32')
-      API.new('SysReAllocStringLen', 'PPI', 'L', 'oleaut32')
-      API.new('SysStringByteLen', 'P', 'L', 'oleaut32')
-      API.new('SysStringLen', 'P', 'L', 'oleaut32')
-      API.new('SystemTimeToVariantTime', 'PP', 'I', 'oleaut32')
-      API.new('UnRegisterTypeLib', 'PLLLL', 'I', 'oleaut32')
-      API.new('VectorFromBstr', 'PP', 'L', 'oleaut32')
+      ffi_lib 'oleaut32'
+
+      attach_function :BstrFromVector, [:pointer, :pointer], :long
+      attach_function :CreateErrorInfo, [:pointer], :long
+      attach_function :CreateTypeLib2, [:pointer, :pointer, :pointer], :long
+      attach_function :DispGetIDsOfNames, [:pointer, :pointer, :uint, :pointer], :long
+      attach_function :DispGetParam, [:pointer, :uint, :long, :pointer, :pointer], :long
+      attach_function :DispInvoke, [:pointer, :pointer, :pointer, :ushort, :pointer, :pointer, :pointer, :pointer], :long
+      attach_function :GetActiveObject, [:pointer, :pointer, :pointer], :long
+      attach_function :LoadRegTypeLib, [:pointer, :ushort, :ushort, :long, :pointer], :long
+      attach_function :LoadTypeLib, [:pointer, :pointer], :long
+      attach_function :LoadTypeLibEx, [:pointer, :long, :pointer], :long
+      attach_function :RegisterActiveObject, [:pointer, :pointer, :long, :pointer], :long
+      attach_function :RevokeActiveObject, [:long, :pointer], :long
+      attach_function :RegisterTypeLib, [:pointer, :pointer, :pointer], :long
+      attach_function :SafeArrayAccessData, [:pointer, :pointer], :long
+      attach_function :SafeArrayAllocData, [:pointer], :long
+      attach_function :SafeArrayAllocDescriptor, [:uint, :pointer], :long
+      attach_function :SafeArrayCopy, [:pointer, :pointer], :long
+      attach_function :SafeArrayCopyData, [:pointer, :pointer], :long
+      attach_function :SafeArrayCreate, [:long, :uint, :pointer], :pointer
+      attach_function :SafeArrayCreateEx, [:long, :uint, :pointer, :pointer], :pointer
+      attach_function :SafeArrayCreateVector, [:long, :long, :ulong], :pointer
+      attach_function :SafeArrayCreateVectorEx, [:long, :long, :ulong, :pointer], :pointer
+      attach_function :SafeArrayDestroy, [:pointer], :long
+      attach_function :SafeArrayDestroyData, [:pointer], :long
+      attach_function :SafeArrayDestroyDescriptor, [:pointer], :long
+      attach_function :SafeArrayGetDim, [:pointer], :uint
+      attach_function :SafeArrayGetElement, [:pointer, :pointer, :pointer], :long
+      attach_function :SafeArrayGetElemsize, [:pointer], :uint
+      attach_function :SafeArrayGetIID, [:pointer, :pointer], :long
+      attach_function :SafeArrayGetLBound, [:pointer, :uint, :pointer], :long
+      attach_function :SafeArrayGetRecordInfo, [:pointer, :pointer], :long
+      attach_function :SafeArrayGetUBound, [:pointer, :uint, :pointer], :long
+      attach_function :SafeArrayLock, [:pointer], :long
+      attach_function :SafeArrayPtrOfIndex, [:pointer, :pointer, :pointer], :long
+      attach_function :SafeArrayPutElement, [:pointer, :pointer, :pointer], :long
+      attach_function :SafeArrayRedim, [:pointer, :pointer], :long
+      attach_function :SafeArraySetRecordInfo, [:pointer, :pointer], :long
+      attach_function :SafeArrayUnaccessData, [:pointer], :long
+      attach_function :SafeArrayUnlock, [:pointer], :long
+      attach_function :SetErrorInfo, [:ulong, :pointer], :long
+      attach_function :SysAllocString, [:pointer], :pointer
+      attach_function :SysAllocStringByteLen, [:pointer, :uint], :pointer
+      attach_function :SysAllocStringLen, [:pointer, :uint], :pointer
+      attach_function :SysFreeString, [:pointer], :long
+      attach_function :SysReAllocString, [:pointer, :pointer], :long
+      attach_function :SysReAllocStringLen, [:pointer, :pointer, :uint], :long
+      attach_function :SysStringByteLen, [:pointer], :long
+      attach_function :SysStringLen, [:pointer], :long
+      attach_function :SystemTimeToVariantTime, [:pointer, :pointer], :int
+      attach_function :UnRegisterTypeLib, [:pointer, :ushort, :ushort, :long, :long], :long
+      attach_function :VectorFromBstr, [:pointer, :pointer], :long
     end
   end
 end
