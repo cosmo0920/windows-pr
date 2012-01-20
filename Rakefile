@@ -26,7 +26,7 @@ namespace 'test' do
 
   # Dynamically generate individual test tasks.
   Dir['test/*.rb'].each{ |file|
-    name = File.basename(file.split('tc_').last, '.rb')
+    name = File.basename(file.split('test_').last, '.rb')
     Rake::TestTask.new(name) do |t|
       t.warning = true
       t.test_files = FileList[file]
