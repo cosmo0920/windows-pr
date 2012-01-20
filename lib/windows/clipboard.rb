@@ -1,11 +1,8 @@
-require 'windows/api'
+require 'ffi'
 
 module Windows
   module Clipboard
-    API.auto_namespace = 'Windows::Clipboard'
-    API.auto_constant  = true
-    API.auto_method    = true
-    API.auto_unicode   = true
+    extend FFI::Library
 
     private
 
@@ -32,29 +29,33 @@ module Windows
     CF_DSPMETAFILEPICT = 0x0083
     CF_DSPENHMETAFILE  = 0x008E
 
-    API.new('ChangeClipboardChain', 'LL', 'B', 'user32')
-    API.new('CloseClipboard', 'V', 'B', 'user32')
-    API.new('CountClipboardFormats', 'V', 'I', 'user32')
-    API.new('EmptyClipboard', 'V', 'B', 'user32')
-    API.new('EnumClipboardFormats', 'I', 'I', 'user32')
-    API.new('GetClipboardData', 'I', 'L', 'user32')
-    API.new('GetClipboardFormatName', 'IPI', 'I', 'user32')
-    API.new('GetClipboardOwner', 'V', 'L', 'user32')
-    API.new('GetClipboardSequenceNumber', 'V', 'L', 'user32')
-    API.new('GetClipboardViewer', 'V', 'L', 'user32')
-    API.new('GetOpenClipboardWindow', 'V', 'L', 'user32')
-    API.new('GetPriorityClipboardFormat', 'PI', 'I', 'user32')
-    API.new('IsClipboardFormatAvailable', 'I', 'B', 'user32')
-    API.new('OpenClipboard', 'L', 'B', 'user32')
-    API.new('RegisterClipboardFormat', 'S', 'I', 'user32')
-    API.new('SetClipboardData', 'IL', 'L', 'user32')
-    API.new('SetClipboardViewer', 'L', 'L', 'user32')
+    ffi_lib 'user32'
+
+    attach_function :ChangeClipboardChain, [:long, :long], :bool
+    attach_function :CloseClipboard, [], :bool
+    attach_function :CountClipboardFormats, [], :bool
+    attach_function :EmptyClipboard, [], :bool
+    attach_function :EnumClipboardFormats, [:int], :uint
+    attach_function :GetClipboardData, [:int], :long
+    attach_function :GetClipboardFormatName, :GetClipboardFormatNameA, [:int, :pointer, :int], :int
+    attach_function :GetClipboardFormatNameW, [:int, :pointer, :int], :int
+    attach_function :GetClipboardOwner, [], :long
+    attach_function :GetClipboardSequenceNumber, [], :long
+    attach_function :GetClipboardViewer, [], :long
+    attach_function :GetOpenClipboardWindow, [], :long
+    attach_function :GetPriorityClipboardFormat, [:pointer, :int], :int
+    attach_function :IsClipboardFormatAvailable, [:uint], :bool
+    attach_function :OpenClipboard, [:long], :bool
+    attach_function :RegisterClipboardFormat, :RegisterClipboardFormatA, [:string], :uint
+    attach_function :RegisterClipboardFormatW, [:string], :uint
+    attach_function :SetClipboardData, [:uint, :long], :long
+    attach_function :SetClipboardViewer, [:long], :long
 
     begin
-      API.new('AddClipboardFormatListener', 'L', 'B', 'user32')
-      API.new('GetUpdatedClipboardFormats', 'PIP', 'I', 'user32')
-      API.new('RemoveClipboardFormatListener', 'L', 'B', 'user32')
-    rescue Win32::API::LoadLibraryError
+      attach_function :AddClipboardFormatListener, [:long], :bool
+      attach_function :GetUpdatedClipboardFormats, [:pointer, :uint, :pointer], :bool
+      attach_function :RemoveClipboardFormatListener, [:long], :bool
+    rescue FFI::NotFoundError
       # Windows Vista or later
     end
   end
