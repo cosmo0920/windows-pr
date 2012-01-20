@@ -18,7 +18,7 @@ module Windows
     # should be more than enough in practice.
     #
     if RUBY_VERSION.to_f >= 1.9
-      if __ENCODING__.name == 'UTF-8'
+      if __ENCODING__.name == 'UTF-8' || __ENCODING__.name == 'UTF-16'
         MAXPATH = 1024
       else
         MAXPATH = 256
