@@ -9,14 +9,11 @@
 # get_last_error - Returns a human readable string for the error returned
 # by the GetLastError() function.
 ############################################################################
-require 'windows/api'
+require 'ffi'
 
 module Windows
   module Error
-    API.auto_namespace = 'Windows::Error'
-    API.auto_method    = true
-    API.auto_constant  = true
-    API.auto_unicode   = true
+    extend FFI::Library
 
     private
 
@@ -414,25 +411,22 @@ module Windows
     WSA_QOS_RECEIVERS       = 11005
     WSA_QOS_SENDERS         = 11006
 
-    API.new('GetLastError', 'V', 'L')
-    API.new('SetLastError', 'L', 'V')
-    API.new('SetErrorMode', 'I', 'I')
-    API.new('FormatMessage', 'LLLLPLP', 'L')
+    ffi_lib 'kernel32'
 
-    begin
-      API.new('SetLastErrorEx', 'LL', 'V', 'user32')
-    rescue Win32::API::LoadLibraryError
-      # VC++ 7.0 or later
-    end
+    attach_function :GetLastError, [], :ulong
+    attach_function :SetLastError, [:ulong], :void
+    attach_function :SetErrorMode, [:int], :int
+    attach_function :FormatMessageA, [:ulong, :ulong, :ulong, :ulong, :pointer, :ulong, :pointer], :ulong
 
-    # Convenience method that wraps FormatMessage with some sane defaults and
-    # returns a human readable string.
-    #
-    def get_last_error(err_num = GetLastError.call)
-      buf   = 0.chr * 260
-      flags = FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_ARGUMENT_ARRAY
-      FormatMessageA.call(flags, 0, err_num, 0, buf, buf.size, 0)
-      buf.strip
+    ffi_lib 'user32'
+
+    attach_function :SetLastErrorEx, [:ulong, :ulong], :void
+
+    def get_last_error(err_num = GetLastError())
+      buf   = FFI::MemoryPointer.new(:char, 512)
+      flags = FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_ARGUMENT_ARRAY        
+      FormatMessageA(flags, 0, err_num, 0, buf, buf.size, nil)
+      buf.read_string
     end
 
     # Macros from WinError.h

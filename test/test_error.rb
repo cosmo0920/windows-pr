@@ -1,10 +1,10 @@
 #####################################################################
-# tc_error.rb
+# test_error.rb
 #
 # Test case for the Windows::Error module.
 #####################################################################
-require "windows/error"
-require "test/unit"
+require 'windows/error'
+require 'test/unit'
 
 class TC_Windows_Error < Test::Unit::TestCase
   include Windows::Error
@@ -23,14 +23,13 @@ class TC_Windows_Error < Test::Unit::TestCase
     assert_equal(0x8000, SEM_NOOPENFILEERRORBOX)
   end
    
-  def test_method_constants
-    assert_not_nil(GetLastError)
-    assert_not_nil(SetLastError)
-    assert_not_nil(SetLastErrorEx)
-    assert_not_nil(SetErrorMode)
-    assert_not_nil(FormatMessage)
+  def test_methods_defined
+    assert_respond_to(self, :GetLastError)
+    assert_respond_to(self, :SetLastError)
+    assert_respond_to(self, :SetErrorMode)
+    assert_respond_to(self, :FormatMessageA)
   end
-   
+
   def test_get_last_error
     assert_nothing_raised{ get_last_error }
     assert_kind_of(String, get_last_error)
