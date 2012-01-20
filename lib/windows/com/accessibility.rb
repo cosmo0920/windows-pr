@@ -1,16 +1,14 @@
-require 'windows/api'
+require 'ffi'
 
 module Windows
   module COM
     module Accessibility
-      API.auto_namespace = 'Windows::COM::Accessibility'
-      API.auto_constant  = true
-      API.auto_method    = true
-      API.auto_unicode   = false
+      extend FFI::Library
+      ffi_lib 'oleacc'
 
       private
-         
-      API.new('ObjectFromLresult', 'LPIP', 'L', 'oleacc')
+
+      attach_function :ObjectFromLResult, [:long, :pointer, :uint, :pointer], :long
     end
   end
 end
