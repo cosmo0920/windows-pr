@@ -1,15 +1,16 @@
-require 'windows/api'
+require 'ffi'
 
 module Windows
   module FileSystem
-    API.auto_namespace = 'Windows::FileSystem'
-    API.auto_constant  = true
-    API.auto_method    = true
-    API.auto_unicode   = true
+    extend FFI::Library
+    ffi_lib 'kernel32'
 
     private
 
-    API.new('GetDiskFreeSpace', 'SPPPP', 'B')
-    API.new('GetDiskFreeSpaceEx', 'SPPP', 'B')
+
+    attach_function :GetDiskFreeSpaceA, [:string, :pointer, :pointer, :pointer, :pointer], :bool
+    attach_function :GetDiskFreeSpaceW, [:string, :pointer, :pointer, :pointer, :pointer], :bool
+    attach_function :GetDiskFreeSpaceExA, [:string, :pointer, :pointer, :pointer], :bool
+    attach_function :GetDiskFreeSpaceExW, [:string, :pointer, :pointer, :pointer], :bool
   end
 end
