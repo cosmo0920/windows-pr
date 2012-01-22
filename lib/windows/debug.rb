@@ -1,35 +1,34 @@
-require 'windows/api'
+require 'ffi'
 
 module Windows
-   module Debug
-      API.auto_namespace = 'Windows::Debug'
-      API.auto_constant  = true
-      API.auto_method    = true
-      API.auto_unicode   = false
+  module Debug
+    extend FFI::Library
+    ffi_lib 'kernel32'
 
-      private
+    private
 
-      API.new('ContinueDebugEvent', 'LLL', 'B')
-      API.new('DebugActiveProcess', 'L', 'B')
-      API.new('DebugBreak', 'V', 'V')
-      API.new('FatalExit', 'I', 'V')
-      API.new('FlushInstructionCache', 'LLL', 'B')
-      API.new('GetThreadContext', 'LP', 'B')
-      API.new('GetThreadSelectorEntry', 'LLP', 'B')
-      API.new('IsDebuggerPresent', 'V', 'B')
-      API.new('OutputDebugString', 'P', 'V')
-      API.new('ReadProcessMemory', 'LLPLP', 'B')
-      API.new('SetThreadContext', 'LP', 'B')
-      API.new('WaitForDebugEvent', 'PL', 'B')
-      API.new('WriteProcessMemory', 'LLPLP', 'B')
+    attach_function :ContinueDebugEvent, [:ulong, :ulong, :ulong], :bool
+    attach_function :DebugActiveProcess, [:ulong], :bool
+    attach_function :DebugBreak, [], :void
+    attach_function :FatalExit, [:int], :void
+    attach_function :FlushInstructionCache, [:long, :pointer, :size_t], :bool
+    attach_function :GetThreadContext, [:long, :pointer], :bool
+    attach_function :GetThreadSelectorEntry, [:long, :ulong, :pointer], :bool
+    attach_function :IsDebuggerPresent, [], :bool
+    attach_function :OutputDebugStringA, [:pointer], :void
+    attach_function :OutputDebugStringW, [:pointer], :void
+    attach_function :ReadProcessMemory, [:long, :long, :pointer, :size_t, :pointer], :bool
+    attach_function :SetThreadContext, [:long, :pointer], :bool
+    attach_function :WaitForDebugEvent, [:pointer, :ulong], :bool
+    attach_function :WriteProcessMemory, [:long, :pointer, :pointer, :size_t, :pointer], :bool
 
-      begin
-         API.new('CheckRemoteDebuggerPresent', 'LP', 'B')
-         API.new('DebugActiveProcessStop', 'L', 'B')
-         API.new('DebugBreakProcess', 'L', 'B')
-         API.new('DebugSetProcessKillOnExit', 'I', 'B')
-      rescue Win32::API::LoadLibraryError
-         # Windows XP or later
-      end
-   end
+    begin
+      attach_function :CheckRemoteDebuggerPresent, [:long, :pointer], :bool
+      attach_function :DebugActiveProcessStop, [:ulong], :bool
+      attach_function :DebugBreakProcess, [:long], :bool
+      attach_function :DebugSetProcessKillOnExit, [:bool], :bool
+    rescue FFI::NotFoundError
+      # Windows XP or later
+    end
+  end
 end
