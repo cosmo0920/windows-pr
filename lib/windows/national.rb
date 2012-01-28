@@ -1,11 +1,9 @@
-require 'windows/api'
+require 'ffi'
 
 module Windows
   module National
-    API.auto_namespace = 'Windows::National'
-    API.auto_constant  = true
-    API.auto_method    = true
-    API.auto_unicode   = true
+    extend FFI::Library
+    ffi_lib 'kernel32'
 
     private
 
@@ -532,29 +530,39 @@ module Windows
     LOCALE_USER_DEFAULT   = 1024
     LOCALE_INVARIANT      = 8323072
     
-    API.new('CompareString', 'LLPIPI', 'I')
-    API.new('EnumDateFormats', 'KLL', 'B')
-    API.new('EnumDateFormatsEx', 'KLL', 'B')
-    API.new('EnumSystemCodePages', 'KL', 'L')
-    API.new('EnumSystemLocales', 'KL', 'L')
-    API.new('EnumTimeFormats', 'KLL', 'B')
-    API.new('GetACP', 'V', 'I')
-    API.new('GetCPInfo', 'LP', 'B')
-    API.new('GetCPInfoEx', 'LLP', 'B')
-    API.new('GetCurrencyFormat', 'LLPPPI', 'I')
-    API.new('GetDateFormat', 'LLPPPI', 'I')
-    API.new('GetLocaleInfo', 'LLPL', 'I')
-    API.new('GetSystemDefaultLangID', 'V', 'L')
-    API.new('GetSystemDefaultLCID', 'V', 'L')
-    API.new('GetUserDefaultLangID', 'V', 'L')
-    API.new('GetUserDefaultLCID', 'V', 'L')
+    attach_function :CompareStringA, [:ulong, :ulong, :string, :int, :string, :int], :int
+    attach_function :CompareStringW, [:ulong, :ulong, :string, :int, :string, :int], :int
+    attach_function :EnumDateFormatsA, [:pointer, :ulong, :ulong], :bool
+    attach_function :EnumDateFormatsW, [:pointer, :ulong, :ulong], :bool
+    attach_function :EnumDateFormatsExA, [:pointer, :ulong, :ulong], :bool
+    attach_function :EnumDateFormatsExW, [:pointer, :ulong, :ulong], :bool
+    attach_function :EnumSystemCodePagesA, [:pointer, :ulong], :bool
+    attach_function :EnumSystemCodePagesW, [:pointer, :ulong], :bool
+    attach_function :EnumSystemLocalesA, [:pointer, :ulong], :bool
+    attach_function :EnumSystemLocalesW, [:pointer, :ulong], :bool
+    attach_function :EnumTimeFormatsA, [:pointer, :ulong, :ulong], :bool
+    attach_function :EnumTimeFormatsW, [:pointer, :ulong, :ulong], :bool
+    attach_function :GetACP, [], :uint
+    attach_function :GetCPInfo, [:uint, :pointer], :bool
+    attach_function :GetCPInfoExA, [:uint, :ulong, :pointer], :bool
+    attach_function :GetCPInfoExW, [:uint, :ulong, :pointer], :bool
+    attach_function :GetCurrencyFormatA, [:ulong, :ulong, :string, :pointer, :pointer, :int], :int
+    attach_function :GetCurrencyFormatW, [:ulong, :ulong, :string, :pointer, :pointer, :int], :int
+    attach_function :GetDateFormatA, [:ulong, :ulong, :pointer, :string, :pointer, :int], :int
+    attach_function :GetDateFormatW, [:ulong, :ulong, :pointer, :string, :pointer, :int], :int
+    attach_function :GetLocaleInfoA, [:ulong, :ulong, :pointer, :int], :int
+    attach_function :GetLocaleInfoW, [:ulong, :ulong, :pointer, :int], :int
+    attach_function :GetSystemDefaultLangID, [], :ushort
+    attach_function :GetSystemDefaultLCID, [], :ushort
+    attach_function :GetUserDefaultLangID, [], :ushort
+    attach_function :GetUserDefaultLCID, [], :ulong
 
     begin
-      API.new('AdjustCalendarDate', 'PLP', 'B')
-      API.new('EnumTimeFormatsEx', 'KSLP', 'B')
-      API.new('GetCurrencyFormatEx', 'PLPPPI', 'I')
-      API.new('GetDateFormatEx', 'SLPSPIS', 'I')
-    rescue Win32::API::LoadLibraryError
+      attach_function :AdjustCalendarDate, [:pointer, :ulong, :pointer], :bool
+      attach_function :EnumTimeFormatsEx, [:pointer, :string, :ulong, :pointer], :bool
+      attach_function :GetCurrencyFormatEx, [:pointer, :ulong, :pointer, :pointer, :pointer, :int], :int
+      attach_function :GetDateFormatEx, [:string, :ulong, :pointer, :string, :int, :string], :int
+    rescue FFI::NotFoundError
       # Windows Vista or later
     end
     
@@ -562,7 +570,7 @@ module Windows
     # function to a human readable string.
     # 
     def get_acp_string
-      CODE_PAGE[GetACP.call]
+      CODE_PAGE[GetACP()]
     end
     
     # Equivalent of the MAKELCID macro in WinNT.h
