@@ -1,11 +1,9 @@
-require 'windows/api'
+require 'ffi'
 
 module Windows
   module Pipe
-    API.auto_namespace = 'Windows::Pipe'
-    API.auto_constant  = true
-    API.auto_method    = true
-    API.auto_unicode   = true
+    extend FFI::Library
+    ffi_lib 'kernel32'
 
     private
 
@@ -27,16 +25,29 @@ module Windows
     
     PIPE_UNLIMITED_INSTANCES = 255
 
-    API.new('CallNamedPipe', 'PPLPLPL', 'B')
-    API.new('ConnectNamedPipe', 'LP', 'B')
-    API.new('CreateNamedPipe', 'PLLLLLLL', 'L')
-    API.new('CreatePipe', 'PPPL', 'B')
-    API.new('DisconnectNamedPipe', 'L', 'B')
-    API.new('GetNamedPipeHandleState', 'LPPPPPL', 'B')
-    API.new('GetNamedPipeInfo', 'LPPPP', 'B')
-    API.new('PeekNamedPipe', 'LPLPPP', 'B')
-    API.new('SetNamedPipeHandleState', 'LPPP', 'B')
-    API.new('TransactNamedPipe', 'LPLPLPP', 'B')
-    API.new('WaitNamedPipe', 'PL', 'B')
+    attach_function :CallNamedPipeA, [:string, :pointer, :ulong, :pointer, :ulong, :pointer, :ulong], :bool
+    attach_function :CallNamedPipeW, [:string, :pointer, :ulong, :pointer, :ulong, :pointer, :ulong], :bool
+    attach_function :ConnectNamedPipe, [:ulong, :pointer], :bool
+    attach_function :CreateNamedPipeA, [:string, :ulong, :ulong, :ulong, :ulong, :ulong, :ulong, :pointer], :ulong
+    attach_function :CreateNamedPipeW, [:string, :ulong, :ulong, :ulong, :ulong, :ulong, :ulong, :pointer], :ulong
+    attach_function :CreatePipe, [:pointer, :pointer, :pointer, :ulong], :bool
+    attach_function :DisconnectNamedPipe, [:ulong], :bool
+    attach_function :GetNamedPipeHandleStateA, [:ulong, :pointer, :pointer, :pointer, :pointer, :pointer, :ulong], :bool
+    attach_function :GetNamedPipeHandleStateW, [:ulong, :pointer, :pointer, :pointer, :pointer, :pointer, :ulong], :bool
+    attach_function :GetNamedPipeInfo, [:ulong, :pointer, :pointer, :pointer, :pointer], :bool
+    attach_function :PeekNamedPipe, [:ulong, :pointer, :ulong, :pointer, :pointer, :pointer], :bool
+    attach_function :SetNamedPipeHandleState, [:ulong, :pointer, :pointer, :pointer], :bool
+    attach_function :TransactNamedPipe, [:ulong, :pointer, :ulong, :pointer, :ulong, :pointer, :pointer], :bool
+    attach_function :WaitNamedPipeA, [:string, :ulong], :bool
+    attach_function :WaitNamedPipeW, [:string, :ulong], :bool
+
+    begin
+      attach_function :GetNamedPipeClientComputerNameA, [:ulong, :pointer, :ulong], :bool
+      attach_function :GetNamedPipeClientComputerNameW, [:ulong, :pointer, :ulong], :bool
+      attach_function :GetNamedPipeClientProcessId, [:ulong, :pointer], :bool
+      attach_function :GetNamedPipeClientSessionId, [:ulong, :pointer], :bool
+    rescue FFI::NotFoundError
+      # Vista or later
+    end
   end
 end
