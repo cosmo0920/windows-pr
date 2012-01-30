@@ -1,14 +1,12 @@
-require 'windows/api'
+require 'ffi'
 
 # In general you will want to use this module with Windows::National because
 # it contains the various LOCALE and TIME constants.
 
 module Windows
   module Time
-    API.auto_namespace = 'Windows::Time'
-    API.auto_constant  = true
-    API.auto_method    = true
-    API.auto_unicode   = true
+    extend FFI::Library
+    ffi_lib 'kernel32'
 
     private
     
@@ -16,32 +14,33 @@ module Windows
     TIME_ZONE_ID_STANDARD = 1
     TIME_ZONE_ID_DAYLIGHT = 2      
 
-    API.new('CompareFileTime', 'PP', 'L')
-    API.new('DosDateTimeToFileTime', 'IIP', 'B')
-    API.new('FileTimeToDosDateTime', 'PPP', 'B')
-    API.new('FileTimeToLocalFileTime', 'PP', 'B')
-    API.new('FileTimeToSystemTime', 'PP', 'B')
-    API.new('GetFileTime', 'LPPP', 'B')
-    API.new('GetLocalTime', 'P')
-    API.new('GetSystemTime', 'P')
-    API.new('GetSystemTimeAdjustment', 'PPP', 'B')
-    API.new('GetSystemTimeAsFileTime', 'P')
-    API.new('GetTickCount')
-    API.new('GetTimeFormat', 'ILPPPI', 'I')
-    API.new('GetTimeZoneInformation', 'P', 'L')
-    API.new('LocalFileTimeToFileTime', 'PP', 'B')
-    API.new('SetFileTime', 'LPPP', 'B')
-    API.new('SetLocalTime', 'P', 'B')
-    API.new('SetSystemTime', 'P', 'B')
-    API.new('SetTimeZoneInformation', 'P', 'B')
-    API.new('SetSystemTimeAdjustment', 'LI', 'B')
-    API.new('SystemTimeToFileTime', 'PP', 'B')
-    API.new('SystemTimeToTzSpecificLocalTime', 'PPP', 'B')
+    attach_function :CompareFileTime, [:pointer, :pointer], :long
+    attach_function :DosDateTimeToFileTime, [:ushort, :ushort], :bool
+    attach_function :FileTimeToDosDateTime, [:pointer, :pointer, :pointer], :bool
+    attach_function :FileTimeToLocalFileTime, [:pointer, :pointer], :bool
+    attach_function :FileTimeToSystemTime, [:pointer, :pointer], :bool
+    attach_function :GetFileTime, [:ulong, :pointer, :pointer, :pointer], :bool
+    attach_function :GetLocalTime, [:pointer], :void
+    attach_function :GetSystemTime, [:pointer], :void
+    attach_function :GetSystemTimeAdjustment, [:pointer, :pointer, :pointer], :bool
+    attach_function :GetSystemTimeAsFileTime, [:pointer], :void
+    attach_function :GetTickCount, [], :ulong
+    attach_function :GetTimeFormatA, [:ulong, :ulong, :pointer, :string, :pointer, :int], :int
+    attach_function :GetTimeFormatW, [:ulong, :ulong, :pointer, :string, :pointer, :int], :int
+    attach_function :GetTimeZoneInformation, [:pointer], :ulong
+    attach_function :LocalFileTimeToFileTime, [:pointer, :pointer], :bool
+    attach_function :SetFileTime, [:ulong, :pointer, :pointer, :pointer], :bool
+    attach_function :SetLocalTime, [:pointer], :bool
+    attach_function :SetSystemTime, [:pointer], :bool
+    attach_function :SetTimeZoneInformation, [:pointer], :bool
+    attach_function :SetSystemTimeAdjustment, [:ulong, :bool], :bool
+    attach_function :SystemTimeToFileTime, [:pointer, :pointer], :bool
+    attach_function :SystemTimeToTzSpecificLocalTime, [:pointer, :pointer, :pointer], :bool
 
     begin
-      API.new('GetSystemTimes', 'PPP', 'B')
-      API.new('TzSpecificLocalTimeToSystemTime', 'PPP', 'B')
-    rescue Win32::API::LoadLibraryError
+      attach_function :GetSystemTimes, [:pointer, :pointer, :pointer], :bool
+      attach_function :TzSpecificLocalTimeToSystemTime, [:pointer, :pointer, :pointer], :bool
+    rescue FFI::NotFoundError
       # Windows XP or later
     end
   end
