@@ -1,11 +1,9 @@
-require 'windows/api'
+require 'ffi'
 
 module Windows
   module Library
-    API.auto_namespace = 'Windows::Library'
-    API.auto_constant  = true
-    API.auto_method    = true
-    API.auto_unicode   = true
+    extend FFI::Library
+    ffi_lib 'kernel32'
 
     private
 
@@ -23,21 +21,28 @@ module Windows
     LOAD_WITH_ALTERED_SEARCH_PATH = 0x00000008
     LOAD_IGNORE_CODE_AUTHZ_LEVEL  = 0x00000010
 
-    API.new('DisableThreadLibraryCalls', 'L', 'B')
-    API.new('FreeLibrary', 'L', 'B')
-    API.new('FreeLibraryAndExitThread', 'LL', 'V')
-    API.new('GetModuleFileName', 'LPL', 'L')
-    API.new('GetModuleHandle', 'P', 'L')
-    API.new('GetProcAddress', 'LP', 'L')
-    API.new('LoadLibrary', 'P', 'L')
-    API.new('LoadLibraryEx', 'PLL', 'L')
-    API.new('LoadModule', 'PP', 'L')
+    attach_function :DisableThreadLibraryCalls, [:ulong], :bool
+    attach_function :FreeLibrary, [:ulong], :bool
+    attach_function :FreeLibraryAndExitThread, [:ulong, :ulong], :void
+    attach_function :GetModuleFileNameA, [:ulong, :pointer, :ulong], :ulong
+    attach_function :GetModuleFileNameW, [:ulong, :pointer, :ulong], :ulong
+    attach_function :GetModuleHandleA, [:string], :ulong
+    attach_function :GetModuleHandleW, [:string], :ulong
+    attach_function :GetProcAddress, [:ulong, :string], :pointer
+    attach_function :LoadLibraryA, [:string], :ulong
+    attach_function :LoadLibraryW, [:string], :ulong
+    attach_function :LoadLibraryExA, [:string, :ulong, :ulong], :ulong
+    attach_function :LoadLibraryExW, [:string, :ulong, :ulong], :ulong
+    attach_function :LoadModule, [:string, :pointer], :ulong
 
     begin
-      API.new('GetDllDirectory', 'LP', 'L')
-      API.new('GetModuleHandleEx', 'LPP', 'I')
-      API.new('SetDllDirectory', 'P', 'I')
-    rescue Win32::API::LoadLibraryError
+      attach_function :GetDllDirectoryA, [:ulong, :pointer], :ulong
+      attach_function :GetDllDirectoryW, [:ulong, :pointer], :ulong
+      attach_function :GetModuleHandleExA, [:ulong, :string, :pointer], :bool
+      attach_function :GetModuleHandleExW, [:ulong, :string, :pointer], :bool
+      attach_function :SetDllDirectoryA, [:string], :bool
+      attach_function :SetDllDirectoryW, [:string], :bool
+    rescue FFI::NotFoundError
       # Windows XP or later
     end
   end
