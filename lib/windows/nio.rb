@@ -1,11 +1,9 @@
-require 'windows/api'
+require 'ffi'
 
 module Windows
   module NIO
-    API.auto_namespace = 'Windows::NIO'
-    API.auto_constant  = true
-    API.auto_method    = true
-    API.auto_unicode   = false
+    extend FFI::Library
+    ffi_lib 'kernel32'
 
     private
 
@@ -28,22 +26,22 @@ module Windows
     OF_EXIST            = 0x00004000
     OF_REOPEN           = 0x00008000
 
-    API.new('CancelIo', 'L', 'B')
-    API.new('CreateIoCompletionPort', 'LLPL', 'L')
-    API.new('FlushFileBuffers', 'L', 'B')
-    API.new('GetQueuedCompletionStatus', 'LPPPL', 'B')
-    API.new('OpenFile', 'PPI', 'L')
-    API.new('PostQueuedCompletionStatus', 'LLPP', 'B')
-    API.new('ReadFileScatter', 'LPLPP', 'B')
-    API.new('SetEndOfFile', 'L', 'B')
-    API.new('SetFilePointer', 'LLPL', 'L')
-    API.new('SetFilePointerEx', 'LLPL', 'B')
-    API.new('WriteFileGather', 'LPLPP', 'B')
+    attach_function :CancelIo, [:ulong], :bool
+    attach_function :CreateIoCompletionPort, [:ulong, :ulong, :pointer, :ulong], :ulong
+    attach_function :FlushFileBuffers, [:ulong], :bool
+    attach_function :GetQueuedCompletionStatus, [:ulong, :pointer, :pointer, :pointer, :ulong], :bool
+    attach_function :OpenFile, [:string, :pointer, :uint], :ulong
+    attach_function :PostQueuedCompletionStatus, [:ulong, :ulong, :pointer, :pointer], :bool
+    attach_function :ReadFileScatter, [:ulong, :pointer, :ulong, :pointer, :pointer], :bool
+    attach_function :SetEndOfFile, [:ulong], :bool
+    attach_function :SetFilePointer, [:ulong, :long, :pointer, :ulong], :ulong
+    attach_function :SetFilePointerEx, [:ulong, :ulong, :pointer, :ulong], :bool
+    attach_function :WriteFileGather, [:ulong, :pointer, :ulong, :pointer, :pointer], :bool
 
     begin
-      API.new('CancelIoEx', 'LP', 'B')
-      API.new('CancelSynchronousIo', 'L', 'B')
-    rescue Win32::API::LoadLibraryError
+      attach_function :CancelIoEx, [:ulong, :pointer], :bool
+      attach_function :CancelSynchronousIo, [:ulong], :bool
+    rescue FFI::NotFoundError
       # Windows Vista or later
     end
   end
