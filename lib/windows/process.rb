@@ -1,14 +1,13 @@
-require 'windows/api'
+require 'ffi'
 
 # The Windows module serves as a namespace only.
 module Windows
+
   # The Process module includes process related functions and constants,
   # including some tool help functions that relate to processes.
   module Process
-    API.auto_namespace = 'Windows::Process'
-    API.auto_constant  = true
-    API.auto_method    = true
-    API.auto_unicode   = true
+    extend FFI::Library
+    ffi_lib 'kernel32'
 
     private
 
@@ -108,52 +107,62 @@ module Windows
     JOB_OBJECT_ALL_ACCESS              = 0x1F001F
 
     # Functions
+    #attach_function :CreateProcessAsUser, 'LSPLLILPPPP', 'B', 'advapi32')
+    #attach_function :CreateProcessWithLogonW, 'SSSLSPLLSPP', 'B', 'advapi32')
+    #attach_function :WTSEnumerateProcesses, 'LLLPP', 'B', 'wtsapi32')
 
-    API.new('AssignProcessToJobObject', 'LL', 'B')
-    API.new('CreateJobObject', 'PS', 'L')
-    API.new('CreateProcess', 'SPPPLLLPPP', 'B')
-    API.new('CreateProcessAsUser', 'LSPLLILPPPP', 'B', 'advapi32')
-    API.new('CreateProcessWithLogonW', 'SSSLSPLLSPP', 'B', 'advapi32')
-    API.new('EnumProcesses', 'PLP', 'B', 'psapi')
-    API.new('ExitProcess', 'L', 'V')
-    API.new('FreeEnvironmentStrings', 'P', 'B')
-    API.new('GetCommandLine', 'V', 'P')
-    API.new('GetCurrentProcess', 'V', 'L')
-    API.new('GetCurrentProcessId', 'V', 'L')
-    API.new('GetEnvironmentStrings', 'V', 'L')
-    API.new('GetEnvironmentVariable', 'SPL', 'L')
-    API.new('GetExitCodeProcess', 'LP', 'B')
-    API.new('GetGuiResources', 'LL', 'L', 'user32')
-    API.new('GetPriorityClass', 'L', 'L')
-    API.new('GetProcessAffinityMask', 'LPP', 'B')
-    API.new('GetProcessIoCounters', 'LP', 'B')
-    API.new('GetProcessPriorityBoost', 'LP', 'B')
-    API.new('GetProcessShutdownParameters', 'PP', 'B')
-    API.new('GetProcessTimes', 'LPPPP', 'B')
-    API.new('GetProcessVersion', 'L', 'L')
-    API.new('GetProcessWorkingSetSize', 'LPP', 'B')
-    API.new('GetStartupInfo', 'P', 'V')
-    API.new('OpenJobObject', 'LIS', 'L')
-    API.new('OpenProcess', 'LIL', 'L')
-    API.new('QueryInformationJobObject', 'LLPLP', 'B')
-    API.new('SetEnvironmentVariable', 'SS', 'B')
-    API.new('SetInformationJobObject', 'LLPL', 'B')
-    API.new('SetPriorityClass', 'LL', 'B')
-    API.new('SetProcessAffinityMask', 'LL', 'B')
-    API.new('SetProcessPriorityBoost', 'LB', 'B')
-    API.new('SetProcessShutdownParameters', 'LL', 'B')
-    API.new('SetProcessWorkingSetSize', 'LLL', 'B')
-    API.new('TerminateJobObject', 'LL', 'B')
-    API.new('TerminateProcess', 'LL', 'B')
-    API.new('WaitForInputIdle', 'LL', 'L', 'user32')
-    API.new('WTSEnumerateProcesses', 'LLLPP', 'B', 'wtsapi32')
+    # psapi, maybe
+    #attach_function :EnumProcesses, [:pointer, :ulong, :pointer], :bool
+    #attach_function :GetGuiResources, [:ulong, :ulong], :ulong 'user32'
+    #attach_function :WaitForInputIdle, [:ulong, :ulong], :ulong
+
+    attach_function :AssignProcessToJobObject, [:ulong, :ulong], :bool
+    attach_function :CreateJobObjectA, [:pointer, :string], :ulong
+    attach_function :CreateJobObjectW, [:pointer, :string], :ulong
+    attach_function :CreateProcessA, [:string, :pointer, :pointer, :pointer, :bool, :ulong, :pointer, :pointer, :pointer, :pointer], :bool
+    attach_function :CreateProcessW, [:string, :pointer, :pointer, :pointer, :bool, :ulong, :pointer, :pointer, :pointer, :pointer], :bool
+    attach_function :ExitProcess, [:uint], :void
+    attach_function :FreeEnvironmentStringsA, [:pointer], :bool
+    attach_function :FreeEnvironmentStringsW, [:pointer], :bool
+    attach_function :GetCommandLineA, [], :pointer
+    attach_function :GetCommandLineW, [], :pointer
+    attach_function :GetCurrentProcess, [], :ulong
+    attach_function :GetCurrentProcessId, [], :ulong
+    attach_function :GetEnvironmentStrings, [], :pointer
+    attach_function :GetEnvironmentVariableA, [:string, :pointer, :ulong], :ulong
+    attach_function :GetEnvironmentVariableW, [:string, :pointer, :ulong], :ulong
+    attach_function :GetExitCodeProcess, [:ulong, :pointer], :bool
+    attach_function :GetPriorityClass, [:ulong], :ulong
+    attach_function :GetProcessAffinityMask, [:ulong, :pointer, :pointer], :bool
+    attach_function :GetProcessIoCounters, [:ulong, :pointer], :bool
+    attach_function :GetProcessPriorityBoost, [:ulong, :pointer], :bool
+    attach_function :GetProcessShutdownParameters, [:pointer, :pointer], :bool
+    attach_function :GetProcessTimes, [:ulong, :pointer, :pointer, :pointer, :pointer], :bool
+    attach_function :GetProcessVersion, [:ulong], :ulong
+    attach_function :GetProcessWorkingSetSize, [:ulong, :pointer, :pointer], :bool
+    attach_function :GetStartupInfoA, [:pointer], :void
+    attach_function :GetStartupInfoW, [:pointer], :void
+    attach_function :OpenJobObjectA, [:ulong, :bool, :string], :ulong
+    attach_function :OpenJobObjectW, [:ulong, :bool, :string], :ulong
+    attach_function :OpenProcess, [:ulong, :bool, :ulong], :ulong
+    attach_function :QueryInformationJobObject, [:ulong, :ulong, :pointer, :ulong, :pointer], :bool
+    attach_function :SetEnvironmentVariableA, [:string, :string], :bool
+    attach_function :SetEnvironmentVariableW, [:string, :string], :bool
+    attach_function :SetInformationJobObject, [:ulong, :ulong, :pointer, :ulong], :bool
+    attach_function :SetPriorityClass, [:ulong, :ulong], :bool
+    attach_function :SetProcessAffinityMask, [:ulong, :ulong], :bool
+    attach_function :SetProcessPriorityBoost, [:ulong, :bool], :bool
+    attach_function :SetProcessShutdownParameters, [:ulong, :ulong], :bool
+    attach_function :SetProcessWorkingSetSize, [:ulong, :size_t, :size_t], :bool
+    attach_function :TerminateJobObject, [:ulong, :uint], :bool
+    attach_function :TerminateProcess, [:ulong, :uint], :bool
 
     begin
-      API.new('GetProcessId', 'L', 'L')
-      API.new('GetProcessHandleCount', 'LP', 'B')
-      API.new('IsProcessInJob', 'LLP', 'B')
-      API.new('IsWow64Process', 'LP', 'B')
-    rescue Win32::API::LoadLibraryError
+      attach_function :GetProcessId, [:ulong], :ulong
+      attach_function :GetProcessHandleCount, [:ulong, :pointer], :bool
+      attach_function :IsProcessInJob, [:ulong, :ulong, :pointer], :bool
+      attach_function :IsWow64Process, [:ulong, :pointer], :bool
+    rescue FFI::NotFoundError
       # Windows XP or later
     end
 
@@ -161,12 +170,11 @@ module Windows
     def windows_64?
       bool = false
 
-      if defined? IsWow64Process
-        buf = 0.chr * 4
-        if IsWow64Process(GetCurrentProcess(), buf)
-          if buf.unpack('I')[0] == 1
-            bool = true
-          end
+      if respond_to?(:IsWow64Process, true)
+        pbool = FFI::MemoryPointer.new(:int)
+
+        if IsWow64Process(GetCurrentProcess(), pbool)
+          bool = true if pbool.read_int == 1
         end
       end
 
