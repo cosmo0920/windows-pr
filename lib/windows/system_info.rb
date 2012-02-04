@@ -1,13 +1,38 @@
-require 'windows/api'
+require 'ffi'
 
 module Windows
   module SystemInfo
-    API.auto_namespace = 'Windows::SystemInfo'
-    API.auto_constant  = true
-    API.auto_method    = true
-    API.auto_unicode   = true
+    extend FFI::Library
+    ffi_lib 'kernel32'
 
     private
+
+    class OSVERSIONINFO < FFI::Struct
+      layout(
+        :dwOSVersionInfoSize, :ulong,
+        :dwMajorVersion, :ulong,
+        :dwMinorVersion, :ulong,
+        :dwBuildNumber, :ulong,
+        :dwPlatformId, :ulong,
+        :szCSDVersion, [:char, 128]
+      )
+    end
+
+    class OSVERSIONINFOEX < FFI::Struct
+      layout(
+        :dwOSVersionInfoSize, :ulong,
+        :dwMajorVersion, :ulong,
+        :dwMinorVersion, :ulong,
+        :dwBuildNumber, :ulong,
+        :dwPlatformId, :ulong,
+        :szCSDVersion, [:char, 128],
+        :wServicePackMajor, :ushort,
+        :wServicePackMinor, :ushort,
+        :wSuiteMask, :ushort,
+        :wProductType, :uchar,
+        :wReserved, :uchar
+      )
+    end
 
     # Obsolete processor info constants
 
@@ -72,19 +97,32 @@ module Windows
     ComputerNamePhysicalDnsFullyQualified  = 7
     ComputerNameMax                        = 8
 
-    API.new('ExpandEnvironmentStrings', 'PPL', 'L')
-    API.new('GetComputerName', 'PP', 'B')
-    API.new('GetComputerNameEx', 'PPP', 'B')
-    API.new('GetSystemInfo', 'P', 'V')
-    API.new('GetUserName', 'PP', 'B', 'advapi32')
-    API.new('GetUserNameEx', 'LPP', 'B', 'secur32')
-    API.new('GetVersion', 'V', 'L')
-    API.new('GetVersionEx', 'P', 'B')
-    API.new('GetWindowsDirectory', 'PI', 'I')
+    attach_function :ExpandEnvironmentStringsA, [:string, :pointer, :ulong], :ulong
+    attach_function :ExpandEnvironmentStringsW, [:string, :pointer, :ulong], :ulong
+    attach_function :GetComputerNameA, [:pointer, :pointer], :bool
+    attach_function :GetComputerNameW, [:pointer, :pointer], :bool
+    attach_function :GetComputerNameExA, [:ulong, :pointer, :pointer], :bool
+    attach_function :GetComputerNameExW, [:ulong, :pointer, :pointer], :bool
+    attach_function :GetSystemInfo, [:pointer], :void
+    attach_function :GetVersion, [], :ulong
+    attach_function :GetVersionExA, [:pointer], :bool
+    attach_function :GetVersionExW, [:pointer], :bool
+    attach_function :GetWindowsDirectoryA, [:pointer, :uint], :uint
+    attach_function :GetWindowsDirectoryW, [:pointer, :uint], :uint
+
+    ffi_lib 'advapi32'
+
+    attach_function :GetUserNameA, [:pointer, :pointer], :bool
+    attach_function :GetUserNameW, [:pointer, :pointer], :bool
+
+    ffi_lib 'secur32'
+
+    attach_function :GetUserNameExA, [:ulong, :pointer, :pointer], :bool
+    attach_function :GetUserNameExW, [:ulong, :pointer, :pointer], :bool
 
     begin
-       API.new('GetSystemWow64Directory', 'PI', 'I')
-    rescue Win32::API::LoadLibraryError
+       attach_function :GetSystemWow64Directory, [:pointer, :uint], :uint
+    rescue FFI::NotFoundError
        # XP or later
     end
 
@@ -123,7 +161,7 @@ module Windows
       version = GetVersion()
       major = LOBYTE(LOWORD(version))
       minor = HIBYTE(LOWORD(version))
-      eval("Float(#{major}.#{minor})")
+      Float("#{major}.#{minor}")
     end
 
     # Custom methods that may come in handy
@@ -148,14 +186,14 @@ module Windows
     def windows_xp?
       bool = false
 
-      buf = 0.chr * 156
-      buf[0,4] = [buf.size].pack("L") # Set dwOSVersionInfoSize
+      buf = OSVERSIONINFOEX.new
+      buf[:dwOSVersionInfoSize] = OSVERSIONINFOEX.size
 
-      GetVersionEx(buf)
+      GetVersionExA(buf)
 
-      major = buf[4,4].unpack("L")[0]
-      minor = buf[8,4].unpack("L")[0]
-      suite = buf[152,2].unpack("S")[0]
+      major = buf[:dwMajorVersion]
+      minor = buf[:dwMinorVersion]
+      suite = buf[:wSuiteMask]
 
       # Make sure we detect a 64-bit Windows XP Pro
       if major == 5
@@ -189,14 +227,14 @@ module Windows
     def windows_2003?
       bool = false
 
-      buf = 0.chr * 156
-      buf[0,4] = [buf.size].pack("L") # Set dwOSVersionInfoSize
+      buf = OSVERSIONINFOEX.new
+      buf[:dwOSVersionInfoSize] = OSVERSIONINFOEX.size
 
-      GetVersionEx(buf)
+      GetVersionExA(buf)
 
-      major = buf[4,4].unpack("L")[0]
-      minor = buf[8,4].unpack("L")[0]
-      suite = buf[152,2].unpack("S")[0]
+      major = buf[:dwMajorVersion]
+      minor = buf[:dwMinorVersion]
+      suite = buf[:wSuiteMask]
 
       # Make sure we exclude a 64-bit Windows XP Pro
       if major == 5 && minor == 2
