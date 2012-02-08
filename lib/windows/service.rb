@@ -1,11 +1,9 @@
-require 'windows/api'
+require 'ffi'
 
 module Windows
   module Service
-    API.auto_namespace = 'Windows::Service'
-    API.auto_constant  = true
-    API.auto_method    = true
-    API.auto_unicode   = true
+    extend FFI::Library
+    ffi_lib 'advapi32'
 
     private
 
@@ -110,33 +108,82 @@ module Windows
     
     # Configuration
     SERVICE_NO_CHANGE = 0xffffffff
+
+    class SERVICE_STATUS < FFI::Struct
+      layout(
+        :dwServiceType, :ulong,
+        :dwCurrentState, :ulong,
+        :dwControlsAccepted, :ulong,
+        :dwWin32ExitCode, :ulong,
+        :dwServiceSpecificExitCode, :ulong,
+        :dwCheckPoint, :ulong,
+        :dwWaitHint, :ulong
+      )
+    end
     
-    API.new('ChangeServiceConfig', 'LLLLPPPPPPP', 'B', 'advapi32')
-    API.new('ChangeServiceConfig2', 'LLP', 'B', 'advapi32')
-    API.new('CloseServiceHandle', 'L', 'B', 'advapi32')
-    API.new('ControlService', 'LLP', 'B', 'advapi32')
-    API.new('CreateService', 'LPPLLLLPPPPPP', 'L', 'advapi32')
-    API.new('DeleteService', 'L', 'B', 'advapi32')
-    API.new('EnumDependentServices', 'LLPLPP', 'B', 'advapi32')
-    API.new('EnumServicesStatus', 'LLLPLPPP', 'B', 'advapi32')
-    API.new('EnumServicesStatusEx', 'LLLLPLPPPP', 'B', 'advapi32')
-    API.new('GetServiceDisplayName', 'LPPP', 'B', 'advapi32')
-    API.new('GetServiceKeyName', 'LPPP', 'B', 'advapi32')
-    API.new('LockServiceDatabase', 'L', 'L', 'advapi32')
-    API.new('NotifyBootConfigStatus', 'I', 'B', 'advapi32')
-    API.new('OpenSCManager', 'PPL', 'L', 'advapi32')
-    API.new('OpenService', 'LPL', 'L', 'advapi32')
-    API.new('QueryServiceConfig', 'LPLP', 'B', 'advapi32')
-    API.new('QueryServiceConfig2', 'LLPLP', 'B', 'advapi32')
-    API.new('QueryServiceLockStatus', 'LPLP', 'B', 'advapi32')
-    API.new('QueryServiceStatus', 'LP', 'B', 'advapi32')
-    API.new('QueryServiceStatusEx', 'LLPLP', 'B', 'advapi32')
-    API.new('RegisterServiceCtrlHandler', 'PK', 'L', 'advapi32')
-    API.new('RegisterServiceCtrlHandlerEx', 'PKP', 'L', 'advapi32')
-    API.new('SetServiceBits', 'LLII', 'B', 'advapi32')
-    API.new('SetServiceStatus', 'LP', 'B', 'advapi32')
-    API.new('StartService', 'LLP', 'B', 'advapi32')
-    API.new('StartServiceCtrlDispatcher', 'P', 'B', 'advapi32')
-    API.new('UnlockServiceDatabase', 'L', 'B', 'advapi32')
+    attach_function :ChangeServiceConfigA, [:ulong, :ulong, :ulong, :ulong, :string,
+      :string, :pointer, :string, :string, :string, :string, :string], :bool
+    attach_function :ChangeServiceConfigW, [:ulong, :ulong, :ulong, :ulong, :string,
+      :string, :pointer, :string, :string, :string, :string, :string], :bool
+
+    attach_function :ChangeServiceConfig2A, [:ulong, :ulong, :pointer], :bool
+    attach_function :ChangeServiceConfig2W, [:ulong, :ulong, :pointer], :bool
+    attach_function :CloseServiceHandle, [:ulong], :bool
+    attach_function :ControlService, [:ulong, :ulong, :pointer], :bool
+
+    attach_function :CreateServiceA, [:ulong, :string, :string, :ulong, :ulong,
+      :ulong, :ulong, :string, :string, :pointer, :string, :string, :string], :ulong
+    attach_function :CreateServiceW, [:ulong, :string, :string, :ulong, :ulong,
+      :ulong, :ulong, :string, :string, :pointer, :string, :string, :string], :ulong
+
+    attach_function :DeleteService, [:ulong], :bool
+    attach_function :EnumDependentServicesA, [:ulong, :ulong, :pointer, :ulong, :pointer, :pointer], :bool
+    attach_function :EnumDependentServicesW, [:ulong, :ulong, :pointer, :ulong, :pointer, :pointer], :bool
+    attach_function :EnumServicesStatusA, [:ulong, :ulong, :ulong, :pointer, :ulong, :pointer, :pointer, :pointer], :bool
+    attach_function :EnumServicesStatusW, [:ulong, :ulong, :ulong, :pointer, :ulong, :pointer, :pointer, :pointer], :bool
+
+    attach_function :EnumServicesStatusExA, [:ulong, :ulong, :ulong, :ulong, :pointer, :ulong,
+      :pointer, :pointer, :pointer, :string], :bool
+    attach_function :EnumServicesStatusExW, [:ulong, :ulong, :ulong, :ulong, :pointer, :ulong,
+      :pointer, :pointer, :pointer, :string], :bool
+
+    attach_function :GetServiceDisplayNameA, [:ulong, :string, :pointer, :pointer], :bool
+    attach_function :GetServiceDisplayNameW, [:ulong, :string, :pointer, :pointer], :bool
+    attach_function :GetServiceKeyNameA, [:ulong, :string, :pointer, :pointer], :bool
+    attach_function :GetServiceKeyNameW, [:ulong, :string, :pointer, :pointer], :bool
+    attach_function :LockServiceDatabase, [:ulong], :ulong
+    attach_function :NotifyBootConfigStatus, [:bool], :bool
+    attach_function :OpenSCManagerA, [:string, :string, :ulong], :ulong
+    attach_function :OpenSCManagerW, [:string, :string, :ulong], :ulong
+    attach_function :OpenServiceA, [:ulong, :string, :ulong], :ulong
+    attach_function :OpenServiceW, [:ulong, :string, :ulong], :ulong
+    attach_function :QueryServiceConfigA, [:ulong, :pointer, :ulong, :pointer], :bool
+    attach_function :QueryServiceConfigW, [:ulong, :pointer, :ulong, :pointer], :bool
+    attach_function :QueryServiceConfig2A, [:ulong, :ulong, :pointer, :ulong, :pointer], :bool
+    attach_function :QueryServiceConfig2W, [:ulong, :ulong, :pointer, :ulong, :pointer], :bool
+    attach_function :QueryServiceLockStatusA, [:ulong, :pointer, :ulong, :pointer], :bool
+    attach_function :QueryServiceLockStatusW, [:ulong, :pointer, :ulong, :pointer], :bool
+    attach_function :QueryServiceStatus, [:ulong, :pointer], :bool
+    attach_function :QueryServiceStatusEx, [:ulong, :ulong, :pointer, :ulong, :pointer], :bool
+    attach_function :RegisterServiceCtrlHandlerA, [:string, :pointer], :ulong # callback
+    attach_function :RegisterServiceCtrlHandlerW, [:string, :pointer], :ulong # callback
+    attach_function :RegisterServiceCtrlHandlerExA, [:string, :pointer, :pointer], :ulong # callback
+    attach_function :RegisterServiceCtrlHandlerExW, [:string, :pointer, :pointer], :ulong # callback
+    attach_function :SetServiceBits, [:ulong, :ulong, :bool, :bool], :bool
+    attach_function :SetServiceStatus, [:ulong, :pointer], :bool
+    attach_function :StartServiceA, [:ulong, :ulong, :pointer], :bool
+    attach_function :StartServiceW, [:ulong, :ulong, :pointer], :bool
+    attach_function :StartServiceCtrlDispatcherA, [:pointer], :bool
+    attach_function :StartServiceCtrlDispatcherW, [:pointer], :bool
+    attach_function :UnlockServiceDatabase, [:ulong], :bool
+
+    begin
+      attach_function :ControlServiceExA, [:ulong, :ulong, :ulong, :pointer], :bool
+      attach_function :ControlServiceExW, [:ulong, :ulong, :ulong, :pointer], :bool
+      attach_function :NotifyServiceStatusChangeA, [:ulong, :ulong, :pointer], :ulong
+      attach_function :NotifyServiceStatusChangeW, [:ulong, :ulong, :pointer], :ulong
+    rescue FFI::NotFoundError
+      # Vista or later
+    end
   end
 end
