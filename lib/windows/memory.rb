@@ -1,11 +1,9 @@
-require 'windows/api'
+require 'ffi'
 
 module Windows
   module Memory
-    API.auto_namespace = 'Windows::Memory'
-    API.auto_constant  = true
-    API.auto_method    = true
-    API.auto_unicode   = false
+    extend FFI::Library
+    ffi_lib 'kernel32'
 
     private
 
@@ -66,63 +64,62 @@ module Windows
     LMEM_DISCARDED      = 0x4000
     LMEM_LOCKCOUNT      = 0x00FF
 
-    API.new('GlobalAlloc', 'LL', 'L')
-    API.new('GlobalFlags', 'L', 'L')
-    API.new('GlobalFree', 'L', 'L')
-    API.new('GlobalHandle', 'P', 'L')
-    API.new('GlobalLock', 'L', 'L')
-    API.new('GlobalMemoryStatus', 'P', 'V')
-    API.new('GlobalMemoryStatusEx', 'P', 'V')
-    API.new('GlobalReAlloc', 'LLL', 'L')
-    API.new('GlobalSize', 'L', 'L')
-    API.new('GlobalUnlock', 'L', 'L')
+    attach_function :GlobalAlloc, [:uint, :size_t], :ulong
+    attach_function :GlobalFlags, [:ulong], :uint
+    attach_function :GlobalFree, [:ulong], :ulong
+    attach_function :GlobalHandle, [:pointer], :ulong
+    attach_function :GlobalLock, [:ulong], :ulong
+    attach_function :GlobalMemoryStatus, [:pointer], :void
+    attach_function :GlobalMemoryStatusEx, [:pointer], :bool
+    attach_function :GlobalReAlloc, [:ulong, :size_t, :uint], :ulong
+    attach_function :GlobalSize, [:ulong], :size_t
+    attach_function :GlobalUnlock, [:ulong], :bool
 
-    API.new('GetProcessHeap', 'V', 'L')
-    API.new('GetProcessHeaps', 'LP', 'L')
-    API.new('HeapAlloc', 'LLL', 'P')
-    API.new('HeapCompact', 'LL', 'L')
-    API.new('HeapCreate', 'LLL', 'L')
-    API.new('HeapDestroy', 'L', 'B')
-    API.new('HeapFree', 'LLL', 'B')
-    API.new('HeapLock', 'L', 'B')
-    API.new('HeapReAlloc', 'LLLL', 'L')
-    API.new('HeapSize', 'LLL', 'L')
-    API.new('HeapUnlock', 'L', 'B')
-    API.new('HeapValidate', 'LLL', 'B')
-    API.new('HeapWalk', 'LP', 'B')
+    attach_function :GetProcessHeap, [:void], :ulong
+    attach_function :GetProcessHeaps, [:ulong, :pointer], :ulong
+    attach_function :HeapAlloc, [:ulong, :ulong, :size_t], :pointer
+    attach_function :HeapCompact, [:ulong, :ulong], :size_t
+    attach_function :HeapCreate, [:ulong, :size_t, :size_t], :ulong
+    attach_function :HeapDestroy, [:ulong], :bool
+    attach_function :HeapFree, [:ulong, :ulong, :pointer], :bool
+    attach_function :HeapLock, [:ulong], :bool
+    attach_function :HeapReAlloc, [:ulong, :ulong, :pointer, :size_t], :pointer
+    attach_function :HeapSize, [:ulong, :ulong, :pointer], :size_t
+    attach_function :HeapUnlock, [:ulong], :bool
+    attach_function :HeapValidate, [:ulong, :ulong, :pointer], :bool
+    attach_function :HeapWalk, [:ulong, :pointer], :bool
 
-    API.new('LocalAlloc', 'LL', 'L')
-    API.new('LocalFlags', 'L', 'L')
-    API.new('LocalFree', 'L', 'L')
-    API.new('LocalHandle', 'L', 'L')
-    API.new('LocalLock', 'L', 'L')
-    API.new('LocalReAlloc', 'LLL', 'L')
-    API.new('LocalSize', 'L', 'L')
-    API.new('LocalUnlock', 'L', 'B')
+    attach_function :LocalAlloc, [:uint, :size_t], :ulong
+    attach_function :LocalFlags, [:ulong], :uint
+    attach_function :LocalFree, [:ulong], :ulong
+    attach_function :LocalHandle, [:pointer], :ulong
+    attach_function :LocalLock, [:ulong], :pointer
+    attach_function :LocalReAlloc, [:ulong, :size_t, :uint], :ulong
+    attach_function :LocalSize, [:ulong], :uint
+    attach_function :LocalUnlock, [:ulong], :bool
 
-    API.new('VirtualAlloc', 'LLLL', 'L')
-    API.new('VirtualAllocEx', 'LLLLL', 'L')
-    API.new('VirtualFree', 'LLL', 'B')
-    API.new('VirtualFreeEx', 'LLLL', 'B')
-    API.new('VirtualLock', 'LL', 'B')
-    API.new('VirtualProtect', 'LLLP', 'B')
-    API.new('VirtualProtectEx', 'LLLLP', 'B')
-    API.new('VirtualQuery', 'LPL', 'L')
-    API.new('VirtualQueryEx', 'LLPL', 'L')
-    API.new('VirtualUnlock', 'LL', 'B')
-    API.new('RtlZeroMemory', 'PL', 'L')
+    attach_function :VirtualAlloc, [:ulong, :size_t, :ulong, :ulong], :ulong
+    attach_function :VirtualAllocEx, [:ulong, :pointer, :size_t, :ulong, :ulong], :ulong
+    attach_function :VirtualFree, [:pointer, :size_t, :ulong], :bool
+    attach_function :VirtualFreeEx, [:ulong, :pointer, :size_t, :ulong], :bool
+    attach_function :VirtualLock, [:pointer, :size_t], :bool
+    attach_function :VirtualProtect, [:pointer, :size_t, :ulong, :pointer], :bool
+    attach_function :VirtualProtectEx, [:ulong, :pointer, :size_t, :ulong, :pointer], :bool
+    attach_function :VirtualQuery, [:pointer, :pointer, :size_t], :size_t
+    attach_function :VirtualQueryEx, [:ulong, :pointer, :pointer, :size_t], :size_t
+    attach_function :VirtualUnlock, [:pointer, :size_t], :bool
+    attach_function :RtlZeroMemory, [:pointer, :size_t], :void
 
     # The LocalDiscard macro from winbase.h
     def LocalDiscard(mem_loc)
       LocalReAlloc(mem_loc, 0, LMEM_MOVEABLE)
     end
 
-    # Windows XP or later
     begin
-      API.new('HeapQueryInformation', 'LIPLL', 'B')
-      API.new('HeapSetInformation', 'LIPL', 'B')
-    rescue Win32::API::LoadLibraryError
-      # Do nothing - you must check for their existence
+      attach_function :HeapQueryInformation, [:ulong, :int, :pointer, :size_t, :pointer], :bool
+      attach_function :HeapSetInformation, [:ulong, :int, :pointer, :size_t], :bool
+    rescue FFI::NotFoundError
+      # Windows XP or later
     end
   end
 end
