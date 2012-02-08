@@ -68,6 +68,8 @@ class TC_Windows_Service < Test::Unit::TestCase
   end
 
   def test_service_functions_defined_vista_or_later
+    msg = "service tests skipped except on Vista or later"
+    omit_unless(@@version >= 6.0, msg)
     assert_respond_to(self, :ControlServiceExA)
     assert_respond_to(self, :ControlServiceExW)
     assert_respond_to(self, :NotifyServiceStatusChangeA)
