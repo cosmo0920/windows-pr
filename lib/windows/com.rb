@@ -1,11 +1,9 @@
-require 'windows/api'
+require 'ffi'
 
 module Windows
   module COM
-    API.auto_namespace = 'Windows::COM'
-    API.auto_constant  = true
-    API.auto_method    = true
-    API.auto_unicode   = false
+    extend FFI::Library
+    ffi_lib 'ole32'
 
     private
 
@@ -114,79 +112,84 @@ module Windows
     DISPATCH_PROPERTYPUT    = 0x4
     DISPATCH_PROPERTYPUTREF = 0x8
 
-    API.new('BindMoniker', 'PLPP', 'L', 'ole32')
-    API.new('CLSIDFromProgID', 'PP', 'L', 'ole32')
-    API.new('CLSIDFromProgIDEx', 'PP', 'L', 'ole32')
-    API.new('CLSIDFromString', 'PP', 'L', 'ole32')
-    API.new('CoAddRefServerProcess', 'V', 'L', 'ole32')
-    API.new('CoAllowSetForegroundWindow', 'PP', 'L', 'ole32')
-    API.new('CoCancelCall', 'LL', 'L', 'ole32')
-    API.new('CoCopyProxy', 'PP', 'L', 'ole32')
-    API.new('CoCreateFreeThreadedMarshaler', 'PP', 'L', 'ole32')
-    API.new('CoCreateGuid', 'P', 'L', 'ole32')
-    API.new('CoCreateInstance', 'PPLPP', 'L', 'ole32')
-    API.new('CoCreateInstanceEx', 'PPLPLP', 'L', 'ole32')
-    API.new('CoDisableCallCancellation', 'L', 'L', 'ole32')
-    API.new('CoDisconnectObject', 'PL', 'L', 'ole32')
-    #API.new('CoDosDateTimeToFileTime', 'LLP', 'L')
-    API.new('CoEnableCallCancellation', 'L', 'L', 'ole32')
-    API.new('CoFileTimeNow', 'P', 'L', 'ole32')
-    API.new('CoFileTimeToDosDateTime', 'LLL', 'B', 'ole32')
-    API.new('CoFreeAllLibraries', 'V', 'V', 'ole32')
-    API.new('CoFreeLibrary', 'L', 'V', 'ole32')
-    API.new('CoFreeUnusedLibraries', 'V', 'V', 'ole32')
-    API.new('CoFreeUnusedLibrariesEx', 'V', 'V', 'ole32')
-    API.new('CoGetCallContext', 'PP', 'L', 'ole32')
-    API.new('CoGetCallerTID', 'P', 'L', 'ole32')
-    API.new('CoGetCancelObject', 'LPP', 'L', 'ole32')
-    API.new('CoGetClassObject', 'PLPPP', 'L', 'ole32')
-    API.new('CoGetContextToken', 'P', 'L', 'ole32')
-    API.new('CoGetCurrentLogicalThreadId', 'P', 'L', 'ole32')
-    API.new('CoGetCurrentProcess', 'V', 'L', 'ole32')
-    API.new('CoGetInstanceFromFile', 'PPPLLPLP', 'L', 'ole32')
-    API.new('CoGetInstanceFromIStorage', 'PPPLPLP', 'L', 'ole32')
-    API.new('CoInitialize', 'P', 'L', 'ole32')
-    API.new('CoTaskMemFree', 'P', 'V', 'ole32')
-    API.new('CoUninitialize', 'V', 'V', 'ole32')
-    API.new('CoUnmarshalHresult', 'PP', 'L', 'ole32')
-    API.new('CoUnmarshalInterface', 'PPP', 'L', 'ole32')
-    API.new('CoWaitForMultipleHandles', 'LLLPP', 'L', 'ole32')
-    API.new('CreateAntiMoniker', 'P', 'L', 'ole32')
-    API.new('CreateAsyncBindCtx', 'LKKP', 'L', 'urlmon')
-    API.new('CreateBindCtx', 'LP', 'L', 'ole32')
-    API.new('CreateClassMoniker', 'PP', 'L', 'ole32')
-    API.new('CreateFileMoniker', 'PP', 'L', 'ole32')
-    API.new('CreateGenericComposite', 'PPP', 'L', 'ole32')
-    API.new('CreateItemMoniker', 'PPP', 'L', 'ole32')
-    API.new('CreateObjrefMoniker', 'PP', 'L', 'ole32')
-    API.new('CreatePointerMoniker', 'PP', 'L', 'ole32')
-    API.new('GetClassFile', 'PP', 'L', 'ole32')
-    API.new('GetRunningObjectTable', 'LP', 'L', 'ole32')
-    API.new('IIDFromString', 'PP', 'L', 'ole32')
-    API.new('IsAccelerator', 'LIPP', 'B', 'ole32')
-    API.new('IsEqualGUID', 'PP', 'B', 'ole32')
-    API.new('MkParseDisplayName', 'PPPP', 'L', 'ole32')
-    API.new('MonikerCommonPrefixWith', 'PPP', 'L', 'ole32')
-    API.new('MonikerRelativePathTo', 'PPPI', 'L', 'ole32')
-    API.new('OleDoAutoConvert', 'PP', 'L', 'ole32')
-    API.new('OleGetAutoConvert', 'PP', 'L', 'ole32')
-    API.new('OleGetIconOfClass', 'PPI', 'L', 'ole32')
-    API.new('OleGetIconOfFile', 'PI', 'L', 'ole32')
-    API.new('OleIconToCursor', 'PL', 'L', 'olepro32')
-    API.new('OleInitialize', 'V', 'L', 'ole32')
-    API.new('OleRegGetMiscStatus', 'PLP', 'L', 'ole32')
-    API.new('OleRegGetUserType', 'PLP', 'L', 'ole32')
-    API.new('OleSetAutoConvert', 'PP', 'L', 'ole32')
-    API.new('OleUninitialize', 'V', 'V', 'ole32')
-    API.new('ProgIDFromCLSID', 'PP', 'L', 'ole32')
-    API.new('StringFromCLSID', 'PP', 'L', 'ole32')
-    API.new('StringFromGUID2', 'PPI', 'I', 'ole32')
-    API.new('StringFromIID', 'PP', 'L', 'ole32')
+    attach_function :BindMoniker, [:pointer, :ulong, :pointer, :pointer], :long
+    attach_function :CLSIDFromProgID, [:pointer, :pointer], :long
+    attach_function :CLSIDFromProgIDEx, [:pointer, :pointer], :long
+    attach_function :CLSIDFromString, [:pointer, :pointer], :long
+    attach_function :CoAddRefServerProcess, [], :ulong
+    attach_function :CoAllowSetForegroundWindow, [:pointer, :pointer], :long
+    attach_function :CoCancelCall, [:ulong, :ulong], :long
+    attach_function :CoCopyProxy, [:pointer, :pointer], :long
+    attach_function :CoCreateFreeThreadedMarshaler, [:pointer, :pointer], :long
+    attach_function :CoCreateGuid, [:pointer], :long
+    attach_function :CoCreateInstance, [:pointer, :pointer, :ulong, :pointer, :pointer], :long
+    attach_function :CoCreateInstanceEx, [:pointer, :pointer, :ulong, :pointer, :ulong, :pointer], :long
+    attach_function :CoDisableCallCancellation, [:pointer], :long
+    attach_function :CoDisconnectObject, [:ulong], :long
+    attach_function :CoEnableCallCancellation, [:ulong], :long
+    attach_function :CoFileTimeNow, [:pointer], :long
+    attach_function :CoFileTimeToDosDateTime, [:pointer, :pointer, :pointer], :bool
+    attach_function :CoFreeAllLibraries, [], :void
+    attach_function :CoFreeLibrary, [:ulong], :void
+    attach_function :CoFreeUnusedLibraries, [], :void
+    attach_function :CoFreeUnusedLibrariesEx, [:ulong, :ulong], :void
+    attach_function :CoGetCallContext, [:pointer, :pointer], :long
+    attach_function :CoGetCallerTID, [:pointer], :long
+    attach_function :CoGetCancelObject, [:ulong, :pointer, :pointer], :long
+    attach_function :CoGetClassObject, [:pointer, :ulong, :pointer, :pointer, :pointer], :long
+    attach_function :CoGetContextToken, [:pointer], :long
+    attach_function :CoGetCurrentLogicalThreadId, [:pointer], :long
+    attach_function :CoGetCurrentProcess, [], :ulong
+    attach_function :CoGetInstanceFromFile, [:pointer, :pointer, :pointer, :ulong, :ulong, :pointer, :ulong, :pointer], :long
+    attach_function :CoGetInstanceFromIStorage, [:pointer, :pointer, :pointer, :ulong, :pointer, :ulong, :pointer], :long
+    attach_function :CoInitialize, [:pointer], :long
+    attach_function :CoTaskMemFree, [:pointer], :void
+    attach_function :CoUninitialize, [], :void
+    attach_function :CoUnmarshalHresult, [:pointer, :pointer], :long
+    attach_function :CoUnmarshalInterface, [:pointer, :pointer, :pointer], :long
+    attach_function :CoWaitForMultipleHandles, [:ulong, :ulong, :ulong, :pointer, :pointer], :long
+    attach_function :CreateAntiMoniker, [:pointer], :long
+    attach_function :CreateBindCtx, [:ulong, :pointer], :long
+    attach_function :CreateClassMoniker, [:pointer, :pointer], :long
+    attach_function :CreateFileMoniker, [:pointer, :pointer], :long
+    attach_function :CreateGenericComposite, [:pointer, :pointer, :pointer], :long
+    attach_function :CreateItemMoniker, [:pointer, :pointer, :pointer], :long
+    attach_function :CreateObjrefMoniker, [:pointer, :pointer], :long
+    attach_function :CreatePointerMoniker, [:pointer, :pointer], :long
+    attach_function :GetClassFile, [:pointer, :pointer], :long
+    attach_function :GetRunningObjectTable, [:ulong, :pointer], :long
+    attach_function :IIDFromString, [:pointer, :pointer], :long
+    attach_function :IsAccelerator, [:ulong, :int, :pointer, :pointer], :bool
+    attach_function :IsEqualGUID, [:pointer, :pointer], :bool
+    attach_function :MkParseDisplayName, [:pointer, :pointer, :pointer, :pointer], :long
+    attach_function :MonikerCommonPrefixWith, [:pointer, :pointer, :pointer], :long
+    attach_function :MonikerRelativePathTo, [:pointer, :pointer, :pointer, :bool], :long
+    attach_function :OleDoAutoConvert, [:pointer, :pointer], :long
+    attach_function :OleGetAutoConvert, [:pointer, :pointer], :long
+    attach_function :OleGetIconOfClass, [:pointer, :pointer, :bool], :ulong
+    attach_function :OleGetIconOfFile, [:pointer, :bool], :ulong
+    attach_function :OleInitialize, [], :long
+    attach_function :OleRegGetMiscStatus, [:pointer, :ulong, :pointer], :long
+    attach_function :OleRegGetUserType, [:pointer, :ulong, :pointer], :long
+    attach_function :OleSetAutoConvert, [:pointer, :pointer], :long
+    attach_function :OleUninitialize, [], :void
+    attach_function :ProgIDFromCLSID, [:pointer, :pointer], :long
+    attach_function :StringFromCLSID, [:pointer, :pointer], :long
+    attach_function :StringFromGUID2, [:pointer, :pointer, :int], :int
+    attach_function :StringFromIID, [:pointer, :pointer], :long
 
     begin
-      API.new('CoDisconnectContext', 'L', 'L', 'ole32')
-    rescue Win32::API::LoadLibraryError
-      # Windows Vista
+      attach_function :CoDisconnectContext, [:ulong], :long
+    rescue FFI::NotFoundError
+      # Windows Vista or later
     end
+
+    ffi_lib 'urlmon'
+
+    attach_function :CreateAsyncBindCtx, [:ulong, :pointer, :pointer, :pointer], :long # callback
+
+    ffi_lib 'olepro32'
+
+    attach_function :OleIconToCursor, [:pointer, :ulong], :ulong
   end
 end
