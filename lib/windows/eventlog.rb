@@ -1,11 +1,9 @@
-require 'windows/api'
+require 'ffi'
 
 module Windows
   module EventLog
-    API.auto_namespace = 'Windows::EventLog'
-    API.auto_constant  = true
-    API.auto_method    = true
-    API.auto_unicode   = true
+    extend FFI::Library
+    ffi_lib 'advapi32'
 
     private
 
@@ -23,57 +21,65 @@ module Windows
 
     EVENTLOG_FULL_INFO = 0
 
-    API.new('BackupEventLog', 'LS', 'B', 'advapi32')
-    API.new('ClearEventLog', 'LS', 'B', 'advapi32')
-    API.new('CloseEventLog', 'L', 'B', 'advapi32')
-    API.new('DeregisterEventSource', 'L', 'B', 'advapi32')
-    API.new('GetEventLogInformation', 'LLPLP', 'B', 'advapi32')
-    API.new('GetNumberOfEventLogRecords', 'LP', 'B', 'advapi32')
-    API.new('GetOldestEventLogRecord', 'LP', 'B', 'advapi32')
-    API.new('NotifyChangeEventLog', 'LL', 'B', 'advapi32')
-    API.new('OpenBackupEventLog', 'SS', 'L', 'advapi32')
-    API.new('OpenEventLog', 'SS', 'L', 'advapi32')
-    API.new('ReadEventLog', 'LLLPLPP', 'B', 'advapi32')
-    API.new('RegisterEventSource', 'SS', 'L', 'advapi32')
-    API.new('ReportEvent', 'LIILPILPP', 'B', 'advapi32')
+    attach_function :BackupEventLogA, [:ulong, :string], :bool
+    attach_function :BackupEventLogW, [:ulong, :string], :bool
+    attach_function :ClearEventLogA, [:ulong, :string], :bool
+    attach_function :ClearEventLogW, [:ulong, :string], :bool
+    attach_function :CloseEventLog, [:ulong], :bool
+    attach_function :DeregisterEventSource, [:ulong], :bool
+    attach_function :GetEventLogInformation, [:ulong, :ulong, :pointer, :ulong, :pointer], :bool
+    attach_function :GetNumberOfEventLogRecords, [:ulong, :pointer], :bool
+    attach_function :GetOldestEventLogRecord, [:ulong, :pointer], :bool
+    attach_function :NotifyChangeEventLog, [:ulong, :ulong], :bool
+    attach_function :OpenBackupEventLogA, [:string, :string], :ulong
+    attach_function :OpenBackupEventLogW, [:string, :string], :ulong
+    attach_function :OpenEventLogA, [:string, :string], :ulong
+    attach_function :OpenEventLogW, [:string, :string], :ulong
+    attach_function :ReadEventLogA, [:ulong, :ulong, :ulong, :pointer, :ulong, :ulong, :ulong], :bool
+    attach_function :ReadEventLogW, [:ulong, :ulong, :ulong, :pointer, :ulong, :ulong, :ulong], :bool
+    attach_function :RegisterEventSourceA, [:string, :string], :ulong
+    attach_function :RegisterEventSourceW, [:string, :string], :ulong
+    attach_function :ReportEventA, [:ulong, :ushort, :ushort, :ulong, :pointer, :ushort, :ulong, :pointer, :pointer], :bool
+    attach_function :ReportEventW, [:ulong, :ushort, :ushort, :ulong, :pointer, :ushort, :ulong, :pointer, :pointer], :bool
 
     begin
-      API.new('EvtArchiveExportedLog', 'LPLL', 'B', 'wevtapi')
-      API.new('EvtCancel', 'L', 'B', 'wevtapi')
-      API.new('EvtClearLog', 'LPPL', 'B', 'wevtapi')
-      API.new('EvtClose', 'L', 'B', 'wevtapi')
-      API.new('EvtCreateBookmark', 'L', 'L', 'wevtapi')
-      API.new('EvtCreateRenderContext', 'LPL', 'L', 'wevtapi')
-      API.new('EvtExportLog', 'LPPPL', 'B', 'wevtapi')
-      API.new('EvtFormatMessage', 'LLLLPLLPP', 'B', 'wevtapi')
-      API.new('EvtGetChannelConfigProperty', 'LLLLPP', 'B', 'wevtapi')
-      API.new('EvtGetEventInfo', 'LLLPP', 'B', 'wevtapi')
-      API.new('EvtGetEventMetadataProperty', 'LLLLPP', 'B', 'wevtapi')
-      API.new('EvtGetExtendedStatus', 'LPP', 'B', 'wevtapi')
-      API.new('EvtGetLogInfo', 'LLLPP', 'B', 'wevtapi')
-      API.new('EvtGetObjectArrayProperty', 'LLLLLPP', 'B', 'wevtapi')
-      API.new('EvtGetObjectArraySize', 'LP', 'B', 'wevtapi')
-      API.new('EvtGetPublisherMetadataProperty', 'LLLLPP', 'B', 'wevtapi')
-      API.new('EvtGetQueryInfo', 'LLLPP', 'B', 'wevtapi')
-      API.new('EvtNext', 'LLPLLP', 'B', 'wevtapi')
-      API.new('EvtNextChannelPath', 'LLPP', 'B', 'wevtapi')
-      API.new('EvtNextEventMetadata', 'LL', 'L', 'wevtapi')
-      API.new('EvtNextPublisherId', 'LLPP', 'B', 'wevtapi')
-      API.new('EvtOpenChannelConfig', 'LPL', 'L', 'wevtapi')
-      API.new('EvtOpenChannelEnum', 'LL', 'L', 'wevtapi')
-      API.new('EvtOpenEventMetadataEnum', 'LL', 'L', 'wevtapi')
-      API.new('EvtOpenLog', 'LPL', 'L', 'wevtapi')
-      API.new('EvtOpenPublisherEnum', 'LL', 'L', 'wevtapi')
-      API.new('EvtOpenPublisherMetadata', 'LPPLL', 'L', 'wevtapi')
-      API.new('EvtOpenSession', 'LLLL', 'L', 'wevtapi')
-      API.new('EvtQuery', 'LPPL', 'L', 'wevtapi')
-      API.new('EvtRender', 'LLLLPPP', 'B', 'wevtapi')
-      API.new('EvtSaveChannelConfig', 'LL', 'B', 'wevtapi')
-      API.new('EvtSeek', 'LLLLL', 'B', 'wevtapi')
-      API.new('EvtSetChannelConfigProperty', 'LLLP', 'B', 'wevtapi')
-      API.new('EvtSubscribe', 'LLPPLPKL', 'L', 'wevtapi')
-      API.new('EvtUpdateBookmark', 'LL', 'B', 'wevtapi')
-    rescue Win32::API::LoadLibraryError
+      ffi_lib 'wevtapi'
+      attach_function :EvtArchiveExportedLog, [:ulong, :string, :ulong, :ulong], :bool
+      attach_function :EvtCancel, [:ulong], :bool
+      attach_function :EvtClearLog, [:ulong, :string, :string, :ulong], :bool
+      attach_function :EvtClose, [:ulong, :bool], :bool
+      attach_function :EvtCreateBookmark, [:string], :ulong
+      attach_function :EvtCreateRenderContext, [:ulong, :pointer, :ulong], :ulong
+      attach_function :EvtExportLog, [:ulong, :string, :string, :string, :ulong], :bool
+      attach_function :EvtFormatMessage, [:ulong, :ulong, :ulong, :ulong, :pointer, :ulong, :ulong, :pointer, :pointer], :bool
+      attach_function :EvtGetChannelConfigProperty, [:ulong, :ulong, :ulong, :ulong, :pointer, :pointer], :bool
+      attach_function :EvtGetEventInfo, [:ulong, :ulong, :ulong, :pointer, :pointer], :bool
+      attach_function :EvtGetEventMetadataProperty, [:ulong, :ulong, :ulong, :ulong, :pointer, :pointer], :bool
+      attach_function :EvtGetExtendedStatus, [:ulong, :pointer, :pointer], :ulong
+      attach_function :EvtGetLogInfo, [:ulong, :ulong, :ulong, :pointer, :pointer], :bool
+      attach_function :EvtGetObjectArrayProperty, [:ulong, :ulong, :ulong, :ulong, :ulong, :pointer, :pointer], :bool
+      attach_function :EvtGetObjectArraySize, [:ulong, :pointer], :bool
+      attach_function :EvtGetPublisherMetadataProperty, [:ulong, :ulong, :ulong, :ulong, :pointer, :pointer], :bool
+      attach_function :EvtGetQueryInfo, [:ulong, :ulong, :ulong, :pointer, :pointer], :bool
+      attach_function :EvtNext, [:ulong, :ulong, :pointer, :ulong, :ulong, :pointer], :bool
+      attach_function :EvtNextChannelPath, [:ulong, :ulong, :pointer, :pointer], :bool
+      attach_function :EvtNextEventMetadata, [:ulong, :ulong], :ulong
+      attach_function :EvtNextPublisherId, [:ulong, :ulong, :pointer, :pointer], :bool
+      attach_function :EvtOpenChannelConfig, [:ulong, :string, :ulong], :ulong
+      attach_function :EvtOpenChannelEnum, [:ulong, :ulong], :ulong
+      attach_function :EvtOpenEventMetadataEnum, [:ulong, :ulong], :ulong
+      attach_function :EvtOpenLog, [:ulong, :string, :ulong], :ulong
+      attach_function :EvtOpenPublisherEnum, [:ulong, :ulong], :ulong
+      attach_function :EvtOpenPublisherMetadata, [:ulong, :string, :string, :ulong, :ulong], :ulong
+      attach_function :EvtOpenSession, [:ulong, :ulong, :ulong, :ulong], :ulong
+      attach_function :EvtQuery, [:ulong, :string, :string, :ulong], :ulong
+      attach_function :EvtRender, [:ulong, :ulong, :ulong, :ulong, :pointer, :pointer, :pointer], :bool
+      attach_function :EvtSaveChannelConfig, [:ulong, :ulong], :bool
+      attach_function :EvtSeek, [:ulong, :ulong, :ulong, :ulong, :ulong], :bool
+      attach_function :EvtSetChannelConfigProperty, [:ulong, :ulong, :ulong, :pointer], :bool
+      attach_function :EvtSubscribe, [:ulong, :ulong, :string, :string, :ulong, :pointer, :pointer, :ulong], :ulong # callback
+      attach_function :EvtUpdateBookmark, [:ulong, :ulong], :bool
+    rescue FFI::NotFoundError
       # Windows Vista or later
     end
   end
