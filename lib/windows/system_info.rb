@@ -109,6 +109,8 @@ module Windows
     attach_function :GetVersionExW, [:pointer], :bool
     attach_function :GetWindowsDirectoryA, [:pointer, :uint], :uint
     attach_function :GetWindowsDirectoryW, [:pointer, :uint], :uint
+    attach_function :QueryPerformanceCounter, [:pointer], :bool
+    attach_function :QueryPerformanceFrequency, [:pointer], :bool
 
     ffi_lib 'advapi32'
 

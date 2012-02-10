@@ -1,19 +1,15 @@
-require 'windows/api'
+require 'ffi'
 
 module Windows
   module Window
     module Timer
-      API.auto_namespace = 'Windows::Window::Timer'
-      API.auto_constant  = true
-      API.auto_method    = true
-      API.auto_unicode   = false
+      extend FFI::Library
+      ffi_lib 'user32'
 
       private
 
-      API.new('KillTimer', 'LP', 'B', 'user32')
-      API.new('QueryPerformanceCounter', 'P', 'B')
-      API.new('QueryPerformanceFrequency', 'P', 'B')
-      API.new('SetTimer', 'LIIK', 'P', 'user32')
+      attach_function :KillTimer, [:ulong, :pointer], :bool
+      attach_function :SetTimer, [:ulong, :pointer, :uint, :pointer], :pointer # callback
     end
   end
 end
