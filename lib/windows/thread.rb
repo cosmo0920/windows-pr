@@ -1,11 +1,10 @@
-require 'windows/api'
+require 'ffi'
 
 module Windows
   module Thread
-    API.auto_namespace = 'Windows::Thread'
-    API.auto_constant  = true
-    API.auto_method    = true
-    API.auto_unicode   = true
+    extend FFI::Library
+
+    ffi_lib 'kernel32'
 
     private
 
@@ -29,35 +28,37 @@ module Windows
     THREAD_PRIORITY_NORMAL        = 0
     THREAD_PRIORITY_TIME_CRITICAL = 15
       
-    API.new('CreateRemoteThread', 'LPLLPLP', 'L')
-    API.new('CreateThread', 'PLKPLP', 'L')
-    API.new('ExitThread', 'L', 'V')
-    API.new('GetCurrentThread', 'V', 'L')
-    API.new('GetCurrentThreadId', 'V', 'L')
-    API.new('GetExitCodeThread', 'LP', 'B')
-    API.new('GetThreadPriority', 'L', 'I')
-    API.new('GetThreadPriorityBoost', 'LP', 'B')
-    API.new('GetThreadTimes', 'LPPPP', 'B')
-    API.new('OpenThread', 'LIL', 'L')
-    API.new('ResumeThread', 'L', 'L')
-    API.new('SetThreadAffinityMask', 'LP', 'P')
-    API.new('SetThreadIdealProcessor', 'LL', 'L')
-    API.new('SetThreadPriority', 'LI', 'B')
-    API.new('SetThreadPriorityBoost', 'LI', 'B')
-    API.new('Sleep', 'L', 'V')
-    API.new('SleepEx', 'LI', 'L')
-    API.new('SuspendThread', 'L', 'L')
-    API.new('SwitchToThread', 'V', 'B')
-    API.new('TerminateThread', 'LL', 'B')
-    API.new('TlsAlloc', 'V', 'L')
-    API.new('TlsFree', 'L', 'B')
-    API.new('TlsGetValue', 'L', 'L')
-    API.new('TlsSetValue', 'LL', 'B')
+    attach_function :CreateRemoteThread, [:ulong, :pointer, :size_t, :pointer, :pointer, :ulong, :pointer], :ulong
+    attach_function :CreateThread, [:pointer, :size_t, :pointer, :pointer, :ulong, :pointer], :ulong
+    attach_function :ExitThread, [:ulong], :void
+    attach_function :GetCurrentThread, [], :ulong
+    attach_function :GetCurrentThreadId, [], :ulong
+    attach_function :GetExitCodeThread, [:ulong, :pointer], :bool
+    attach_function :GetThreadPriority, [:ulong], :int
+    attach_function :GetThreadPriorityBoost, [:ulong, :pointer], :bool
+    attach_function :GetThreadTimes, [:ulong, :pointer, :pointer, :pointer, :pointer], :bool
+    attach_function :OpenThread, [:ulong, :bool, :ulong], :ulong
+    attach_function :ResumeThread, [:ulong], :ulong
+    attach_function :SetThreadAffinityMask, [:ulong, :pointer], :ulong
+    attach_function :SetThreadIdealProcessor, [:ulong, :ulong], :ulong
+    attach_function :SetThreadPriority, [:ulong, :int], :bool
+    attach_function :SetThreadPriorityBoost, [:ulong, :bool], :bool
+    attach_function :Sleep, [:ulong], :void
+    attach_function :SleepEx, [:ulong, :bool], :ulong
+    attach_function :SuspendThread, [:ulong], :ulong
+    attach_function :SwitchToThread, [], :bool
+    attach_function :TerminateThread, [:ulong, :ulong], :bool
+    attach_function :TlsAlloc, [], :ulong
+    attach_function :TlsFree, [:ulong], :bool
+    attach_function :TlsGetValue, [:ulong], :ulong
+    attach_function :TlsSetValue, [:ulong, :ulong], :bool
+
+    ffi_lib 'user32'
 
     begin
-      API.new('AttachThreadInput', 'LLI', 'B', 'user32')
-      API.new('GetThreadIOPendingFlag', 'LP', 'B')
-    rescue Win32::API::LoadLibraryError
+      attach_function :AttachThreadInput, [:ulong, :ulong, :bool], :bool
+      attach_function :GetThreadIOPendingFlag, [:ulong, :pointer], :bool
+    rescue FFI::NotFoundError
       # Windows XP or later
     end
   end
