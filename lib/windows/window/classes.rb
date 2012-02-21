@@ -1,12 +1,10 @@
-require 'windows/api'
+require 'ffi'
 
 module Windows
   module Window
     module Classes
-      API.auto_namespace = 'Windows::Window::Classes'
-      API.auto_constant  = true
-      API.auto_method    = true
-      API.auto_unicode   = true
+      extend FFI::Library
+      ffi_lib 'user32'
 
       private
 
@@ -33,26 +31,34 @@ module Windows
       GWL_USERDATA   = -21
       GWL_ID         = -12
 
-      API.new('GetClassInfo', 'LPP', 'B', 'user32')
-      API.new('GetClassInfoEx', 'LPP', 'B', 'user32')
-      API.new('GetClassLong', 'LI', 'L', 'user32')
-      API.new('GetClassName', 'LPI', 'I', 'user32')
-      API.new('GetClassWord', 'LI', 'L', 'user32')
-      API.new('GetWindowLong', 'LI', 'L', 'user32')
-      API.new('RegisterClass', 'P', 'L', 'user32')
-      API.new('RegisterClassEx', 'P', 'L', 'user32')
-      API.new('SetClassLong', 'LIL', 'L', 'user32')
-      API.new('SetClassWord', 'LIL', 'L', 'user32')
-      API.new('SetWindowLong', 'LIL', 'L', 'user32')        
-      API.new('UnregisterClass', 'PL', 'B', 'user32')
+      attach_function :GetClassInfoA, [:ulong, :string, :pointer], :bool
+      attach_function :GetClassInfoW, [:ulong, :string, :pointer], :bool
+      attach_function :GetClassInfoExA, [:ulong, :string, :pointer], :bool
+      attach_function :GetClassInfoExW, [:ulong, :string, :pointer], :bool
+      attach_function :GetClassLongA, [:ulong, :int], :ulong
+      attach_function :GetClassLongW, [:ulong, :int], :ulong
+      attach_function :GetClassNameA, [:ulong, :string, :int], :int
+      attach_function :GetClassNameW, [:ulong, :string, :int], :int
+      attach_function :GetClassWord, [:ulong, :int], :ushort
+      attach_function :GetWindowLongA, [:ulong, :int], :long
+      attach_function :GetWindowLongW, [:ulong, :int], :long
+      attach_function :RegisterClassA, [:pointer], :ushort
+      attach_function :RegisterClassW, [:pointer], :ushort
+      attach_function :RegisterClassExA, [:pointer], :ushort
+      attach_function :RegisterClassExW, [:pointer], :ushort
+      attach_function :SetClassLongA, [:ulong, :int, :long], :ulong
+      attach_function :SetClassLongW, [:ulong, :int, :long], :ulong
+      attach_function :SetClassWord, [:ulong, :int, :ushort], :ushort
+      attach_function :SetWindowLongA, [:ulong, :int, :long], :long
+      attach_function :SetWindowLongW, [:ulong, :int, :long], :long
+      attach_function :UnregisterClassA, [:string, :ulong], :bool
+      attach_function :UnregisterClassW, [:string, :ulong], :bool
        
-      # In 32-bit Windows, these methods are aliases
       begin
-        API.new('GetWindowLongPtr', 'LI', 'L', 'user32')
-        API.new('SetWindowLongPtr', 'LIP', 'L', 'user32')
-      rescue Win32::API::LoadLibraryError
-        alias :GetWindowLongPtr :GetWindowLong
-        alias :SetWindowLongPtr :SetWindowLong
+        attach_function :GetWindowLongPtr, [:ulong, :int], :ulong
+        attach_function :SetWindowLongPtr, [:ulong, :int, :long], :ulong
+      rescue FFI::NotFoundError
+        # In 32-bit Windows, these methods are aliases for GetWindowLong and SetWindowLong
       end
    end
   end
