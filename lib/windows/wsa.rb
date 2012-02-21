@@ -1,11 +1,9 @@
-require 'windows/api'
+require 'ffi'
 
 module Windows
   module WSA
-    API.auto_namespace = 'Windows::WSA'
-    API.auto_constant  = true
-    API.auto_method    = true
-    API.auto_unicode   = true
+    extend FFI::Library
+    ffi_lib 'ws2_32'
 
     private
 
@@ -19,84 +17,134 @@ module Windows
     WSA_FLAG_ACCESS_SYSTEM_SECURITY = 0x40
     WSA_FLAG_NO_HANDLE_INHERIT      = 0x80
 
+    # WSASETSERVICEOP enum
+
     RNRSERVICE_REGISTER   = 0
     RNRSERVICE_DEREGISTER = 1
     RNRSERVICE_DELETE     = 2
+
+    # Error codes
+ 
+    WSA_INVALID_HANDLE    = 6
+    WSA_NOT_ENOUGH_MEMORY = 8
+    WSA_INVALID_PARAMETER = 87
+    WSA_OPERATION_ABORTED = 995
+    WSA_IO_INCOMPLETE     = 996
+    WSA_IO_PENDING        = 997
+    WSAEINTR              = 10004
+    WSAEBADF              = 10009
+    WSAEACCESS            = 10013
+    WSAEFAULT             = 10014
+    WSAEINVAL             = 10022
+    WSAEMFILE             = 10024
+    WSAEWOULDBLOCK        = 10035
+    WSAEINPROGRESS        = 10036
+    WSAEALREADY           = 10037
+    WSAENOTSOCK           = 10038
+    WSAEDESTADDRREQ       = 10039
+    WSAEMSGSIZE           = 10040
     
     # Functions
 
-    API.new('WSAAccept', 'LPPKP', 'L', 'ws2_32')
-    API.new('WSAAddressToString', 'PLPPP', 'I', 'ws2_32')
-    API.new('WSAAsyncGetHostByAddr', 'LISIIPI', 'L', 'ws2_32')
-    API.new('WSAAsyncGetHostByName', 'LISPI', 'L', 'ws2_32')
-    API.new('WSAAsyncGetProtoByName', 'LISPI', 'L', 'ws2_32')
-    API.new('WSAAsyncGetProtoByNumber', 'LISPI', 'L', 'ws2_32')
-    API.new('WSAAsyncGetServByName', 'LISSPI', 'L', 'ws2_32')
-    API.new('WSAAsyncGetServByPort', 'LIISPI', 'L', 'ws2_32')
-    API.new('WSAAsyncSelect', 'LLIL', 'I', 'ws2_32')
-    API.new('WSACancelAsyncRequest', 'L', 'I', 'ws2_32')
-    API.new('WSACleanup', 'V', 'I', 'ws2_32')
-    API.new('WSACloseEvent', 'I', 'B', 'ws2_32')
-    API.new('WSAConnect', 'LPIPPPP', 'I', 'ws2_32')
-    API.new('WSACreateEvent', 'V', 'L', 'ws2_32')
-    API.new('WSADuplicateSocket', 'LLP', 'I', 'ws2_32')
-    API.new('WSAEnumNetworkEvents', 'LLP', 'I', 'ws2_32')
-    API.new('WSAEnumProtocols', 'PPP', 'I', 'ws2_32')
-    API.new('WSAEventSelect', 'LLL', 'I', 'ws2_32')
-    API.new('WSAGetLastError', 'V', 'I', 'ws2_32')
-    API.new('WSAGetOverlappedResult', 'LPPIP', 'B', 'ws2_32')
-    API.new('WSAGetQOSByName', 'LPP', 'B', 'ws2_32')
-    API.new('WSAGetServiceClassInfo', 'PPPP', 'I', 'ws2_32')
-    API.new('WSAGetServiceClassNameByClassId', 'PPP', 'I', 'ws2_32')
-    API.new('WSAHtonl', 'LLP', 'I', 'ws2_32')
-    API.new('WSAHtons', 'LIP', 'I', 'ws2_32')
-    API.new('WSAInstallServiceClass', 'P', 'I', 'ws2_32')
-    API.new('WSAIoctl', 'LLPLPLPPP', 'I', 'ws2_32')
-    API.new('WSAJoinLeaf', 'LPIPPPPL', 'L', 'ws2_32')
-    API.new('WSALookupServiceBegin', 'PLP', 'I', 'ws2_32')
-    API.new('WSALookupServiceEnd', 'L', 'I', 'ws2_32')
-    API.new('WSALookupServiceNext', 'LLPP', 'I', 'ws2_32')
-    API.new('WSANtohl', 'LLP', 'I', 'ws2_32')
-    API.new('WSANtohs', 'LIP', 'I', 'ws2_32')
-    API.new('WSAProviderConfigChange', 'PPP', 'I', 'ws2_32')
-    API.new('WSARecv', 'LPLPPPP', 'I', 'ws2_32')
-    API.new('WSARecvDisconnect', 'LP', 'I', 'ws2_32')
-    API.new('WSARecvEx', 'LPIP', 'I', 'mswsock')
-    API.new('WSARecvFrom', 'LPLPPPPPP', 'I', 'ws2_32')
-    API.new('WSARemoveServiceClass', 'P', 'I', 'ws2_32')
-    API.new('WSAResetEvent', 'L', 'B', 'ws2_32')
-    API.new('WSASend', 'LPLPLPP', 'I', 'ws2_32')
-    API.new('WSASendDisconnect', 'LP', 'I', 'ws2_32')
-    API.new('WSASendTo', 'LPLPLPIPP', 'I', 'ws2_32')
-    API.new('WSASetEvent', 'L', 'B', 'ws2_32')
-    API.new('WSASetLastError', 'I', 'V', 'ws2_32')
-    API.new('WSASetService', 'PIL', 'I', 'ws2_32')
-    API.new('WSAStartup', 'LP', 'I', 'ws2_32')
-    API.new('WSASocket', 'IIIPLL', 'L', 'ws2_32')
-    API.new('WSAStringToAddress', 'PIPPP', 'I', 'ws2_32')
-    API.new('WSAWaitForMultipleEvents', 'LPILI', 'L', 'ws2_32')
+    attach_function :WSAAccept, [:ulong, :pointer, :pointer, :pointer, :pointer], :ulong # callback
+    attach_function :WSAAddressToStringA, [:pointer, :ulong, :pointer, :pointer, :pointer], :int
+    attach_function :WSAAddressToStringW, [:pointer, :ulong, :pointer, :pointer, :pointer], :int
+    attach_function :WSAAsyncGetHostByAddr, [:ulong, :uint, :string, :int, :int, :pointer, :int], :ulong
+    attach_function :WSAAsyncGetHostByName, [:ulong, :uint, :string, :pointer, :int], :ulong
+    attach_function :WSAAsyncGetProtoByName, [:ulong, :uint, :string, :pointer, :int], :ulong
+    attach_function :WSAAsyncGetProtoByNumber, [:ulong, :uint, :int, :string, :int], :ulong
+    attach_function :WSAAsyncGetServByName, [:ulong, :uint, :string, :string, :pointer, :int], :ulong
+    attach_function :WSAAsyncGetServByPort, [:ulong, :uint, :int, :string, :pointer, :int], :ulong
+    attach_function :WSAAsyncSelect, [:ulong, :ulong, :uint, :long], :int
+    attach_function :WSACancelAsyncRequest, [:ulong], :int
+    attach_function :WSACleanup, [], :int
+    attach_function :WSACloseEvent, [:ulong], :bool
+    attach_function :WSAConnect, [:ulong, :pointer, :int, :pointer, :pointer, :pointer, :pointer], :int
+    attach_function :WSACreateEvent, [], :ulong
+    attach_function :WSADuplicateSocketA, [:ulong, :ulong, :pointer], :int
+    attach_function :WSADuplicateSocketW, [:ulong, :ulong, :pointer], :int
+    attach_function :WSAEnumNetworkEvents, [:ulong, :ulong, :pointer], :int
+    attach_function :WSAEnumProtocolsA, [:pointer, :pointer, :pointer], :int
+    attach_function :WSAEnumProtocolsW, [:pointer, :pointer, :pointer], :int
+    attach_function :WSAEventSelect, [:ulong, :ulong, :long], :int
+    attach_function :WSAGetLastError, [], :int
+    attach_function :WSAGetOverlappedResult, [:ulong, :pointer, :pointer, :bool, :pointer], :bool
+    attach_function :WSAGetQOSByName, [:ulong, :pointer, :pointer], :bool
+    attach_function :WSAGetServiceClassInfoA, [:pointer, :pointer, :pointer, :pointer], :int
+    attach_function :WSAGetServiceClassInfoW, [:pointer, :pointer, :pointer, :pointer], :int
+    attach_function :WSAGetServiceClassNameByClassIdA, [:pointer, :pointer, :pointer], :int
+    attach_function :WSAGetServiceClassNameByClassIdW, [:pointer, :pointer, :pointer], :int
+    attach_function :WSAHtonl, [:ulong, :ulong, :pointer], :int
+    attach_function :WSAHtons, [:ulong, :ushort, :pointer], :int
+    attach_function :WSAInstallServiceClassA, [:pointer], :int
+    attach_function :WSAInstallServiceClassW, [:pointer], :int
+    attach_function :WSAIoctl, [:ulong, :ulong, :pointer, :ulong, :pointer, :ulong, :pointer, :pointer, :pointer], :int
+    attach_function :WSAJoinLeaf, [:ulong, :pointer, :int, :pointer, :pointer, :pointer, :pointer, :ulong], :ulong
+    attach_function :WSALookupServiceBeginA, [:pointer, :ulong, :pointer], :int
+    attach_function :WSALookupServiceBeginW, [:pointer, :ulong, :pointer], :int
+    attach_function :WSALookupServiceEnd, [:ulong], :int
+    attach_function :WSALookupServiceNextA, [:ulong, :ulong, :pointer, :pointer], :int
+    attach_function :WSALookupServiceNextW, [:ulong, :ulong, :pointer, :pointer], :int
+    attach_function :WSANtohl, [:ulong, :ulong, :pointer], :int
+    attach_function :WSANtohs, [:ulong, :ushort, :pointer], :int
+    attach_function :WSAProviderConfigChange, [:pointer, :pointer, :pointer], :int
+    attach_function :WSARecv, [:ulong, :pointer, :ulong, :pointer, :pointer, :pointer, :pointer], :int
+    attach_function :WSARecvDisconnect, [:ulong, :pointer], :int
+    attach_function :WSARecvFrom, [:ulong, :pointer, :ulong, :pointer, :pointer, :pointer, :pointer, :pointer, :pointer], :int
+    attach_function :WSARemoveServiceClass, [:pointer], :int
+    attach_function :WSAResetEvent, [:ulong], :bool
+    attach_function :WSASend, [:ulong, :pointer, :ulong, :pointer, :ulong, :pointer, :pointer], :int
+    attach_function :WSASendDisconnect, [:ulong, :pointer], :int
+    attach_function :WSASendTo, [:ulong, :pointer, :ulong, :pointer, :ulong, :pointer, :int, :pointer, :pointer], :int
+    attach_function :WSASetEvent, [:ulong], :bool
+    attach_function :WSASetLastError, [:int], :void
+    attach_function :WSASetServiceA, [:pointer, :int, :ulong], :int
+    attach_function :WSASetServiceW, [:pointer, :int, :ulong], :int
+    attach_function :WSAStartup, [:ushort, :pointer], :int
+    attach_function :WSASocketA, [:int, :int, :int, :pointer, :ulong, :ulong], :ulong
+    attach_function :WSASocketW, [:int, :int, :int, :pointer, :ulong, :ulong], :ulong
+    attach_function :WSAStringToAddressA, [:string, :int, :pointer, :pointer, :pointer], :int
+    attach_function :WSAStringToAddressW, [:string, :int, :pointer, :pointer, :pointer], :int
+    attach_function :WSAWaitForMultipleEvents, [:ulong, :pointer, :bool, :ulong, :bool], :ulong
 
     begin
-      API.new('WSAConnectByList', 'LPPPPPPP', 'B', 'ws2_32')
-      API.new('WSAConnectByName', 'LPPPPPPP', 'B', 'ws2_32')
-      API.new('WSADeleteSocketPeerTargetName', 'LPLPP', 'L', 'fwpuclnt')
-      API.new('WSAEnumNameSpaceProvidersEx', 'PP', 'I', 'ws2_32')
-      API.new('WSAPoll', 'PLI', 'I', 'ws2_32')
-      API.new('WSAQuerySocketSecurity', 'LPLPPPP', 'I', 'fwpuclnt')
-      API.new('WSARevertImpersonation', 'V', 'I', 'fwpuclnt')
-      API.new('WSASendMsg', 'LPLPPP', 'I', 'ws2_32')
-      API.new('WSASetSocketPeerTargetName', 'LPLPP', 'I', 'fwpuclnt')
-      API.new('WSASetSocketSecurity', 'LPLPP', 'I', 'fwpuclnt')
-    rescue Win32::API::LoadLibraryError
+      attach_function :WSAEnumNameSpaceProvidersA, [:pointer, :pointer], :int
+      attach_function :WSAEnumNameSpaceProvidersW, [:pointer, :pointer], :int
+      attach_function :WSANSPIoctl, [:ulong, :ulong, :pointer, :ulong, :pointer, :ulong, :pointer, :pointer], :int
+    rescue FFI::NotFoundError
+      # XP or later
+    end
+
+    begin
+      attach_function :WSAConnectByList, [:ulong, :pointer, :pointer, :pointer, :pointer, :pointer, :pointer, :pointer], :bool
+      attach_function :WSAConnectByName, [:ulong, :string, :string, :pointer, :pointer, :pointer, :pointer, :pointer], :bool
+      attach_function :WSAEnumNameSpaceProvidersEx, [:pointer, :pointer], :int
+      attach_function :WSAPoll, [:pointer, :ulong, :int], :int
+      attach_function :WSASendMsg, [:ulong, :pointer, :ulong, :pointer, :pointer, :pointer], :int
+    rescue FFI::NotFoundError
       # Vista or later
     end
 
+    ffi_lib 'fwpuclnt'
+
     begin
-      API.new('WSAEnumNameSpaceProviders', 'PP', 'I', 'ws2_32')
-      API.new('WSAImpersonateSocketPeer', 'LPL', 'I', 'fwpuclnt')
-      API.new('WSANSPIoctl', 'LLPLPLPP', 'I', 'ws2_32')
-    rescue Win32::API::LoadLibraryError
+      attach_function :WSAImpersonateSocketPeer, [:ulong, :pointer, :ulong], :int
+    rescue FFI::NotFoundError
       # XP or later
     end
+
+    begin
+      attach_function :WSARevertImpersonation, [:void], :int
+      attach_function :WSAQuerySocketSecurity, [:ulong, :pointer, :ulong, :pointer, :pointer, :pointer, :pointer], :int
+      attach_function :WSADeleteSocketPeerTargetName, [:ulong, :pointer, :ulong, :pointer, :pointer], :int
+      attach_function :WSASetSocketPeerTargetName, [:ulong, :pointer, :ulong, :pointer, :pointer], :int
+      attach_function :WSASetSocketSecurity, [:ulong, :pointer, :ulong, :pointer, :pointer], :int
+    rescue FFI::NotFoundError
+      # Vista or later
+    end
+
+    ffi_lib 'mswsock'
+
+    attach_function :WSARecvEx, [:ulong, :pointer, :int, :pointer], :int
   end
 end
