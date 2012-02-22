@@ -1,12 +1,10 @@
-require 'windows/api'
+require 'ffi'
 
 module Windows
   module Window
     module Dialog
-      API.auto_namespace = 'Windows::Window::Dialog'
-      API.auto_constant  = true
-      API.auto_method    = true
-      API.auto_unicode   = true
+      extend FFI::Library
+      ffi_lib 'user32'
 
       private
 
@@ -48,43 +46,53 @@ module Windows
       MB_MODEMASK                  = 0x00003000
       MB_MISCMASK                  = 0x0000C000
 
-      API.new('CreateDialogIndirectParam', 'LPLKL', 'L', 'user32')
-      API.new('CreateDialogParam', 'LPLKL', 'L', 'user32')
-      API.new('DialogBoxIndirectParam', 'LPLKL', 'P', 'user32')
-      API.new('DialogBoxParam', 'LPLKL', 'P', 'user32')
-      API.new('EndDialog', 'LP', 'B', 'user32')
-      API.new('GetDialogBaseUnits', 'V', 'L', 'user32')
-      API.new('GetDlgCtrlID', 'L', 'I', 'user32')
-      API.new('GetDlgItem', 'LI', 'L', 'user32')
-      API.new('GetDlgItemInt', 'LIPI', 'I', 'user32')
-      API.new('GetDlgItemText', 'LIPI', 'I', 'user32')
-      API.new('GetNextDlgGroupItem', 'LLI', 'L', 'user32')
-      API.new('GetNextDlgTabItem', 'LLI', 'L', 'user32')
-      API.new('IsDialogMessage', 'LP', 'B', 'user32')
-      API.new('MapDialogRect', 'LP', 'B', 'user32')
-      API.new('MessageBox', 'LPPI', 'I', 'user32')
-      API.new('MessageBoxEx', 'LPPII', 'I', 'user32')
-      API.new('MessageBoxIndirect', 'P', 'I', 'user32')
-      API.new('SendDlgItemMessage', 'LIILL', 'L', 'user32')
-      API.new('SetDlgItemInt', 'LIII', 'L', 'user32')
-      API.new('SetDlgItemText', 'LIP', 'B', 'user32')
+      attach_function :CreateDialogIndirectParamA, [:ulong, :pointer, :pointer, :pointer, :ulong], :ulong # callback
+      attach_function :CreateDialogIndirectParamW, [:ulong, :pointer, :pointer, :pointer, :ulong], :ulong # callback
+      attach_function :CreateDialogParamA, [:ulong, :pointer, :ulong, :pointer, :ulong], :ulong
+      attach_function :CreateDialogParamW, [:ulong, :pointer, :ulong, :pointer, :ulong], :ulong
+      attach_function :DialogBoxIndirectParamA, [:ulong, :pointer, :ulong, :pointer, :ulong], :pointer
+      attach_function :DialogBoxIndirectParamW, [:ulong, :pointer, :ulong, :pointer, :ulong], :pointer
+      attach_function :DialogBoxParamA, [:ulong, :string, :ulong, :pointer, :ulong], :pointer
+      attach_function :DialogBoxParamW, [:ulong, :string, :ulong, :pointer, :ulong], :pointer
+      attach_function :EndDialog, [:ulong, :pointer], :bool
+      attach_function :GetDialogBaseUnits, [], :long
+      attach_function :GetDlgCtrlID, [:ulong], :int
+      attach_function :GetDlgItem, [:ulong, :int], :ulong
+      attach_function :GetDlgItemInt, [:ulong, :int, :pointer, :bool], :uint
+      attach_function :GetDlgItemTextA, [:ulong, :int, :pointer, :int], :uint
+      attach_function :GetDlgItemTextW, [:ulong, :int, :pointer, :int], :uint
+      attach_function :GetNextDlgGroupItem, [:ulong, :ulong, :bool], :ulong
+      attach_function :GetNextDlgTabItem, [:ulong, :ulong, :bool], :ulong
+      attach_function :IsDialogMessage, [:ulong, :pointer], :bool
+      attach_function :MapDialogRect, [:ulong, :pointer], :bool
+      attach_function :MessageBoxA, [:ulong, :string, :string, :uint], :int
+      attach_function :MessageBoxW, [:ulong, :string, :string, :uint], :int
+      attach_function :MessageBoxExA, [:ulong, :string, :string, :uint, :ushort], :int
+      attach_function :MessageBoxExW, [:ulong, :string, :string, :uint, :ushort], :int
+      attach_function :MessageBoxIndirectA, [:pointer], :int
+      attach_function :MessageBoxIndirectW, [:pointer], :int
+      attach_function :SendDlgItemMessageA, [:ulong, :int, :uint, :ulong, :ulong], :ulong
+      attach_function :SendDlgItemMessageW, [:ulong, :int, :uint, :ulong, :ulong], :ulong
+      attach_function :SetDlgItemInt, [:ulong, :int, :uint, :bool], :bool
+      attach_function :SetDlgItemTextA, [:ulong, :int, :string], :bool
+      attach_function :SetDlgItemTextW, [:ulong, :int, :string], :bool
 
       # Macros from WinUser.h
 
       def CreateDialog(hInstance, lpName, hParent, lpDialogFunc)
-        CreateDialogParam.call(hInstance, lpName, hParent, lpDialogFunc, 0)
+        CreateDialogParam(hInstance, lpName, hParent, lpDialogFunc, 0)
       end
 
       def CreateDialogIndirect(hInst, lpTemp, hPar, lpDialFunc)
-        CreateDialogIndirectParam.call(hInst, lpTemp, hPar, lpDialFunc, 0)
+        CreateDialogIndirectParam(hInst, lpTemp, hPar, lpDialFunc, 0)
       end
 
       def DialogBox(hInstance, lpTemp, hParent, lpDialogFunc)
-        DialogBoxParam.call(hInstance, lpTemp, hParent, lpDialogFunc, 0)
+        DialogBoxParam(hInstance, lpTemp, hParent, lpDialogFunc, 0)
       end
 
       def DialogBoxIndirect(hInst, lpTemp, hParent, lpDialogFunc)
-        DialogBoxParamIndirect.call(hInst, lpTemp, hParent, lpDialogFunc, 0)
+        DialogBoxParamIndirect(hInst, lpTemp, hParent, lpDialogFunc, 0)
       end
     end
   end
