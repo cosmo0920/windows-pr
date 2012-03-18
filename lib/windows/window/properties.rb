@@ -1,20 +1,23 @@
-require 'windows/api'
+require 'ffi'
 
 module Windows
   module Window
     module Properties
-      API.auto_namespace = 'Windows::Window::Properties'
-      API.auto_constant  = true
-      API.auto_method    = true
-      API.auto_unicode   = true
+      extend FFI::Library
+      ffi_lib 'user32'
 
       private
 
-      API.new('EnumProps', 'LK', 'I', 'user32')
-      API.new('EnumPropsEx', 'LKL', 'I', 'user32')
-      API.new('GetProp', 'LP', 'L', 'user32')
-      API.new('RemoveProp', 'LP', 'L', 'user32')
-      API.new('SetProp', 'LPL', 'B', 'user32')
+      attach_function :EnumPropsA, [:ulong, :pointer], :int # callback
+      attach_function :EnumPropsW, [:ulong, :pointer], :int # callback
+      attach_function :EnumPropsExA, [:ulong, :pointer, :pointer], :int # callback
+      attach_function :EnumPropsExW, [:ulong, :pointer, :pointer], :int # callback
+      attach_function :GetPropA, [:ulong, :string], :ulong
+      attach_function :GetPropW, [:ulong, :string], :ulong
+      attach_function :RemovePropA, [:ulong, :string], :ulong
+      attach_function :RemovePropW, [:ulong, :string], :ulong
+      attach_function :SetPropA, [:ulong, :string, :ulong], :bool
+      attach_function :SetPropW, [:ulong, :string, :ulong], :bool
     end
   end
 end
