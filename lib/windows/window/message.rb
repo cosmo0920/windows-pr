@@ -1,12 +1,10 @@
-require 'windows/api'
+require 'ffi'
 
 module Windows
   module Window
     module Message
-      API.auto_namespace = 'Windows::Window::Message'
-      API.auto_constant  = true
-      API.auto_method    = true
-      API.auto_unicode   = false
+      extend FFI::Library
+      ffi_lib 'user32'
 
       private
 
@@ -249,47 +247,51 @@ module Windows
       WM_APP                        = 0x8000
       WM_USER                       = 0x0400
 
-      # I'd rather not mixin Windows::SystemInfo
-      getVersionEx = Win32::API.new('GetVersionEx', 'P', 'B')
-      vbuf  = "\0" * 128
-      vinfo = [148, 0 ,0, 0, 0, vbuf].pack("LLLLLa128")
-      getVersionEx.call(vinfo)
-      info = vinfo.unpack("LLLLLa128")
-
-      if info[2] >= 1
+      if `ver`[/\d.\d/].to_f >= 5.1
         WM_KEYLAST = 0x0109 # Windows XP or later
       else
         WM_KEYLAST = 0x0108 # Windows 2000
       end
 
-      API.new('BroadcastSystemMessage', 'LPILL', 'L', 'user32')
-      API.new('DefWindowProc', 'LLLL', 'L', 'user32')
-      API.new('DispatchMessage', 'P', 'L', 'user32')
-      API.new('GetInputState', 'V', 'B', 'user32')
-      API.new('GetMessage', 'PLII', 'B', 'user32')
-      API.new('GetMessageExtraInfo', 'V', 'L', 'user32')
-      API.new('GetMessagePos', 'V', 'L', 'user32')
-      API.new('GetMessageTime', 'V', 'L', 'user32')
-      API.new('GetQueueStatus', 'I', 'L', 'user32')
-      API.new('InSendMessage', 'V', 'B', 'user32')
-      API.new('InSendMessageEx', 'L', 'L', 'user32')
-      API.new('PeekMessage', 'PLIII', 'B', 'user32')
-      API.new('PostMessage', 'PLLL', 'B', 'user32')
-      API.new('PostQuitMessage', 'I', 'V', 'user32')
-      API.new('PostThreadMessage', 'LILL', 'B', 'user32')
-      API.new('RegisterWindowMessage', 'P', 'I', 'user32')
-      API.new('ReplyMessage', 'L', 'B', 'user32')
-      API.new('SendMessage', 'LILL', 'L', 'user32')
-      API.new('SendMessageCallback', 'LILLKP', 'B', 'user32')
-      API.new('SendMessageTimeout', 'LILLIIP', 'L', 'user32')
-      API.new('SendNotifyMessage', 'LILLIIP', 'L', 'user32')
-      API.new('SetMessageExtraInfo', 'L', 'L', 'user32')
-      API.new('TranslateMessage', 'P', 'B', 'user32')
-      API.new('WaitMessage', 'V', 'B', 'user32')
-       
+      attach_function :BroadcastSystemMessage, [:ulong, :pointer, :uint, :long, :long], :long
+      attach_function :DefWindowProcA, [:ulong, :uint, :long, :long], :long
+      attach_function :DefWindowProcW, [:ulong, :uint, :long, :long], :long
+      attach_function :DispatchMessageA, [:pointer], :long
+      attach_function :DispatchMessageW, [:pointer], :long
+      attach_function :GetInputState, [], :bool
+      attach_function :GetMessageA, [:pointer, :ulong, :uint, :uint], :bool
+      attach_function :GetMessageW, [:pointer, :ulong, :uint, :uint], :bool
+      attach_function :GetMessageExtraInfo, [], :long
+      attach_function :GetMessagePos, [], :ulong
+      attach_function :GetMessageTime, [], :long
+      attach_function :GetQueueStatus, [:uint], :ulong
+      attach_function :InSendMessage, [], :bool
+      attach_function :InSendMessageEx, [:pointer], :ulong
+      attach_function :PeekMessageA, [:pointer, :ulong, :uint, :uint, :uint], :bool
+      attach_function :PeekMessageW, [:pointer, :ulong, :uint, :uint, :uint], :bool
+      attach_function :PostMessageA, [:ulong, :uint, :long, :long], :bool
+      attach_function :PostMessageW, [:ulong, :uint, :long, :long], :bool
+      attach_function :PostQuitMessage, [:int], :void
+      attach_function :PostThreadMessageA, [:ulong, :uint, :long, :long], :bool
+      attach_function :PostThreadMessageW, [:ulong, :uint, :long, :long], :bool
+      attach_function :RegisterWindowMessageA, [:string], :uint
+      attach_function :RegisterWindowMessageW, [:string], :uint
+      attach_function :ReplyMessage, [:ulong], :bool
+      attach_function :SendMessageA, [:ulong, :uint, :long, :long], :long
+      attach_function :SendMessageW, [:ulong, :uint, :long, :long], :long
+      attach_function :SendMessageCallbackA, [:ulong, :uint, :long, :long, :pointer, :pointer], :bool # callback
+      attach_function :SendMessageCallbackW, [:ulong, :uint, :long, :long, :pointer, :pointer], :bool # callback
+      attach_function :SendMessageTimeoutA, [:ulong, :uint, :long, :long, :uint, :uint, :pointer], :ulong
+      attach_function :SendMessageTimeoutW, [:ulong, :uint, :long, :long, :uint, :uint, :pointer], :ulong
+      attach_function :SendNotifyMessageA, [:ulong, :uint, :long, :long], :bool
+      attach_function :SendNotifyMessageW, [:ulong, :uint, :long, :long], :bool
+      attach_function :SetMessageExtraInfo, [:long], :long
+      attach_function :TranslateMessage, [:pointer], :bool
+      attach_function :WaitMessage, [], :bool
+
       begin
-        API.new('BroadcastSystemMessageEx', 'LPILLP', 'L', 'user32')
-      rescue Win32::API::LoadLibraryError
+        attach_function :BroadcastSystemMessageEx, [:ulong, :pointer, :uint, :long, :long, :pointer], :long
+      rescue FFI::NotFoundError
         # Windows XP or later
       end
     end
