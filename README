@@ -131,6 +131,10 @@
 == Supported Platforms
   I only support the Windows NT family of Windows, and then only Windows
   2000 and later.
+
+== Future Plans
+  I plan on converting this library to use FFI instead of win32-api. There
+  is already an ffi branch with most of that work done.
    
 == License
   Artistic 2.0
@@ -141,7 +145,7 @@
   warranties of merchantability and fitness for a particular purpose.
 
 == Copyright
-  (C) 2006-2010, Daniel J. Berger
+  (C) 2006-2012, Daniel J. Berger
   All Rights Reserved
    
 == Author(s)

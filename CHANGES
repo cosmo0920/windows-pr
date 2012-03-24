@@ -1,9 +1,10 @@
-= 1.2.2 - 21-Oct-2011
+= 1.2.2 - ???
 * Changed some of the function prototypes in the Windows::Process module to
   use 'S' instead of 'P' when dealing with const* strings. This fixes potential
   errors regarding attempted modification of frozen strings. Thanks go to
   Pok Lau and John Keiser.
 * Fixed the multi_to_wide documentation. Thanks go to Dan Rathbun for the spot.
+* Fixed the MEM_4MB_PAGES constant in the Windows::Memory module.
 
 = 1.2.1 - 25-Aug-2011
 * The strcpy, mbscpy and wsccpy functions in the Windows::MSVCRT::String
