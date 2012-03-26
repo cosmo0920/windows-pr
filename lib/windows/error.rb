@@ -414,11 +414,16 @@ module Windows
     WSA_QOS_RECEIVERS       = 11005
     WSA_QOS_SENDERS         = 11006
 
-    API.new('GetErrorMode', 'V', 'L')
     API.new('GetLastError', 'V', 'L')
     API.new('SetLastError', 'L', 'V')
     API.new('SetErrorMode', 'I', 'I')
     API.new('FormatMessage', 'LLLLPLP', 'L')
+
+    begin
+      API.new('GetErrorMode', 'V', 'I')
+    rescue Win32::API::LoadLibraryError
+      # Vista or later
+    end
 
     begin
       API.new('SetLastErrorEx', 'LL', 'V', 'user32')
