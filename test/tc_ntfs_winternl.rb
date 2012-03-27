@@ -3,21 +3,23 @@
 #
 # Test case for the Windows::NTFS::Winternl module.
 #####################################################################
-require "windows/ntfs/winternl"
-require "test/unit"
+require 'windows/handle'
+require 'windows/ntfs/winternl'
+require 'test/unit'
 
 class TC_Windows_NTFS_Winternl < Test::Unit::TestCase
+  include Windows::Handle
   include Windows::NTFS::Winternl
 
   def setup
     @name = "winternl_test.txt"
     @handle = File.open(@name, 'w')
   end
-   
+
   def test_numeric_constants
     assert_equal(8, FileAccessInformation)
   end
-  
+
   def test_methods_defined
     assert(self.respond_to?(:NtQueryInformationFile, true))
   end
@@ -29,9 +31,9 @@ class TC_Windows_NTFS_Winternl < Test::Unit::TestCase
   def test_get_final_path_name_by_handle_returns_expected_result
     buf = 0.chr * 260
     res = nil
-    assert_nothing_raised{
-      res = GetFinalPathNameByHandle(@handle, buf, buf.size, 2)
-    }
+    hdl = get_osfhandle(@handle.fileno)
+
+    assert_nothing_raised{ res = GetFinalPathNameByHandle(hdl, buf, buf.size, 2) }
     assert_kind_of(Fixnum, res)
     assert_equal(@name, File.basename(buf))
   end

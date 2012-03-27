@@ -69,40 +69,47 @@ module Windows
       rescue Win32::API::LoadLibraryError
         # XP or later
       end
-       
+
       # Should work for Windows XP/2000
       unless defined? GetFinalPathNameByHandle
-        require 'windows/handle'
-        require 'windows/unicode'
-        require 'windows/volume'
+        begin
+          API.new('GetFinalPathNameByHandle', 'LPLL', 'L')
+        rescue Win32::API::LoadLibraryError
+          require 'windows/error'
+          require 'windows/unicode'
+          require 'windows/volume'
 
-        include Windows::Handle
-        include Windows::Unicode
-        include Windows::Volume
-          
-        # Simulates the GetFinalPathNameByHandle method. Note that the +size+
-        # and +flags+ arguments are ignored, but are required for interface
-        # compatibility. The buffer is an in/out parameter.
-        #
-        # The +size+ argument simply isn't used internally and the +flags+
-        # argument is currently assumed to always be VOLUME_NAME_NT.
-        #
-        def GetFinalPathNameByHandle(handle, buffer, size, flags)
-          mpath = 1024
-          hfile = get_osfhandle(handle.fileno)
+          include Windows::Error
+          include Windows::Unicode
+          include Windows::Volume
 
-          object_name_information = 0.chr * (8 + (mpath * 2))
+          # Simulates the GetFinalPathNameByHandle method. Note that the +size+
+          # and +flags+ arguments are ignored, but are required for interface
+          # compatibility. The buffer is an in/out parameter.
+          #
+          # The +size+ argument simply isn't used internally and the +flags+
+          # argument is currently assumed to always be VOLUME_NAME_NT.
+          #
+          def GetFinalPathNameByHandle(handle, buffer, size, flags)
+            mpath = 1024
 
-          status = NtQueryObject(
-            hfile,
-            ObjectNameInformation,
-            object_name_information,
-            object_name_information.size,
-            0
-          )
+            object_name_information = 0.chr * (8 + (mpath * 2))
 
-          buffer.replace(wide_to_multi(object_name_information[8..-1]))
-          buffer.size
+            status = NtQueryObject(
+              handle,
+              ObjectNameInformation,
+              object_name_information,
+              object_name_information.size,
+              0
+            )
+
+            if status > 0
+              raise 'NtQueryObject function failed: ' + get_last_error
+            end
+
+            buffer.replace(wide_to_multi(object_name_information[8..-1]))
+            buffer.size
+          end
         end
       end
     end
