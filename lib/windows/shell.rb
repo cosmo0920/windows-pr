@@ -1,13 +1,9 @@
-require 'windows/api'
+require 'ffi'
 
 module Windows
   module Shell
-    API.auto_namespace = 'Windows::Shell'
-    API.auto_constant  = true
-    API.auto_method    = true
-    API.auto_unicode   = true
-
-    private
+    extend FFI::Library
+    ffi_lib :shell32
 
     # CSIDL constants
     CSIDL_DESKTOP                 = 0x0000
@@ -66,7 +62,7 @@ module Windows
     CSIDL_CDBURN_AREA             = 0x003b
     CSIDL_COMMON_ADMINTOOLS       = 0x002f
     CSIDL_ADMINTOOLS              = 0x0030
-    
+
     # Return codes
     S_FALSE      = 1
     E_FAIL       = 2147500037
@@ -84,18 +80,18 @@ module Windows
 
     FOF_MULTIDESTFILES        = 0x0001
     FOF_CONFIRMMOUSE          = 0x0002
-    FOF_SILENT                = 0x0004  # Don't create progress/report
+    FOF_SILENT                = 0x0004  # Dont create progress/report
     FOF_RENAMEONCOLLISION     = 0x0008
-    FOF_NOCONFIRMATION        = 0x0010  # Don't prompt the user.
+    FOF_NOCONFIRMATION        = 0x0010  # Dont prompt the user.
     FOF_WANTMAPPINGHANDLE     = 0x0020  # Fill in SHFILEOPSTRUCT.hNameMappings
     FOF_ALLOWUNDO             = 0x0040
     FOF_FILESONLY             = 0x0080  # On *.*, do only files
-    FOF_SIMPLEPROGRESS        = 0x0100  # Means don't show names of files
-    FOF_NOCONFIRMMKDIR        = 0x0200  # Don't confirm making any needed dirs
-    FOF_NOERRORUI             = 0x0400  # Don't put up error UI
-    FOF_NOCOPYSECURITYATTRIBS = 0x0800  # Don't copy NT file Sec. Attributes
-    FOF_NORECURSION           = 0x1000  # Don't recurse into directories.
-    FOF_NO_CONNECTED_ELEMENTS = 0x2000  # Don't operate on connected elements
+    FOF_SIMPLEPROGRESS        = 0x0100  # Means dont show names of files
+    FOF_NOCONFIRMMKDIR        = 0x0200  # Dont confirm making any needed dirs
+    FOF_NOERRORUI             = 0x0400  # Dont put up error UI
+    FOF_NOCOPYSECURITYATTRIBS = 0x0800  # Dont copy NT file Sec. Attributes
+    FOF_NORECURSION           = 0x1000  # Dont recurse into directories.
+    FOF_NO_CONNECTED_ELEMENTS = 0x2000  # Dont operate on connected elements
     FOF_WANTNUKEWARNING       = 0x4000  # During delete op, warn if nuking
     FOF_NORECURSEREPARSE      = 0x8000  # Treat reparse points as objects
 
@@ -115,8 +111,8 @@ module Windows
     # Shell link constants
     SHGNLI_PIDL       = 0x000000001 # pszLinkTo is a pidl
     SHGNLI_PREFIXNAME = 0x000000002 # Make name "Shortcut to xxx"
-    SHGNLI_NOUNIQUE   = 0x000000004 # don't do the unique name generation
-    SHGNLI_NOLNK      = 0x000000008 # don't add ".lnk" extension
+    SHGNLI_NOUNIQUE   = 0x000000004 # dont do the unique name generation
+    SHGNLI_NOLNK      = 0x000000008 # dont add ".lnk" extension
 
     # File information constants
     SHGFI_ICON              = 0x000000100 # get icon
@@ -137,35 +133,56 @@ module Windows
     SHGFI_USEFILEATTRIBUTES = 0x000000010 # use passed dwFileAttribute
     SHGFI_ADDOVERLAYS       = 0x000000020 # apply the appropriate overlays
     SHGFI_OVERLAYINDEX      = 0x000000040 # Get the index of the overlay
-    
-    API.new('DragQueryFile', 'LLPL', 'I', 'shell32')
-    API.new('ExtractIcon', 'LSI', 'L', 'shell32')
-    API.new('ExtractIconEx', 'SIPPI', 'I', 'shell32')
-    API.new('FindExecutable', 'SSP', 'L', 'shell32')
-    API.new('GetAllUsersProfileDirectory', 'PP', 'B', 'userenv')
-    API.new('GetDefaultUserProfileDirectory', 'PP', 'B', 'userenv')
-    API.new('GetProfilesDirectory', 'PP', 'B', 'userenv')
-    API.new('GetUserProfileDirectory', 'LPP', 'B', 'userenv')
-    API.new('ShellAbout', 'LSSL', 'I', 'shell32')
-    API.new('SHBrowseForFolder', 'P', 'P', 'shell32')
-    API.new('SHChangeNotify', 'LILL', 'V', 'shell32')
-    API.new('ShellExecute', 'LSSSSI', 'L', 'shell32')
-    API.new('ShellExecuteEx', 'P', 'B', 'shell32')
-    API.new('SHFileOperation', 'P', 'I', 'shell32')
-    API.new('SHGetFileInfo', 'PLPII', 'L', 'shell32')
-    API.new('SHGetFolderLocation', 'LILLP', 'L', 'shell32')
-    API.new('SHGetFolderPath', 'LLLLP', 'L', 'shell32')
-    API.new('SHGetNewLinkInfo', 'SSPPI', 'B', 'shell32')
-    API.new('SHGetPathFromIDList', 'LL', 'B', 'shell32')
-    API.new('SHGetSpecialFolderLocation', 'LIP', 'L', 'shell32')
-    API.new('SHGetSpecialFolderPath', 'LPLL','L', 'shell32')
+
+    attach_function :DragQueryFile, [:ulong, :uint, :pointer, :uint], :uint
+    attach_function :ExtractIconA, [:ulong, :string, :uint], :ulong
+    attach_function :ExtractIconW, [:ulong, :string, :uint], :ulong
+    attach_function :ExtractIconExA, [:string, :int, :pointer, :pointer, :uint], :uint
+    attach_function :ExtractIconExW, [:string, :int, :pointer, :pointer, :uint], :uint
+    attach_function :FindExecutableA, [:string, :string, :pointer], :ulong
+    attach_function :FindExecutableW, [:string, :string, :pointer], :ulong
+    attach_function :ShellAboutA, [:ulong, :string, :string, :ulong], :int
+    attach_function :ShellAboutW, [:ulong, :string, :string, :ulong], :int
+    attach_function :SHBrowseForFolderA, [:pointer], :pointer
+    attach_function :SHBrowseForFolderW, [:pointer], :pointer
+    attach_function :SHChangeNotify, [:long, :uint, :long, :long], :void
+    attach_function :ShellExecuteA, [:ulong, :string, :string, :string, :string, :int], :ulong
+    attach_function :ShellExecuteW, [:ulong, :string, :string, :string, :string, :int], :ulong
+    attach_function :ShellExecuteExA, [:pointer], :bool
+    attach_function :ShellExecuteExW, [:pointer], :bool
+    attach_function :SHFileOperationA, [:pointer], :int
+    attach_function :SHFileOperationW, [:pointer], :int
+    attach_function :SHGetDiskFreeSpaceA, [:string, :pointer, :pointer, :pointer], :bool
+    attach_function :SHGetFileInfoA, [:string, :ulong, :pointer, :uint, :uint], :pointer
+    attach_function :SHGetFileInfoW, [:string, :ulong, :pointer, :uint, :uint], :pointer
+    attach_function :SHGetFolderLocation, [:ulong, :int, :ulong, :ulong, :pointer], :ulong
+    attach_function :SHGetFolderPathA, [:ulong, :int, :ulong, :ulong, :pointer], :ulong
+    attach_function :SHGetFolderPathW, [:ulong, :int, :ulong, :ulong, :pointer], :ulong
+    attach_function :SHGetNewLinkInfoA, [:string, :string, :pointer, :pointer, :uint], :bool
+    attach_function :SHGetNewLinkInfoW, [:string, :string, :pointer, :pointer, :uint], :bool
+    attach_function :SHGetPathFromIDListA, [:ulong, :pointer], :bool
+    attach_function :SHGetPathFromIDListW, [:ulong, :pointer], :bool
+    attach_function :SHGetSpecialFolderLocation, [:ulong, :int, :pointer], :ulong
+    attach_function :SHGetSpecialFolderPathA, [:ulong, :pointer, :int, :bool], :bool
+    attach_function :SHGetSpecialFolderPathW, [:ulong, :pointer, :int, :bool], :bool
 
     begin
-      API.new('SHGetKnownFolderPath', 'LLLP', 'L', 'shell32')
-      API.new('SHGetKnownFolderIDList', 'LLLP', 'L', 'shell32')
-      API.new('SHGetNameFromIDList', 'PLP', 'L', 'shell32')
-    rescue Win32::API::LoadLibraryError
+      attach_function :SHGetKnownFolderPath, [:ulong, :ulong, :ulong, :pointer], :ulong
+      attach_function :SHGetKnownFolderIDList, [:ulong, :ulong, :ulong, :pointer], :ulong
+      attach_function :SHGetNameFromIDList, [:pointer, :ulong, :pointer], :ulong
+    rescue FFI::NotFoundError
       # Windows Vista or later
     end
+
+    ffi_lib :userenv
+
+    attach_function :GetAllUsersProfileDirectoryA, [:pointer, :pointer], :bool
+    attach_function :GetAllUsersProfileDirectoryW, [:pointer, :pointer], :bool
+    attach_function :GetDefaultUserProfileDirectoryA, [:pointer, :pointer], :bool
+    attach_function :GetDefaultUserProfileDirectoryW, [:pointer, :pointer], :bool
+    attach_function :GetProfilesDirectoryA, [:pointer, :pointer], :bool
+    attach_function :GetProfilesDirectoryW, [:pointer, :pointer], :bool
+    attach_function :GetUserProfileDirectoryA, [:ulong, :pointer, :pointer], :bool
+    attach_function :GetUserProfileDirectoryW, [:ulong, :pointer, :pointer], :bool
   end
 end
