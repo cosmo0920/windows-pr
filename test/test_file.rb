@@ -78,13 +78,14 @@ class TC_Windows_File < Test::Unit::TestCase
     assert_respond_to(self, :SetFileShortNameW)
   end
 
-  # Have to skip these for now because of a bug in Ruby env variables.
-  #def test_file_functions_xp64_or_later
-  #  omit_unless(@@is64 && @@version >= 5.1, "Tests skipped except on 64 bit XP or later")
-  #  assert_respond_to(self, :Wow64DisableWow64FsRedirection)
-  #  assert_respond_to(self, :Wow64EnableWow64FsRedirection)
-  #  assert_respond_to(self, :Wow64RevertWow64FsRedirection)
-  #end
+  def test_file_functions_xp64_or_later
+    omit_unless(@@version >= 5.1, "Tests skipped except on XP or later")
+    omit_if(@@version == 5.1 && !@@is64, "Tests skipped on 32 bit Windows XP")
+
+    assert_respond_to(self, :Wow64DisableWow64FsRedirection)
+    assert_respond_to(self, :Wow64EnableWow64FsRedirection)
+    assert_respond_to(self, :Wow64RevertWow64FsRedirection)
+  end
 
   def test_file_functions_vista_or_later
     omit_if(@@version < 6.0, "Tests skipped on XP or earlier")
