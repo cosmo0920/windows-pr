@@ -1,12 +1,10 @@
-require 'windows/api'
+require 'ffi'
 
 module Windows
   module Network
     module SNMP
-      API.auto_namespace = 'Windows::Network::SNMP'
-      API.auto_constant  = true
-      API.auto_method    = true
-      API.auto_unicode   = false
+      extend FFI::Library
+      ffi_lib :wsnmp32
 
       private
 
@@ -54,38 +52,38 @@ module Windows
       SNMPAPI_OFF              =  0
       SNMPAPI_ON               =  1
 
-      API.new('SnmpCancelMsg', 'LI', 'I', 'wsnmp32')
-      API.new('SnmpCleanup', 'V', 'I', 'wsnmp32')
-      API.new('SnmpClose', 'L', 'I', 'wsnmp32')
-      API.new('SnmpContextToStr', 'LP', 'I', 'wsnmp32')
-      API.new('SnmpDecodeMsg', 'LPPPPP', 'I', 'wsnmp32')
-      API.new('SnmpEncodeMsg', 'LLLLLP', 'I', 'wsnmp32')
-      API.new('SnmpEntityToStr', 'LLP', 'I', 'wsnmp32')
-      API.new('SnmpFreeContext', 'L', 'I', 'wsnmp32')
-      API.new('SnmpFreeDescriptor', 'LP', 'I', 'wsnmp32')
-      API.new('SnmpFreeEntity', 'L', 'I', 'wsnmp32')
-      API.new('SnmpGetLastError', 'L', 'I', 'wsnmp32')
-      API.new('SnmpListen', 'LL', 'I', 'wsnmp32')
-      API.new('SnmpOidCompare', 'PPLP', 'I', 'wsnmp32')
-      API.new('SnmpOidCopy', 'PP', 'I', 'wsnmp32')
-      API.new('SnmpOidToStr', 'PLP', 'I', 'wsnmp32')
-      API.new('SnmpOpen', 'LL', 'L', 'wsnmp32')
-      API.new('SnmpRecvMsg', 'LPPPP', 'I', 'wsnmp32')
-      API.new('SnmpRegister', 'LLLLPL', 'I', 'wsnmp32')
-      API.new('SnmpSendMsg', 'LLLLL', 'I', 'wsnmp32')
-      API.new('SnmpSetPort', 'LL', 'I', 'wsnmp32')
-      API.new('SnmpStartup', 'PPPPP', 'I', 'wsnmp32')
-      API.new('SnmpStrToContext', 'LP', 'I', 'wsnmp32')
-      API.new('SnmpStrToEntity', 'LP', 'I', 'wsnmp32')
-      API.new('SnmpStrToOid', 'PP', 'I', 'wsnmp32')
+      attach_function :SnmpCancelMsg, [:ulong, :ulong], :uint
+      attach_function :SnmpCleanup, [], :uint
+      attach_function :SnmpClose, [:ulong], :uint
+      attach_function :SnmpContextToStr, [:ulong, :pointer], :uint
+      attach_function :SnmpDecodeMsg, [:ulong, :pointer, :pointer, :pointer, :pointer, :pointer], :uint
+      attach_function :SnmpEncodeMsg, [:ulong, :ulong, :ulong, :ulong, :ulong, :pointer], :uint
+      attach_function :SnmpEntityToStr, [:ulong, :ulong, :pointer], :uint
+      attach_function :SnmpFreeContext, [:ulong], :uint
+      attach_function :SnmpFreeDescriptor, [:ulong, :pointer], :uint
+      attach_function :SnmpFreeEntity, [:ulong], :uint
+      attach_function :SnmpGetLastError, [:ulong], :uint
+      attach_function :SnmpListen, [:ulong, :ulong], :uint
+      attach_function :SnmpOidCompare, [:pointer, :pointer, :ulong, :pointer], :uint
+      attach_function :SnmpOidCopy, [:pointer, :pointer], :uint
+      attach_function :SnmpOidToStr, [:pointer, :ulong, :pointer], :uint
+      attach_function :SnmpOpen, [:ulong, :uint], :uint
+      attach_function :SnmpRecvMsg, [:ulong, :pointer, :pointer, :pointer, :pointer], :uint
+      attach_function :SnmpRegister, [:ulong, :ulong, :ulong, :ulong, :pointer, :ulong], :uint
+      attach_function :SnmpSendMsg, [:ulong, :ulong, :ulong, :ulong, :ulong], :uint
+      attach_function :SnmpSetPort, [:ulong, :uint], :uint
+      attach_function :SnmpStartup, [:pointer, :pointer, :pointer, :pointer, :pointer], :uint
+      attach_function :SnmpStrToContext, [:ulong, :pointer], :uint
+      attach_function :SnmpStrToEntity, [:ulong, :string], :uint
+      attach_function :SnmpStrToOid, [:string, :pointer], :uint
 
       # Windows 2003 Server or later and/or WinSNMP 2.0 or later
       begin
-        API.new('SnmpCreateSession', 'LLKP', 'L', 'wsnmp32')
-        API.new('SnmpCleanupEx', 'V', 'I', 'wsnmp32')
-        API.new('SnmpStartupEx', 'PPPPP', 'L', 'wsnmp32')
-      rescue Win32::API::LoadLibraryError
-        # Do nothing. It's up to you to check for their existence.
+        attach_function :SnmpCreateSession, [:ulong, :uint, :pointer, :pointer], :uint # callback
+        attach_function :SnmpCleanupEx, [], :uint
+        attach_function :SnmpStartupEx, [:pointer, :pointer, :pointer, :pointer, :pointer], :uint
+      rescue FFI::NotFoundError
+        # Do nothing. Its up to you to check for their existence.
       end
     end
   end
