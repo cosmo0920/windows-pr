@@ -1,16 +1,12 @@
-require 'windows/file'
+require 'ffi'
 
 module Windows
   module Registry
-    API.auto_namespace = 'Windows::Registry'
-    API.auto_constant  = true
-    API.auto_method    = true
-    API.auto_unicode   = true
+    extend FFI::Library
+    ffi_lib 'advapi32'
 
     private
-          
-    include Windows::File
-    
+
     HKEY_CLASSES_ROOT        = 0x80000000
     HKEY_CURRENT_USER        = 0x80000001
     HKEY_LOCAL_MACHINE       = 0x80000002
@@ -31,18 +27,18 @@ module Windows
     KEY_WOW64_64KEY         = 0x0100
     KEY_WOW64_RES           = 0x0300
 
-    KEY_READ = (STANDARD_RIGHTS_READ|KEY_QUERY_VALUE|KEY_ENUMERATE_SUB_KEYS|
-                KEY_NOTIFY) & (~SYNCHRONIZE)
+    #KEY_READ = (STANDARD_RIGHTS_READ|KEY_QUERY_VALUE|KEY_ENUMERATE_SUB_KEYS|
+    #            KEY_NOTIFY) & (~SYNCHRONIZE)
 
-    KEY_WRITE = (STANDARD_RIGHTS_WRITE|KEY_SET_VALUE|
-                KEY_CREATE_SUB_KEY) & (~SYNCHRONIZE)
+    #KEY_WRITE = (STANDARD_RIGHTS_WRITE|KEY_SET_VALUE|
+    #            KEY_CREATE_SUB_KEY) & (~SYNCHRONIZE)
 
-    KEY_EXECUTE = KEY_READ & (~SYNCHRONIZE)
+    #KEY_EXECUTE = KEY_READ & (~SYNCHRONIZE)
 
-    KEY_ALL_ACCESS = (STANDARD_RIGHTS_ALL|KEY_QUERY_VALUE|KEY_SET_VALUE|
-                KEY_CREATE_SUB_KEY|KEY_ENUMERATE_SUB_KEYS|KEY_NOTIFY|
-                KEY_CREATE_LINK) & (~SYNCHRONIZE)
-                
+    #KEY_ALL_ACCESS = (STANDARD_RIGHTS_ALL|KEY_QUERY_VALUE|KEY_SET_VALUE|
+    #            KEY_CREATE_SUB_KEY|KEY_ENUMERATE_SUB_KEYS|KEY_NOTIFY|
+    #            KEY_CREATE_LINK) & (~SYNCHRONIZE)
+
     REG_OPTION_RESERVED       = 0
     REG_OPTION_NON_VOLATILE   = 0
     REG_OPTION_VOLATILE       = 1
@@ -79,17 +75,17 @@ module Windows
 
     REG_NONE                       = 0
     REG_SZ                         = 1
-    REG_EXPAND_SZ                  = 2    
+    REG_EXPAND_SZ                  = 2
     REG_BINARY                     = 3
     REG_DWORD                      = 4
     REG_DWORD_LITTLE_ENDIAN        = 4
     REG_DWORD_BIG_ENDIAN           = 5
     REG_LINK                       = 6
     REG_MULTI_SZ                   = 7
-    REG_RESOURCE_LIST              = 8 
+    REG_RESOURCE_LIST              = 8
     REG_FULL_RESOURCE_DESCRIPTOR   = 9
-    REG_RESOURCE_REQUIREMENTS_LIST = 10 
-    REG_QWORD                      = 11 
+    REG_RESOURCE_REQUIREMENTS_LIST = 10
+    REG_QWORD                      = 11
     REG_QWORD_LITTLE_ENDIAN        = 11
 
     # Registry Routine Flags
@@ -107,64 +103,104 @@ module Windows
     RRF_RT_DWORD         = (RRF_RT_REG_BINARY | RRF_RT_REG_DWORD)
     RRF_RT_QWORD         = (RRF_RT_REG_BINARY | RRF_RT_REG_QWORD)
 
-    API.new('RegCloseKey', 'L', 'L', 'advapi32')
-    API.new('RegConnectRegistry', 'PLP', 'L', 'advapi32')
-    API.new('RegCreateKey', 'LPP', 'L', 'advapi32')
-    API.new('RegCreateKeyEx', 'LPLPLLPPP', 'L', 'advapi32')
-    API.new('RegDeleteKey', 'LP', 'L', 'advapi32')
-    API.new('RegDeleteValue', 'LP', 'L', 'advapi32')
-    API.new('RegDisablePredefinedCache', 'V', 'L', 'advapi32')
-    API.new('RegEnumKey', 'LLPL', 'L', 'advapi32')
-    API.new('RegEnumKeyEx', 'LLPPPPPP', 'L', 'advapi32')
-    API.new('RegEnumValue', 'LLPPPPPP', 'L', 'advapi32')
-    API.new('RegFlushKey', 'L', 'L', 'advapi32')
-    API.new('RegGetKeySecurity','LLPP','L','advapi32')  
-    API.new('RegLoadKey', 'LPP', 'L', 'advapi32')
-    API.new('RegNotifyChangeKeyValue', 'LILLI', 'L', 'advapi32')
-    API.new('RegOpenCurrentUser', 'LP', 'L', 'advapi32')
-    API.new('RegOpenKey', 'LPP', 'L', 'advapi32')
-    API.new('RegOpenKeyEx', 'LPLLP', 'L', 'advapi32')
-    API.new('RegOpenUserClassesRoot', 'LLLP', 'L', 'advapi32')
-    API.new('RegOverridePredefKey', 'LL', 'L', 'advapi32')
-    API.new('RegQueryInfoKey', 'LPPPPPPPPPPP', 'L', 'advapi32')
-    API.new('RegQueryMultipleValues', 'LPLPP', 'L', 'advapi32')
-    API.new('RegQueryValueEx', 'LPPPPP', 'L', 'advapi32')
-    API.new('RegReplaceKey', 'LPPP', 'L', 'advapi32')
-    API.new('RegRestoreKey', 'LPL', 'L', 'advapi32')
-    API.new('RegSaveKey', 'LPP', 'L', 'advapi32')
-    API.new('RegSetKeySecurity','LLP','L','advapi32')
-    API.new('RegSetValueEx', 'LPLLPL', 'L', 'advapi32')
-    API.new('RegUnLoadKey', 'LP', 'L', 'advapi32')
+    attach_function :RegCloseKey, [:ulong], :long
+    attach_function :RegConnectRegistryA, [:string, :ulong, :pointer], :long
+    attach_function :RegConnectRegistryW, [:string, :ulong, :pointer], :long
+    attach_function :RegCreateKeyA, [:ulong, :string, :pointer], :long
+    attach_function :RegCreateKeyW, [:ulong, :string, :pointer], :long
+    attach_function :RegCreateKeyExA, [:ulong, :string, :ulong, :string, :ulong, :ulong, :pointer, :pointer, :pointer], :long
+    attach_function :RegCreateKeyExW, [:ulong, :string, :ulong, :string, :ulong, :ulong, :pointer, :pointer, :pointer], :long
+    attach_function :RegDeleteKeyA, [:ulong, :string], :long
+    attach_function :RegDeleteKeyW, [:ulong, :string], :long
+    attach_function :RegDeleteValueA, [:ulong, :string], :long
+    attach_function :RegDeleteValueW, [:ulong, :string], :long
+    attach_function :RegDisablePredefinedCache, [:void], :long
+    attach_function :RegEnumKeyA, [:ulong, :ulong, :pointer, :ulong], :long
+    attach_function :RegEnumKeyW, [:ulong, :ulong, :pointer, :ulong], :long
+    attach_function :RegEnumKeyExA, [:ulong, :ulong, :string, :pointer, :pointer, :pointer, :pointer, :pointer], :long
+    attach_function :RegEnumKeyExW, [:ulong, :ulong, :string, :pointer, :pointer, :pointer, :pointer, :pointer], :long
+    attach_function :RegEnumValueA, [:ulong, :ulong, :string, :pointer, :pointer, :pointer, :pointer, :pointer], :long
+    attach_function :RegEnumValueW, [:ulong, :ulong, :string, :pointer, :pointer, :pointer, :pointer, :pointer], :long
+    attach_function :RegFlushKey, [:ulong], :long
+    attach_function :RegGetKeySecurity, [:ulong, :ulong, :pointer, :pointer], :long
+    attach_function :RegLoadKeyA, [:ulong, :string], :string, :long
+    attach_function :RegLoadKeyW, [:ulong, :string], :string, :long
+    attach_function :RegNotifyChangeKeyValue, [:ulong, :bool, :ulong, :ulong, :bool], :long
+    attach_function :RegOpenCurrentUser, [:ulong, :pointer], :long
+    attach_function :RegOpenKeyA, [:ulong, :string, :pointer], :long
+    attach_function :RegOpenKeyW, [:ulong, :string, :pointer], :long
+    attach_function :RegOpenKeyExA, [:ulong, :string, :ulong, :ulong, :pointer], :long
+    attach_function :RegOpenKeyExW, [:ulong, :string, :ulong, :ulong, :pointer], :long
+    attach_function :RegOpenUserClassesRoot, [:ulong, :ulong, :ulong, :pointer], :long
+    attach_function :RegOverridePredefKey, [:ulong, :ulong], :long
+    attach_function :RegQueryInfoKeyA, [:ulong, :pointer, :pointer, :pointer, :pointer, :pointer, :pointer, :pointer, :pointer, :pointer, :pointer, :pointer], :long
+    attach_function :RegQueryInfoKeyW, [:ulong, :pointer, :pointer, :pointer, :pointer, :pointer, :pointer, :pointer, :pointer, :pointer, :pointer, :pointer], :long
+    attach_function :RegQueryMultipleValuesA, [:ulong, :pointer, :ulong, :pointer, :pointer], :long
+    attach_function :RegQueryMultipleValuesW, [:ulong, :pointer, :ulong, :pointer, :pointer], :long
+    attach_function :RegQueryValueExA, [:ulong, :string, :pointer, :pointer, :pointer, :pointer], :long
+    attach_function :RegQueryValueExW, [:ulong, :string, :pointer, :pointer, :pointer, :pointer], :long
+    attach_function :RegReplaceKeyA, [:ulong, :string, :string, :string], :long
+    attach_function :RegReplaceKeyW, [:ulong, :string, :string, :string], :long
+    attach_function :RegRestoreKeyA, [:ulong, :string, :ulong], :long
+    attach_function :RegRestoreKeyW, [:ulong, :string, :ulong], :long
+    attach_function :RegSaveKeyA, [:ulong, :string, :pointer], :long
+    attach_function :RegSaveKeyW, [:ulong, :string, :pointer], :long
+    attach_function :RegSetKeySecurity, [:ulong, :ulong, :pointer], :long
+    attach_function :RegSetValueExA, [:ulong, :string, :ulong, :ulong, :pointer, :ulong], :long
+    attach_function :RegSetValueExW, [:ulong, :string, :ulong, :ulong, :pointer, :ulong], :long
+    attach_function :RegUnLoadKeyA, [:ulong, :string], :long
+    attach_function :RegUnLoadKeyW, [:ulong, :string], :long
 
     begin
-      API.new('RegGetValue', 'LPPLPPP', 'L', 'advapi32')
-    rescue Win32::API::LoadLibraryError
+      attach_function :RegGetValueA, [:ulong, :string, :string, :ulong, :pointer, :pointer, :pointer], :long
+      attach_function :RegGetValueW, [:ulong, :string, :string, :ulong, :pointer, :pointer, :pointer], :long
+    rescue FFI::NotFoundError
       # Windows XP 64 or later
     end
-    
+
     begin
-      API.new('RegSaveKeyEx', 'LPPL', 'L', 'advapi32')
-    rescue Win32::API::LoadLibraryError
+      attach_function :RegSaveKeyExA, [:ulong, :string, :pointer, :ulong], :long
+      attach_function :RegSaveKeyExW, [:ulong, :string, :pointer, :ulong], :long
+    rescue FFI::NotFoundError
       # Windows XP or later
     end
 
     begin
-      API.new('GetSystemRegistryQuota','LPLL','L')
-      API.new('RegDeleteKeyEx','LPLL','L','advapi32')  
-      API.new('RegDisableReflectionKey', 'L', 'L', 'advapi32')  
-      API.new('RegEnableReflectionKey', 'L', 'L', 'advapi32')  
-      API.new('RegQueryReflectionKey','LB','L','advapi32')
-      API.new('RegCopyTree','LPL','L','advapi32')  
-      API.new('RegCreateKeyTransacted','LPLPLLPPPLP','L','advapi32')  
-      API.new('RegDeleteKeyValue','LP','L','advapi32')  
-      API.new('RegDeleteTree','LP','L','advapi32')  
-      API.new('RegDeleteKeyTransacted','LPLLLP','L','advapi32')  
-      API.new('RegDisablePredefinedCacheEx', 'V', 'L', 'advapi32')  
-      API.new('RegLoadAppKey','PPLLL','L','advapi32')  
-      API.new('RegLoadMUIString', 'LPPLPLP', 'L', 'advapi32')  
-      API.new('RegOpenKeyTransacted','LPLLPLP','L','advapi32')  
-      API.new('RegSetKeyValue','LPPLPL','L','advapi32') 
-    rescue Win32::API::LoadLibraryError
+      attach_function :RegDeleteKeyExA, [:ulong, :string, :ulong, :ulong], :long
+      attach_function :RegDeleteKeyExW, [:ulong, :string, :ulong, :ulong], :long
+      attach_function :RegDisableReflectionKey, [:ulong], :long
+      attach_function :RegEnableReflectionKey, [:ulong], :long
+      attach_function :RegQueryReflectionKey, [:ulong, :bool], :long
+      attach_function :RegCopyTreeA, [:ulong, :string, :ulong], :long
+      attach_function :RegCopyTreeW, [:ulong, :string, :ulong], :long
+
+      attach_function :RegCreateKeyTransactedA, [:ulong, :string, :ulong, :string, :ulong, :ulong, :pointer, :pointer, :pointer, :ulong, :pointer], :long
+      attach_function :RegCreateKeyTransactedW, [:ulong, :string, :ulong, :string, :ulong, :ulong, :pointer, :pointer, :pointer, :ulong, :pointer], :long
+
+      attach_function :RegDeleteKeyValueA, [:ulong, :string, :string], :long
+      attach_function :RegDeleteKeyValueW, [:ulong, :string, :string], :long
+      attach_function :RegDeleteTreeA, [:ulong, :string], :long
+      attach_function :RegDeleteTreeW, [:ulong, :string], :long
+      attach_function :RegDeleteKeyTransactedA, [:ulong, :string, :ulong, :ulong, :ulong, :pointer], :long
+      attach_function :RegDeleteKeyTransactedW, [:ulong, :string, :ulong, :ulong, :ulong, :pointer], :long
+      attach_function :RegDisablePredefinedCacheEx, [], :long
+      attach_function :RegLoadAppKeyA, [:string, :pointer, :ulong, :ulong, :ulong], :long
+      attach_function :RegLoadAppKeyW, [:string, :pointer, :ulong, :ulong, :ulong], :long
+      attach_function :RegLoadMUIStringA, [:ulong, :string, :string, :ulong, :pointer, :ulong, :string], :long
+      attach_function :RegLoadMUIStringW, [:ulong, :string, :string, :ulong, :pointer, :ulong, :string], :long
+      attach_function :RegOpenKeyTransactedA, [:ulong, :string, :ulong, :ulong, :pointer, :ulong, :pointer], :long
+      attach_function :RegOpenKeyTransactedW, [:ulong, :string, :ulong, :ulong, :pointer, :ulong, :pointer], :long
+      attach_function :RegSetKeyValueA, [:ulong, :string, :string, :ulong, :pointer, :ulong], :long
+      attach_function :RegSetKeyValueW, [:ulong, :string, :string, :ulong, :pointer, :ulong], :long
+    rescue FFI::NotFoundError
+      # Windows Vista or later
+    end
+
+    ffi_lib :kernel32
+
+    begin
+      attach_function :GetSystemRegistryQuota, [:pointer, :pointer], :bool
+    rescue FFI::NotFoundError
       # Windows Vista or later
     end
   end
