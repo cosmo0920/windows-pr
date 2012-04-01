@@ -1,11 +1,9 @@
-require 'windows/api'
+require 'ffi'
 
 module Windows
   module Socket
-    API.auto_namespace = 'Windows::Socket'
-    API.auto_constant  = true
-    API.auto_method    = true
-    API.auto_unicode   = true
+    extend FFI::Library
+    ffi_lib :mswsock
 
     private
 
@@ -14,7 +12,7 @@ module Windows
     IPPROTO_IP            = 0         # dummy for IP
     IPPROTO_ICMP          = 1         # control message protocol
     IPPROTO_IGMP          = 2         # group management protocol
-    IPPROTO_GGP           = 3         # gateway^2 (deprecated)
+    IPPROTO_GGP           = 3         # gateway^2 (deprecated
     IPPROTO_TCP           = 6         # tcp
     IPPROTO_PUP           = 12        # pup
     IPPROTO_UDP           = 17        # user datagram protocol
@@ -28,58 +26,66 @@ module Windows
     NSPROTO_SPXII = 1257
 
     # Functions
+    attach_function :AcceptEx, [:ulong, :ulong, :pointer, :ulong, :ulong, :ulong, :pointer, :pointer], :bool
+    attach_function :EnumProtocolsA, [:pointer, :pointer, :pointer], :int
+    attach_function :EnumProtocolsW, [:pointer, :pointer, :pointer], :int
+    attach_function :GetAcceptExSockaddrs, [:pointer, :ulong, :ulong, :ulong, :pointer, :pointer, :pointer, :pointer], :void
+    attach_function :GetAddressByNameA, [:ulong, :pointer, :pointer, :pointer, :ulong, :pointer, :pointer, :pointer, :pointer, :pointer], :int
+    attach_function :GetAddressByNameW, [:ulong, :pointer, :pointer, :pointer, :ulong, :pointer, :pointer, :pointer, :pointer, :pointer], :int
+    attach_function :GetNameByTypeA, [:pointer, :pointer, :ulong], :int
+    attach_function :GetNameByTypeW, [:pointer, :pointer, :ulong], :int
+    attach_function :GetServiceA, [:ulong, :pointer, :string, :ulong, :pointer, :pointer, :pointer], :int
+    attach_function :GetServiceW, [:ulong, :pointer, :string, :ulong, :pointer, :pointer, :pointer], :int
+    attach_function :GetTypeByNameA, [:string, :pointer], :int
+    attach_function :GetTypeByNameW, [:string, :pointer], :int
+    attach_function :SetServiceA, [:ulong, :ulong, :ulong, :pointer, :pointer, :pointer], :int
+    attach_function :SetServiceW, [:ulong, :ulong, :ulong, :pointer, :pointer, :pointer], :int
+    attach_function :TransmitFile, [:ulong, :ulong, :ulong, :ulong, :pointer, :pointer, :ulong], :bool
 
-    API.new('accept', 'LPP', 'L', 'ws2_32')
-    API.new('AcceptEx', 'LLPLLLPP', 'B', 'mswsock')
-    API.new('bind', 'LPI', 'I', 'ws2_32')
-    API.new('closesocket', 'L', 'I', 'ws2_32')
-    API.new('connect', 'LPI', 'I', 'ws2_32')
-    API.new('EnumProtocols', 'PPP', 'I', 'mswsock')
-    API.new('GetAcceptExSockaddrs', 'PLLLPPPP', 'V', 'mswsock')
-    API.new('GetAddressByName', 'LPPPLPPPPP', 'I', 'mswsock')
-    API.new('gethostbyaddr', 'SII', 'P', 'ws2_32')
-    API.new('gethostbyname', 'S', 'P', 'ws2_32')
-    API.new('gethostname', 'PI', 'I', 'ws2_32')
-    API.new('GetNameByType', 'PPL', 'I', 'mswsock')
-    API.new('getpeername', 'LPP', 'I', 'ws2_32')
-    API.new('getprotobyname', 'S', 'P', 'ws2_32')
-    API.new('getprotobynumber', 'I', 'P', 'ws2_32')
-    API.new('getservbyport', 'IS', 'P', 'ws2_32')
-    API.new('GetService', 'LPSLPPP', 'I', 'mswsock')
-    API.new('getsockname', 'LPP', 'I', 'ws2_32')
-    API.new('getsockopt', 'LIIPP', 'I', 'ws2_32')
-    API.new('GetTypeByName', 'LIIPP', 'I', 'mswsock')
-    API.new('htonl', 'L', 'L', 'ws2_32')
-    API.new('htons', 'S', 'S', 'ws2_32')
-    API.new('inet_addr', 'S', 'L', 'ws2_32')
-    API.new('inet_ntoa', 'P', 'S', 'ws2_32')
-    API.new('ioctlsocket', 'LLP', 'I', 'ws2_32')
-    API.new('listen', 'LI', 'I', 'ws2_32')
-    API.new('ntohl', 'L', 'L', 'ws2_32')
-    API.new('ntohs', 'S', 'S', 'ws2_32')
-    API.new('recv', 'LPII', 'I', 'ws2_32')
-    API.new('recvfrom', 'LPIIPP', 'I', 'ws2_32')
-    API.new('send', 'LSII', 'I', 'ws2_32')
-    API.new('sendto', 'LSIIPI', 'I', 'ws2_32')
-    API.new('SetService', 'LLLPPP', 'I', 'mswsock')
-    API.new('setsockopt', 'LIISI', 'I', 'ws2_32')
-    API.new('shutdown', 'LI', 'I', 'ws2_32')
-    API.new('socket', 'III', 'L', 'ws2_32')
-    API.new('TransmitFile', 'LLLLPPL', 'B', 'mswsock')
+    ffi_lib :ws2_32
+
+    attach_function :accept, [:ulong, :pointer, :pointer], :ulong
+    attach_function :bind, [:ulong, :pointer, :int], :int
+    attach_function :closesocket, [:ulong], :int
+    attach_function :connect, [:ulong, :pointer, :int], :int
+    attach_function :gethostbyaddr, [:string, :int, :int], :pointer
+    attach_function :gethostbyname, [:string], :pointer
+    attach_function :gethostname, [:pointer, :int], :int
+    attach_function :getpeername, [:ulong, :pointer, :pointer], :int
+    attach_function :getprotobyname, [:string], :pointer
+    attach_function :getprotobynumber, [:int], :pointer
+    attach_function :getservbyport, [:int, :string], :pointer
+    attach_function :getsockname, [:ulong, :pointer, :pointer], :int
+    attach_function :getsockopt, [:ulong, :int, :int, :pointer, :pointer], :int
+    attach_function :htonl, [:ulong], :ulong
+    attach_function :htons, [:ushort], :ushort
+    attach_function :inet_addr, [:string], :ulong
+    attach_function :inet_ntoa, [:pointer], :string
+    attach_function :ioctlsocket, [:ulong, :ulong, :pointer], :int
+    attach_function :listen, [:ulong, :int], :int
+    attach_function :ntohl, [:ulong], :ulong
+    attach_function :ntohs, [:ushort], :ushort
+    attach_function :recv, [:ulong, :pointer, :int, :int], :int
+    attach_function :recvfrom, [:ulong, :pointer, :int, :int, :pointer, :pointer], :int
+    attach_function :send, [:ulong, :string, :int, :int], :int
+    attach_function :sendto, [:ulong, :string, :int, :int, :pointer, :int], :int
+    attach_function :setsockopt, [:ulong, :int, :int, :string, :int], :int
+    attach_function :shutdown, [:ulong, :int], :int
+    attach_function :socket, [:int, :int, :int], :ulong
 
     begin
-      API.new('freeaddrinfo', 'P', 'V', 'ws2_32')
-      API.new('FreeAddrInfoEx', 'P', 'V', 'ws2_32')
-      API.new('FreeAddrInfoW', 'P', 'V', 'ws2_32')
-      API.new('getaddrinfo', 'PPPP', 'I', 'ws2_32')
-      API.new('GetAddrInfoEx', 'PPLPPPPPPP', 'I', 'ws2_32')
-      API.new('GetAddrInfoW', 'PPPP', 'I', 'ws2_32')
-      API.new('getnameinfo', 'PLPLPLI', 'I', 'ws2_32')
-      API.new('GetNameInfoW', 'PLPLPLI', 'I', 'ws2_32')
-      API.new('InetNtop', 'IPPL', 'P', 'ws2_32')
-      API.new('inet_pton', 'IPP', 'I', 'ws2_32')
-      API.new('SetAddrInfoEx', 'SSPLPLLPPPPP', 'I', 'ws2_32')
-    rescue Win32::API::LoadLibraryError
+      attach_function :freeaddrinfo, [:pointer], :void
+      attach_function :FreeAddrInfoEx, [:pointer], :void
+      attach_function :FreeAddrInfoW, [:pointer], :void
+      attach_function :getaddrinfo, [:pointer, :pointer, :pointer, :pointer], :int
+      attach_function :GetAddrInfoEx, [:pointer, :pointer, :ulong, :pointer, :pointer, :pointer, :pointer, :pointer, :pointer, :pointer], :int
+      attach_function :GetAddrInfoW, [:pointer, :pointer, :pointer, :pointer], :int
+      attach_function :getnameinfo, [:pointer, :ulong, :pointer, :ulong, :pointer, :ulong, :int], :int
+      attach_function :GetNameInfoW, [:pointer, :ulong, :pointer, :ulong, :pointer, :ulong, :int], :int
+      attach_function :InetNtop, [:int, :pointer, :pointer, :size_t], :pointer
+      attach_function :inet_pton, [:int, :pointer, :pointer], :int
+      attach_function :SetAddrInfoEx, [:string, :string, :pointer, :ulong, :pointer, :ulong, :ulong, :pointer, :pointer, :pointer, :pointer, :pointer], :int
+    rescue FFI::NotFoundError
       # XP or later
     end
   end
