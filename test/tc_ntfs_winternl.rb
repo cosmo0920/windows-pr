@@ -5,11 +5,13 @@
 #####################################################################
 require 'windows/handle'
 require 'windows/ntfs/winternl'
+require 'windows/error'
 require 'test/unit'
 
 class TC_Windows_NTFS_Winternl < Test::Unit::TestCase
   include Windows::Handle
   include Windows::NTFS::Winternl
+  include Windows::Error
 
   def setup
     @name = "winternl_test.txt"
@@ -35,7 +37,7 @@ class TC_Windows_NTFS_Winternl < Test::Unit::TestCase
 
     assert_nothing_raised{ res = GetFinalPathNameByHandle(hdl, buf, buf.size, 2) }
     assert_kind_of(Fixnum, res)
-    assert_equal(@name, File.basename(buf))
+    assert_equal(@name, File.basename(buf.strip))
   end
 
   def teardown
