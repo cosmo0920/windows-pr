@@ -414,6 +414,14 @@ module Windows
     WSA_QOS_RECEIVERS       = 11005
     WSA_QOS_SENDERS         = 11006
 
+    # Token related
+
+    ERROR_NO_TOKEN                       = 1008
+    ERROR_NO_IMPERSONATION_TOKEN         = 1309
+    ERROR_BAD_TOKEN_TYPE                 = 1349
+    ERROR_TOKEN_ALREADY_IN_USE           = 1375
+    ERROR_SXS_INCORRECT_PUBLIC_KEY_TOKEN = 14095
+
     API.new('GetLastError', 'V', 'L')
     API.new('SetLastError', 'L', 'V')
     API.new('SetErrorMode', 'I', 'I')
