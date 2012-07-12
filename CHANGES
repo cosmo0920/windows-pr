@@ -5,6 +5,7 @@
   Pok Lau and John Keiser.
 * Fixed the multi_to_wide documentation. Thanks go to Dan Rathbun for the spot.
 * Fixed the MEM_4MB_PAGES constant in the Windows::Memory module.
+* Added some token related error constants to the Windows::Error module.
 
 = 1.2.1 - 25-Aug-2011
 * The strcpy, mbscpy and wsccpy functions in the Windows::MSVCRT::String
