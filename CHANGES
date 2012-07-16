@@ -1,3 +1,6 @@
+= 1.2.3 - ???
+* Added the Windows::Security::SSPI module and an initial set of constants.
+ 
 = 1.2.2 - 12-Jul-2012
 * Changed some of the function prototypes in the Windows::Process module to
   use 'S' instead of 'P' when dealing with const* strings. This fixes potential
