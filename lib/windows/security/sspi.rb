@@ -52,7 +52,7 @@ module Windows
       API.new('EnumerateSecurityPackages', 'PP', 'L', 'secur32')
       API.new('ExportSecurityContext', 'PLPP', 'L', 'secur32')
       API.new('FreeContextBuffer', 'P', 'L', 'secur32')
-      API.new('FreeCredentialsHandle', 'L', 'L', 'secur32')
+      API.new('FreeCredentialsHandle', 'P', 'L', 'secur32')
       API.new('ImpersonateSecurityContext', 'L', 'L', 'secur32')
       API.new('ImportSecurityContext', 'PPLP', 'L', 'secur32')
       API.new('InitializeSecurityContext', 'LPPLLLPLPPPP', 'L', 'secur32')
