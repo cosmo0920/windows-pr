@@ -61,6 +61,9 @@ module Windows
       SEC_E_SECPKG_NOT_FOUND = 0x80090305
       SEC_E_UNKNOWN_CREDENTIALS = 0x8009030D
 
+      SEC_WINNT_AUTH_IDENTITY_ANSI    = 0x1
+      SEC_WINNT_AUTH_IDENTITY_UNICODE = 0x2
+
       API.new('AcceptSecurityContext', 'LPPLLPPPP', 'L', 'secur32')
       API.new('AcquireCredentialsHandle', 'PPLPPPPPP', 'L', 'secur32')
       API.new('ApplyControlToken', 'PP', 'L', 'secur32')
