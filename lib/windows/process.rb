@@ -175,12 +175,12 @@ module Windows
 
         # The IsWow64Process function will return false for a 64 bit process,
         # so we check using both the address size and IsWow64Process.
-        if FFI::Platform::ADDRESS_SIZE != 64
+        if FFI::Platform::ADDRESS_SIZE == 64
+          bool = true
+        else
           if IsWow64Process(GetCurrentProcess(), pbool)
             bool = true if pbool.read_int == 1
           end
-        else
-          bool = true
         end
       end
 
