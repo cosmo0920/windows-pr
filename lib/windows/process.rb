@@ -176,6 +176,12 @@ module Windows
         if IsWow64Process(GetCurrentProcess(), pbool)
           bool = true if pbool.read_int == 1
         end
+
+        # The IsWow64Process function will return false for a 64 bit process,
+        # so double check it here.
+        if FFI::Platform::ADDRESS_SIZE == 64
+          bool = true
+        end
       end
 
       bool
