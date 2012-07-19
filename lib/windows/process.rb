@@ -173,13 +173,13 @@ module Windows
       if respond_to?(:IsWow64Process, true)
         pbool = FFI::MemoryPointer.new(:int)
 
-        if IsWow64Process(GetCurrentProcess(), pbool)
-          bool = true if pbool.read_int == 1
-        end
-
         # The IsWow64Process function will return false for a 64 bit process,
-        # so double check it here.
-        if FFI::Platform::ADDRESS_SIZE == 64
+        # so we check using both the address size and IsWow64Process.
+        if FFI::Platform::ADDRESS_SIZE != 64
+          if IsWow64Process(GetCurrentProcess(), pbool)
+            bool = true if pbool.read_int == 1
+          end
+        else
           bool = true
         end
       end
