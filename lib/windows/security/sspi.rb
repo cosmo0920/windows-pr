@@ -16,6 +16,40 @@ module Windows
       SECPKG_CRED_AUTOLOGON_RESTRICTED = 0x00000010
       SECPKG_CRED_PROCESS_POLICY_ONLY = 0x00000020
 
+      SECPKG_ATTR_SIZES                     = 0
+      SECPKG_ATTR_NAMES                     = 1
+      SECPKG_ATTR_LIFESPAN                  = 2
+      SECPKG_ATTR_DCE_INFO                  = 3
+      SECPKG_ATTR_STREAM_SIZES              = 4
+      SECPKG_ATTR_KEY_INFO                  = 5
+      SECPKG_ATTR_AUTHORITY                 = 6
+      SECPKG_ATTR_PROTO_INFO                = 7
+      SECPKG_ATTR_PASSWORD_EXPIRY           = 8
+      SECPKG_ATTR_SESSION_KEY               = 9
+      SECPKG_ATTR_PACKAGE_INFO              = 10
+      SECPKG_ATTR_USER_FLAGS                = 11
+      SECPKG_ATTR_NEGOTIATION_INFO          = 12
+      SECPKG_ATTR_NATIVE_NAMES              = 13
+      SECPKG_ATTR_FLAGS                     = 14
+      SECPKG_ATTR_USE_VALIDATED             = 15
+      SECPKG_ATTR_CREDENTIAL_NAME           = 16
+      SECPKG_ATTR_TARGET_INFORMATION        = 17
+      SECPKG_ATTR_ACCESS_TOKEN              = 18
+      SECPKG_ATTR_TARGET                    = 19
+      SECPKG_ATTR_AUTHENTICATION_ID         = 20
+      SECPKG_ATTR_LOGOFF_TIME               = 21
+      SECPKG_ATTR_NEGO_KEYS                 = 22
+      SECPKG_ATTR_PROMPTING_NEEDED          = 24
+      SECPKG_ATTR_UNIQUE_BINDINGS           = 25
+      SECPKG_ATTR_ENDPOINT_BINDINGS         = 26
+      SECPKG_ATTR_CLIENT_SPECIFIED_TARGET   = 27
+      SECPKG_ATTR_LAST_CLIENT_TOKEN_STATUS  = 30
+      SECPKG_ATTR_NEGO_PKG_INFO             = 31
+      SECPKG_ATTR_NEGO_STATUS               = 32
+      SECPKG_ATTR_CONTEXT_DELETED           = 33
+
+      SECPKG_ATTR_SUBJECT_SECURITY_ATTRIBUTES = 128
+
       SECURITY_NATIVE_DREP = 0x00000010
       SECURITY_NETWORK_DREP = 0x00000000
 
