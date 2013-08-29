@@ -123,7 +123,7 @@ module Windows
       version = GetVersion()
       major = LOBYTE(LOWORD(version))
       minor = HIBYTE(LOWORD(version))
-      eval("Float(#{major}.#{minor})")
+      "#{major}.#{minor}".to_f
     end
 
     # Custom methods that may come in handy
