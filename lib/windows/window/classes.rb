@@ -43,9 +43,9 @@ module Windows
       API.new('RegisterClassEx', 'P', 'L', 'user32')
       API.new('SetClassLong', 'LIL', 'L', 'user32')
       API.new('SetClassWord', 'LIL', 'L', 'user32')
-      API.new('SetWindowLong', 'LIL', 'L', 'user32')        
+      API.new('SetWindowLong', 'LIL', 'L', 'user32')
       API.new('UnregisterClass', 'PL', 'B', 'user32')
-       
+
       # In 32-bit Windows, these methods are aliases
       begin
         API.new('GetWindowLongPtr', 'LI', 'L', 'user32')
@@ -54,6 +54,6 @@ module Windows
         alias :GetWindowLongPtr :GetWindowLong
         alias :SetWindowLongPtr :SetWindowLong
       end
-   end
+    end
   end
 end
