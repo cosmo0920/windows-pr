@@ -1,7 +1,10 @@
 == Description
   A collection of Windows functions predefined for you via Win32::API.
   Hence the 'pr', for 'Pure Ruby'.
-   
+
+== Installation
+  gem install windows-pr
+
 == Synopsis
   require 'windows/path'
    
@@ -18,9 +21,6 @@
       ...
     end
   end
-   
-== Installation
-  gem install windows-pr
    
 == Methods
   Each of the various files included as part of this package provide a series
@@ -108,10 +108,11 @@
   add functions in my spare time, or (especially) by request.
    
 == Bugs
-  None that I'm aware of. Please report any bugs on the project page at
-  http://www.rubyforge.org/projects/win32utils.
+  None that I'm aware of. Please report any bugs on the project page at:
+
+  https://github.com/djberg96/windows-pr
    
-  The only real bugs you could find are either bad prototype declarations
+  The only real bugs you should find are either bad prototype declarations
   or bad constant values.  Sometimes I forget to wrap functions properly
   that may not be defined on older Windows platforms.  But, please report
   any of these issues on the project page should you stumble into them.
@@ -134,7 +135,7 @@
 
 == Future Plans
   I plan on converting this library to use FFI instead of win32-api. There
-  is already an ffi branch with most of that work done.
+  is already an ffi branch with some of that work done.
    
 == License
   Artistic 2.0
@@ -145,7 +146,7 @@
   warranties of merchantability and fitness for a particular purpose.
 
 == Copyright
-  (C) 2006-2012, Daniel J. Berger
+  (C) 2006-2014, Daniel J. Berger
   All Rights Reserved
    
 == Author(s)
