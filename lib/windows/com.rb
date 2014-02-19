@@ -172,7 +172,7 @@ module Windows
     API.new('OleGetAutoConvert', 'PP', 'L', 'ole32')
     API.new('OleGetIconOfClass', 'PPI', 'L', 'ole32')
     API.new('OleGetIconOfFile', 'PI', 'L', 'ole32')
-    API.new('OleIconToCursor', 'PL', 'L', 'olepro32')
+    API.new('OleIconToCursor', 'PL', 'L', 'oleaut32')
     API.new('OleInitialize', 'V', 'L', 'ole32')
     API.new('OleRegGetMiscStatus', 'PLP', 'L', 'ole32')
     API.new('OleRegGetUserType', 'PLP', 'L', 'ole32')
