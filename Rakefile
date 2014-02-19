@@ -8,7 +8,12 @@ namespace 'gem' do
   desc 'Build the windows-pr gem'
   task :create do
     spec = eval(IO.read('windows-pr.gemspec'))
-    Gem::Builder.new(spec).build
+    if Gem::VERSION < "2.0"
+      Gem::Builder.new(spec).build
+    else
+      require 'rubygems/package'
+      Gem::Package.build(spec)
+    end
   end
 
   desc 'Install the windows-pr gem'
