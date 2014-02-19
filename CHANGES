@@ -2,6 +2,7 @@
 * Updated the get_last_error method to better handle encoding issues. Thanks
   go to dalang for the spot.
 * Added the Windows::Security::SSPI module and an initial set of constants.
+* Updated library for OleIconToCursor function in the Windows::COM module.
  
 = 1.2.2 - 12-Jul-2012
 * Changed some of the function prototypes in the Windows::Process module to
