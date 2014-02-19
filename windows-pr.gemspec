@@ -6,8 +6,7 @@ Gem::Specification.new do |spec|
   spec.license    = 'Artistic 2.0'
   spec.authors    = ['Daniel J. Berger', 'Park Heesob']
   spec.email      = 'djberg96@gmail.com'
-  spec.homepage   = 'http://www.rubyforge.org/projects/win32utils'
-  spec.platform   = Gem::Platform::RUBY
+  spec.homepage   = 'https://github.com/djberg96/windows-pr'
   spec.summary    = 'Windows functions and constants bundled via Win32::API'
   spec.test_files = Dir["test/tc*"]
   spec.files      = Dir["**/*"].reject{ |f| f.include?('git') }
@@ -21,7 +20,7 @@ Gem::Specification.new do |spec|
     'doc/conversion_guide.txt'
   ]
 
-  spec.add_dependency('windows-api', '>= 0.3.0')
+  spec.add_dependency('windows-api', '>= 0.4.0')
   spec.add_dependency('win32-api', '>= 1.4.5')
 
   spec.description = <<-EOF
