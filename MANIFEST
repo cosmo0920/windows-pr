@@ -57,6 +57,9 @@
 
 * lib/windows/ntfs/winternl.rb
 
+* lib/windows/security/authentication.rb
+* lib/windows/security/sspi.rb
+
 * lib/windows/window/classes.rb
 * lib/windows/window/dialog.rb
 * lib/windows/window/menu.rb
