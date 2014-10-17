@@ -2,7 +2,7 @@ require 'rubygems'
 
 Gem::Specification.new do |spec|
   spec.name       = 'windows-pr'
-  spec.version    = '1.2.3'
+  spec.version    = '1.2.4'
   spec.license    = 'Artistic 2.0'
   spec.authors    = ['Daniel J. Berger', 'Park Heesob']
   spec.email      = 'djberg96@gmail.com'
@@ -10,8 +10,6 @@ Gem::Specification.new do |spec|
   spec.summary    = 'Windows functions and constants bundled via Win32::API'
   spec.test_files = Dir["test/tc*"]
   spec.files      = Dir["**/*"].reject{ |f| f.include?('git') }
-
-  spec.rubyforge_project = 'win32utils'
 
   spec.extra_rdoc_files = [
     'MANIFEST',
