@@ -33,7 +33,7 @@ class TC_Windows_MSVCRT_Directory < Test::Unit::TestCase
     assert_not_nil(Searchenv)
     assert_not_nil(Wsearchenv)
   end
-   
+
   def test_chdir
     assert_nothing_raised{ chdir('..') }
     assert_equal(File.dirname(@pwd), Dir.pwd)
@@ -66,14 +66,14 @@ class TC_Windows_MSVCRT_Directory < Test::Unit::TestCase
   def test_mkdir
     assert(self.respond_to?(:mkdir, true))
     assert_nothing_raised{ mkdir(@dir) }
-    assert_equal(true, File.exists?(@dir))
+    assert_equal(true, File.exist?(@dir))
   end
 
   def test_rmdir
-    Dir.mkdir(@dir) unless File.exists?(@dir)
+    Dir.mkdir(@dir) unless File.exist?(@dir)
     assert(self.respond_to?(:rmdir, true))
     assert_nothing_raised{ rmdir(@dir) }
-    assert_equal(false, File.exists?(@dir))
+    assert_equal(false, File.exist?(@dir))
   end
 
   def test_searchenv
@@ -88,7 +88,7 @@ class TC_Windows_MSVCRT_Directory < Test::Unit::TestCase
   end
 
   def teardown
-    FileUtils.rm_f(@dir) if File.exists?(@dir)
+    FileUtils.rm_f(@dir) if File.exist?(@dir)
     @pwd = nil
     @dir = nil
     @buf = 0

@@ -42,7 +42,7 @@ class TC_Windows_NTFS_Winternl < Test::Unit::TestCase
 
   def teardown
     @handle.close if @handle
-    File.delete(@name) if File.exists?(@name)
+    File.delete(@name) if File.exist?(@name)
     @name = nil
   end
 end
