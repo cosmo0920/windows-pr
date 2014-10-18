@@ -26,7 +26,7 @@ end
 namespace 'test' do
   Rake::TestTask.new('all') do |t|
     t.warning = true
-    t.test_files = FileList['test/tc*']
+    t.test_files = FileList['test/helper.rb', 'test/tc*']
   end
 
   # Dynamically generate individual test tasks.
