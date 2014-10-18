@@ -4,14 +4,13 @@
 # Test case for the Windows::Handle module.
 #####################################################################
 require 'windows/handle'
-require 'test/unit'
+require 'minitest/autorun'
 
 class HandleFoo
-   include Windows::Handle
+  include Windows::Handle
 end
 
-class TC_Windows_Handle < Test::Unit::TestCase
-  
+class TC_Windows_Handle < MiniTest::Unit::TestCase
    def setup
       @foo = HandleFoo.new
    end
@@ -21,7 +20,7 @@ class TC_Windows_Handle < Test::Unit::TestCase
       assert_equal(0x00000001, HandleFoo::HANDLE_FLAG_INHERIT)
       assert_equal(0x00000002, HandleFoo::HANDLE_FLAG_PROTECT_FROM_CLOSE)
    end
-   
+
    def test_method_constants
       assert_not_nil(HandleFoo::CloseHandle)
       assert_not_nil(HandleFoo::DuplicateHandle)
@@ -29,7 +28,7 @@ class TC_Windows_Handle < Test::Unit::TestCase
       assert_not_nil(HandleFoo::Get_osfhandle)
       assert_not_nil(HandleFoo::Open_osfhandle)
    end
-   
+
    def teardown
       @foo = nil
    end

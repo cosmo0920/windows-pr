@@ -4,13 +4,13 @@
 # Test case for the Windows::Registry module.
 #####################################################################
 require 'windows/registry'
-require 'test/unit'
+require 'minitest/autorun'
 
 class RegistryFoo
    include Windows::Registry
 end
 
-class TC_Windows_Registry < Test::Unit::TestCase
+class TC_Windows_Registry < MiniTest::Unit::TestCase
    def setup
       @foo  = RegistryFoo.new
    end

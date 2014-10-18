@@ -4,17 +4,27 @@
 # Test case for the Windows::Socket module.
 #####################################################################
 require 'windows/socket'
-require 'test/unit'
+require 'minitest/autorun'
 
-class TC_Windows_Socket < Test::Unit::TestCase
+class SocketFoo
   include Windows::Socket
+end
+
+class TC_Windows_Socket < MiniTest::Unit::TestCase
+  def setup
+    @socket = SocketFoo.new
+  end
 
   def test_methods
-    assert_respond_to(self, :accept)
-    assert_respond_to(self, :AcceptEx)
+    assert_respond_to(@socket, :accept)
+    assert_respond_to(@socket, :AcceptEx)
   end
 
   def test_constants
-    assert_equal(0, IPPROTO_IP)
+    assert_equal(0, SocketFoo::IPPROTO_IP)
+  end
+
+  def teardown
+    @socket = nil
   end
 end

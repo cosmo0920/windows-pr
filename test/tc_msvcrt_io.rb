@@ -4,13 +4,13 @@
 # Test case for the Windows::MSVCRT::IO module.
 #####################################################################
 require 'windows/msvcrt/io'
-require 'test/unit'
+require 'minitest/autorun'
 
 class MIOFoo
    include Windows::MSVCRT::IO
 end
 
-class TC_Windows_MSVCRT_IO < Test::Unit::TestCase
+class TC_Windows_MSVCRT_IO < MiniTest::Unit::TestCase
    def setup
       @foo = MIOFoo.new
    end
@@ -18,14 +18,14 @@ class TC_Windows_MSVCRT_IO < Test::Unit::TestCase
    def test_numeric_constants
       assert_not_nil(MIOFoo::S_IFMT)
    end
-   
+
    def test_method_constants
       assert_not_nil(MIOFoo::Clearerr)
       assert_not_nil(MIOFoo::Close)
       assert_not_nil(MIOFoo::Fclose)
       assert_not_nil(MIOFoo::Fileno)
    end
-   
+
    def test_clearerr
       assert_respond_to(@foo, :clearerr)
    end
@@ -41,7 +41,7 @@ class TC_Windows_MSVCRT_IO < Test::Unit::TestCase
    def test_fileno
       assert_respond_to(@foo, :fileno)
    end
-   
+
    def teardown
       @foo  = nil
    end

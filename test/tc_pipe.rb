@@ -4,18 +4,17 @@
 # Test case for the Windows::Pipe module.
 #####################################################################
 require 'windows/pipe'
-require 'test/unit'
+require 'minitest/autorun'
 
 class PipeFoo
    include Windows::Pipe
 end
 
-class TC_Windows_Pipe < Test::Unit::TestCase
-  
+class TC_Windows_Pipe < MiniTest::Unit::TestCase
    def setup
       @foo = PipeFoo.new
    end
-   
+
    def test_numeric_constants
       assert_equal(0x00000001, PipeFoo::NMPWAIT_NOWAIT)
       assert_equal(0xffffffff, PipeFoo::NMPWAIT_WAIT_FOREVER)
@@ -32,7 +31,7 @@ class TC_Windows_Pipe < Test::Unit::TestCase
       assert_equal(0x00000000, PipeFoo::PIPE_CLIENT_END)
       assert_equal(0x00000001, PipeFoo::PIPE_SERVER_END)
    end
-   
+
    def test_method_constants
       assert_not_nil(PipeFoo::CallNamedPipe)
       assert_not_nil(PipeFoo::ConnectNamedPipe)
@@ -46,7 +45,7 @@ class TC_Windows_Pipe < Test::Unit::TestCase
       assert_not_nil(PipeFoo::TransactNamedPipe)
       assert_not_nil(PipeFoo::WaitNamedPipe)
    end
-   
+
    def teardown
       @foo = nil
    end

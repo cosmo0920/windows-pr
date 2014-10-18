@@ -4,9 +4,9 @@
 # Test case for the Windows::COM::Automation module.
 #####################################################################
 require 'windows/com/automation'
-require 'test/unit'
+require 'minitest/autorun'
 
-class TC_Windows_COM_Automation < Test::Unit::TestCase
+class TC_Windows_COM_Automation < MiniTest::Unit::TestCase
    include Windows::COM::Automation
 
    def test_method_constants

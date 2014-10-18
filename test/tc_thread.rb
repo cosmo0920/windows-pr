@@ -4,13 +4,13 @@
 # Test case for the Windows::Thread module.
 #####################################################################
 require 'windows/thread'
-require 'test/unit'
+require 'minitest/autorun'
 
 class ThreadFoo
    include Windows::Thread
 end
 
-class TC_Windows_Thread < Test::Unit::TestCase
+class TC_Windows_Thread < MiniTest::Unit::TestCase
    def setup
       @foo  = ThreadFoo.new
    end

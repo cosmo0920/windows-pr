@@ -4,13 +4,13 @@
 # Test case for the Windows::ToolHelper module.
 #####################################################################
 require 'windows/tool_helper'
-require 'test/unit'
+require 'minitest/autorun'
 
 class ToolHelperFoo
    include Windows::ToolHelper
 end
 
-class TC_Windows_ToolHelper < Test::Unit::TestCase
+class TC_Windows_ToolHelper < MiniTest::Unit::TestCase
    def setup
       @foo  = ToolHelperFoo.new
    end

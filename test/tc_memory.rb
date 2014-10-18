@@ -4,13 +4,13 @@
 # Test case for the Windows::Memory module.
 #####################################################################
 require 'windows/memory'
-require 'test/unit'
+require 'minitest/autorun'
 
 class MemoryFoo
    include Windows::Memory
 end
 
-class TC_Windows_Memory < Test::Unit::TestCase
+class TC_Windows_Memory < MiniTest::Unit::TestCase
    def setup
       @foo  = MemoryFoo.new
       @path = "C:\\"

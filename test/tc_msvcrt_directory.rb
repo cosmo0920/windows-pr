@@ -5,9 +5,9 @@
 #####################################################################
 require 'windows/msvcrt/directory'
 require 'fileutils'
-require 'test/unit'
+require 'minitest/autorun'
 
-class TC_Windows_MSVCRT_Directory < Test::Unit::TestCase
+class TC_Windows_MSVCRT_Directory < MiniTest::Unit::TestCase
   include Windows::MSVCRT::Directory
 
   def setup

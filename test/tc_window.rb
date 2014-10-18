@@ -4,13 +4,13 @@
 # Test case for the Windows::Window module.
 #####################################################################
 require 'windows/window'
-require 'test/unit'
+require 'minitest/autorun'
 
 class WindowFoo
    include Windows::Window
 end
 
-class TC_Windows_Window < Test::Unit::TestCase
+class TC_Windows_Window < MiniTest::Unit::TestCase
    def setup
       @foo = WindowFoo.new
    end
@@ -32,13 +32,13 @@ class TC_Windows_Window < Test::Unit::TestCase
       assert_equal(11, WindowFoo::SW_FORCEMINIMIZE)
       assert_equal(11, WindowFoo::SW_MAX)
    end
-   
+
    def test_method_constants
       assert_not_nil(WindowFoo::GetClientRect)
       assert_not_nil(WindowFoo::GetForegroundWindow)
       assert_not_nil(WindowFoo::GetWindowRect)
    end
-   
+
    def teardown
       @foo = nil
    end

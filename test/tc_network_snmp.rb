@@ -4,13 +4,13 @@
 # Test case for the Windows::NetworkSNMP module.
 #####################################################################
 require 'windows/network/snmp'
-require 'test/unit'
+require 'minitest/autorun'
 
 class NetworkSNMPFoo
    include Windows::Network::SNMP
 end
 
-class TC_Windows_Network_SNMP < Test::Unit::TestCase
+class TC_Windows_Network_SNMP < MiniTest::Unit::TestCase
    def setup
       @foo = NetworkSNMPFoo.new
    end
@@ -19,12 +19,12 @@ class TC_Windows_Network_SNMP < Test::Unit::TestCase
       assert_equal(0, NetworkSNMPFoo::SNMPAPI_FAILURE)
       assert_equal(1, NetworkSNMPFoo::SNMPAPI_SUCCESS)
    end
-   
+
    def test_method_constants
       assert_not_nil(NetworkSNMPFoo::SnmpCleanup)
       assert_not_nil(NetworkSNMPFoo::SnmpClose)
    end
-   
+
    def teardown
       @foo = nil
    end

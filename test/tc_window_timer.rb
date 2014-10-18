@@ -4,13 +4,13 @@
 # Test case for the Windows::Window::Timer module.
 #####################################################################
 require 'windows/window/timer'
-require 'test/unit'
+require 'minitest/unit'
 
 class WindowTimerFoo
    include Windows::Window::Timer
 end
 
-class TC_Windows_Window_Timer < Test::Unit::TestCase
+class TC_Windows_Window_Timer < MiniTest::Unit::TestCase
    def setup
       @foo = WindowTimerFoo.new
    end
@@ -22,7 +22,7 @@ class TC_Windows_Window_Timer < Test::Unit::TestCase
    def test_method_mixin
       assert_respond_to(@foo, :KillTimer)
    end
-   
+
    def teardown
       @foo = nil
    end

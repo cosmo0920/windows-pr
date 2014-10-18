@@ -4,9 +4,9 @@
 # Test case for the Windows::Volume module.
 #####################################################################
 require 'windows/volume'
-require 'test/unit'
+require 'minitest/unit'
 
-class TC_Windows_Volume < Test::Unit::TestCase
+class TC_Windows_Volume < MiniTest::Unit::TestCase
   include Windows::Volume
 
   def test_constants

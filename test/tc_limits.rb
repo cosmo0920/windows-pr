@@ -4,14 +4,13 @@
 # Test case for the Windows::Limits module.
 #####################################################################
 require 'windows/limits'
-require 'test/unit'
+require 'minitest/autorun'
 
 class LimitsFoo
-   include Windows::Limits
+  include Windows::Limits
 end
 
-class TC_Windows_Limits < Test::Unit::TestCase
-  
+class TC_Windows_Limits < MiniTest::Unit::TestCase
    def setup
       @foo = LimitsFoo.new
    end
@@ -27,7 +26,7 @@ class TC_Windows_Limits < Test::Unit::TestCase
       assert_equal(0xffff, LimitsFoo::MAXWORD)
       assert_equal(0xffffffff, LimitsFoo::MAXDWORD)
    end
-   
+
    def teardown
       @foo = nil
    end

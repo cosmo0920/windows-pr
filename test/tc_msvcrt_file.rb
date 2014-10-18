@@ -4,13 +4,13 @@
 # Test case for the Windows::MSVCRT::File module.
 #####################################################################
 require 'windows/msvcrt/file'
-require 'test/unit'
+require 'minitest/autorun'
 
 class MFileFoo
    include Windows::MSVCRT::File
 end
 
-class TC_Windows_MSVCRT_File < Test::Unit::TestCase
+class TC_Windows_MSVCRT_File < MiniTest::Unit::TestCase
    def setup
       @foo = MFileFoo.new
    end
@@ -25,7 +25,7 @@ class TC_Windows_MSVCRT_File < Test::Unit::TestCase
       assert_not_nil(MFileFoo::S_IWRITE)
       assert_not_nil(MFileFoo::S_IEXEC)
    end
-   
+
    def test_method_constants
       assert_not_nil(MFileFoo::Chmod)
       assert_not_nil(MFileFoo::Chsize)
@@ -37,7 +37,7 @@ class TC_Windows_MSVCRT_File < Test::Unit::TestCase
       assert_not_nil(MFileFoo::Wstat)
       assert_not_nil(MFileFoo::Wstat64)
    end
-   
+
    def test_chmod
       assert_respond_to(@foo, :chmod)
    end
@@ -73,7 +73,7 @@ class TC_Windows_MSVCRT_File < Test::Unit::TestCase
    def test_wstat64
       assert_respond_to(@foo, :wstat64)
    end
-   
+
    def teardown
       @foo  = nil
    end

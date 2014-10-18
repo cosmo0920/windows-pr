@@ -5,9 +5,9 @@
 #####################################################################
 require 'rubygems'
 require 'windows/msvcrt/buffer'
-require 'test/unit'
+require 'minitest/autorun'
 
-class TC_Windows_MSVCRT_Buffer < Test::Unit::TestCase
+class TC_Windows_MSVCRT_Buffer < MiniTest::Unit::TestCase
   include Windows::MSVCRT::Buffer
 
   def test_method_constants

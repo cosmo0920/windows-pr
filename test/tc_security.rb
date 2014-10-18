@@ -4,13 +4,13 @@
 # Test case for the Windows::Security module.
 #####################################################################
 require "windows/security"
-require "test/unit"
+require "minitest/autorun"
 
 class SecurityFoo
    include Windows::Security
 end
 
-class TC_Windows_Security < Test::Unit::TestCase
+class TC_Windows_Security < MiniTest::Unit::TestCase
    def setup
       @foo = SecurityFoo.new
    end

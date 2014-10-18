@@ -4,13 +4,13 @@
 # Test case for the Windows::Sound module.
 #####################################################################
 require 'windows/sound'
-require 'test/unit'
+require 'minitest/autorun'
 
 class SoundFoo
    include Windows::Sound
 end
 
-class TC_Windows_Sound < Test::Unit::TestCase
+class TC_Windows_Sound < MiniTest::Unit::TestCase
    def setup
       @foo = SoundFoo.new
    end
@@ -23,14 +23,14 @@ class TC_Windows_Sound < Test::Unit::TestCase
       assert_equal(8, SoundFoo::SND_LOOP)
       assert_equal(16, SoundFoo::SND_NOSTOP)
    end
-   
+
    def test_method_constants
       assert_not_nil(SoundFoo::Beep)
       assert_not_nil(SoundFoo::PlaySound)
       assert_not_nil(SoundFoo::WaveOutSetVolume)
       assert_not_nil(SoundFoo::WaveOutGetVolume)
    end
-   
+
    def teardown
       @foo = nil
    end

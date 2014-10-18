@@ -4,9 +4,9 @@
 # Test case for the Windows::Mailslot module.
 #####################################################################
 require 'windows/mailslot'
-require 'test/unit'
+require 'minitest/autorun'
 
-class TC_Windows_Mailslot < Test::Unit::TestCase
+class TC_Windows_Mailslot < MiniTest::Unit::TestCase
    include Windows::Mailslot
 
    def test_constants

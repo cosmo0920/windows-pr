@@ -4,9 +4,9 @@
 # Test case for the Windows::WSA module.
 #####################################################################
 require 'windows/wsa'
-require 'test/unit'
+require 'minitest/autorun'
 
-class TC_Windows_WSA < Test::Unit::TestCase
+class TC_Windows_WSA < MiniTest::Unit::TestCase
   include Windows::WSA
 
   def test_methods

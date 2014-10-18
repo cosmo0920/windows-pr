@@ -4,13 +4,13 @@
 # Test case for the Windows::Directory module.
 #####################################################################
 require 'windows/directory'
-require 'test/unit'
+require 'minitest/autorun'
 
 class DirectoryFoo
    include Windows::Directory
 end
 
-class TC_Windows_Directory < Test::Unit::TestCase
+class TC_Windows_Directory < MiniTest::Unit::TestCase
    def setup
       @foo  = DirectoryFoo.new
    end

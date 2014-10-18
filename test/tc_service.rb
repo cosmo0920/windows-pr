@@ -4,13 +4,13 @@
 # Test case for the Windows::Service module.
 #####################################################################
 require 'windows/service'
-require 'test/unit'
+require 'minitest/autorun'
 
 class ServiceFoo
    include Windows::Service
 end
 
-class TC_Windows_Service < Test::Unit::TestCase
+class TC_Windows_Service < MiniTest::Unit::TestCase
    def setup
       @foo = ServiceFoo.new
    end
@@ -21,7 +21,7 @@ class TC_Windows_Service < Test::Unit::TestCase
       assert_equal(2, ServiceFoo::SC_ACTION_REBOOT)
       assert_equal(3, ServiceFoo::SC_ACTION_RUN_COMMAND)
    end
-   
+
    def test_method_constants
       assert_not_nil(ServiceFoo::ChangeServiceConfig)
       assert_not_nil(ServiceFoo::ChangeServiceConfig2)
@@ -50,7 +50,7 @@ class TC_Windows_Service < Test::Unit::TestCase
       assert_not_nil(ServiceFoo::StartServiceCtrlDispatcher)
       assert_not_nil(ServiceFoo::UnlockServiceDatabase)
    end
-   
+
    def teardown
       @foo = nil
    end

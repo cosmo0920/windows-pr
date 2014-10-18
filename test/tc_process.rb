@@ -4,9 +4,9 @@
 # Test case for the Windows::Process module.
 #####################################################################
 require 'windows/process'
-require 'test/unit'
+require 'minitest/autorun'
 
-class TC_Windows_Process < Test::Unit::TestCase
+class TC_Windows_Process < MiniTest::Unit::TestCase
   include Windows::Process
 
   def test_constants

@@ -4,9 +4,9 @@
 # Test case for the Windows::SystemInfo module.
 #####################################################################
 require 'windows/system_info'
-require 'test/unit'
+require 'minitest/autorun'
 
-class TC_Windows_SystemInfo < Test::Unit::TestCase
+class TC_Windows_SystemInfo < MiniTest::Unit::TestCase
   include Windows::SystemInfo
 
   def test_numeric_constants
@@ -16,7 +16,7 @@ class TC_Windows_SystemInfo < Test::Unit::TestCase
     assert_equal(2200, PROCESSOR_INTEL_IA64)
     assert_equal(8664, PROCESSOR_AMD_X8664)
   end
-   
+
   def test_method_constants
     assert_not_nil(ExpandEnvironmentStrings)
     assert_not_nil(GetComputerName)

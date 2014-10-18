@@ -4,13 +4,13 @@
 # Test case for the Windows::Library module.
 #####################################################################
 require 'windows/library'
-require 'test/unit'
+require 'minitest/autorun'
 
 class LibraryFoo
-   include Windows::Library
+  include Windows::Library
 end
 
-class TC_Windows_Library < Test::Unit::TestCase
+class TC_Windows_Library < MiniTest::Unit::TestCase
    def setup
       @LibraryFoo  = LibraryFoo.new
    end

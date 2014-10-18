@@ -4,9 +4,9 @@
 # Test case for the Windows::Console module.
 ######################################################################
 require 'windows/console'
-require 'test/unit'
+require 'minitest/autorun'
 
-class TC_Windows_Console < Test::Unit::TestCase
+class TC_Windows_Console < MiniTest::Unit::TestCase
    include Windows::Console
 
    def setup

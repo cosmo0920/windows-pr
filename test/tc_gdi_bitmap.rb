@@ -4,9 +4,9 @@
 # Test case for the Windows::GDI::Bitmap module.
 #####################################################################
 require 'windows/gdi/bitmap'
-require 'test/unit'
+require 'minitest/autorun'
 
-class TC_Windows_GDI_Bitmap < Test::Unit::TestCase
+class TC_Windows_GDI_Bitmap < MiniTest::Unit::TestCase
    include Windows::GDI::Bitmap
 
    def test_methods

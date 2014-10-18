@@ -4,9 +4,9 @@
 # Test case for the Windows::COM module.
 #####################################################################
 require "windows/com"
-require "test/unit"
+require "minitest/autorun"
 
-class TC_Windows_COM < Test::Unit::TestCase
+class TC_Windows_COM < MiniTest::Unit::TestCase
    include Windows::COM
 
    def test_method_constants

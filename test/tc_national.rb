@@ -4,13 +4,13 @@
 # Test case for the Windows::National module.
 #####################################################################
 require 'windows/national'
-require 'test/unit'
+require 'minitest/autorun'
 
 class NationalFoo
-   include Windows::National
+  include Windows::National
 end
 
-class TC_Windows_National < Test::Unit::TestCase
+class TC_Windows_National < MiniTest::Unit::TestCase
    def setup
       @foo = NationalFoo.new
    end
@@ -22,7 +22,7 @@ class TC_Windows_National < Test::Unit::TestCase
       assert_equal(1024, NationalFoo::LOCALE_USER_DEFAULT)
       assert_equal(8323072, NationalFoo::LOCALE_INVARIANT)
    end
-   
+
    def test_method_constants
       assert_not_nil(NationalFoo::GetACP)
       assert_not_nil(NationalFoo::GetDateFormat)
@@ -31,7 +31,7 @@ class TC_Windows_National < Test::Unit::TestCase
       assert_not_nil(NationalFoo::GetUserDefaultLangID)
       assert_not_nil(NationalFoo::GetUserDefaultLCID)
    end
-   
+
    def teardown
       @foo = nil
    end

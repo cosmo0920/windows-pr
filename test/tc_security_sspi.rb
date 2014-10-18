@@ -4,9 +4,9 @@
 # Test case for the Windows::Security::SSPI module.
 #####################################################################
 require 'windows/security/SSPI'
-require 'test/unit'
+require 'minitest/autorun'
 
-class TC_Windows_Security_SSPI < Test::Unit::TestCase
+class TC_Windows_Security_SSPI < MiniTest::Unit::TestCase
   include Windows::Security::SSPI
 
   def test_methods

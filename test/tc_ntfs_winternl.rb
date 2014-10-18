@@ -6,9 +6,9 @@
 require 'windows/handle'
 require 'windows/ntfs/winternl'
 require 'windows/error'
-require 'test/unit'
+require 'minitest/autorun'
 
-class TC_Windows_NTFS_Winternl < Test::Unit::TestCase
+class TC_Windows_NTFS_Winternl < MiniTest::Unit::TestCase
   include Windows::Handle
   include Windows::NTFS::Winternl
   include Windows::Error

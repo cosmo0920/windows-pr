@@ -4,13 +4,13 @@
 # Test case for the Windows::NIO module.
 #####################################################################
 require 'windows/nio'
-require 'test/unit'
+require 'minitest/autorun'
 
 class NIOFoo
    include Windows::NIO
 end
 
-class TC_Windows_NIO < Test::Unit::TestCase
+class TC_Windows_NIO < MiniTest::Unit::TestCase
    def setup
       @foo = NIOFoo.new
    end
@@ -20,12 +20,12 @@ class TC_Windows_NIO < Test::Unit::TestCase
       assert_equal(1, NIOFoo::OF_WRITE)
       assert_equal(2, NIOFoo::OF_READWRITE)
    end
-   
+
    def test_method_constants
       assert_not_nil(NIOFoo::CancelIo)
       assert_not_nil(NIOFoo::ReadFileScatter)
    end
-   
+
    def teardown
       @foo = nil
    end

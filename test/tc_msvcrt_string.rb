@@ -4,9 +4,9 @@
 # Test case for the Windows::MSVCRT::String module.
 #####################################################################
 require 'windows/msvcrt/string'
-require 'test/unit'
+require 'minitest/autorun'
 
-class TC_Windows_MSVCRT_String < Test::Unit::TestCase
+class TC_Windows_MSVCRT_String < MiniTest::Unit::TestCase
   include Windows::MSVCRT::String
 
   def setup

@@ -4,18 +4,18 @@
 # Test case for the Windows::Debug module.
 #####################################################################
 require "windows/debug"
-require "test/unit"
+require "minitest/autorun"
 
 class DebugFoo
    include Windows::Debug
 end
 
-class TC_Windows_Debug < Test::Unit::TestCase
+class TC_Windows_Debug < MiniTest::Unit::TestCase
    def setup
       @foo = DebugFoo.new
       @ver = `ver`.chomp
    end
-   
+
    def test_method_constants
       assert_not_nil(DebugFoo::ContinueDebugEvent)
       assert_not_nil(DebugFoo::DebugActiveProcess)

@@ -4,9 +4,9 @@
 # Test case for the Windows::Security::Authentication module.
 #####################################################################
 require 'windows/security/authentication'
-require 'test/unit'
+require 'minitest/autorun'
 
-class TC_Windows_Security_Authentication < Test::Unit::TestCase
+class TC_Windows_Security_Authentication < MiniTest::Unit::TestCase
 
    include Windows::Security::Authentication
 

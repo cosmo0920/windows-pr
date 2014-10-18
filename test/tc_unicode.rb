@@ -5,9 +5,9 @@
 # Test case for the Windows::Unicode module.
 #####################################################################
 require "windows/unicode"
-require "test/unit"
+require "minitest/autorun"
 
-class TC_Windows_Unicode < Test::Unit::TestCase
+class TC_Windows_Unicode < MiniTest::Unit::TestCase
   include Windows::Unicode
 
   def test_numeric_constants
@@ -51,17 +51,17 @@ class TC_Windows_Unicode < Test::Unit::TestCase
       multi_to_wide("Ελλάσ")
     )
   end
-   
+
   def test_multi_to_wide_with_encoding
     assert_equal("h\000e\000l\000l\000o\000\000\000", multi_to_wide('hello', CP_UTF8))
     assert_equal("\225\003\273\003\273\003\254\003\303\003\000\000", multi_to_wide("Ελλάσ", CP_UTF8))
   end
-   
+
   def test_multi_to_wide_expected_errors
     assert_raise(TypeError){ multi_to_wide(1) }
     assert_raise(TypeError){ multi_to_wide([]) }
   end
-   
+
   def test_wide_to_multi
     assert(self.respond_to?(:wide_to_multi, true))
     assert_equal('', wide_to_multi("\000\000"))
@@ -70,14 +70,14 @@ class TC_Windows_Unicode < Test::Unit::TestCase
       wide_to_multi("\316\000\" \316\000\273\000\316\000\273\000\316\000\254\000\317\000\222\001\000\000")
     )
   end
-   
+
   def test_wide_to_multi_with_encoding
     assert_equal('hello', wide_to_multi("h\000e\000l\000l\000o\000\000\000"), CP_UTF8)
     assert_equal("Ελλάσ", wide_to_multi("\225\003\273\003\273\003\254\003\303\003\000\000", CP_UTF8))
   end
-   
+
   def test_wide_to_multi_expected_errors
     assert_raise(TypeError){ wide_to_multi(1) }
-    assert_raise(TypeError){ wide_to_multi([]) }      
+    assert_raise(TypeError){ wide_to_multi([]) }
   end
 end

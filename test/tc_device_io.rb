@@ -4,13 +4,13 @@
 # Test case for the Windows::DeviceIO module.
 #####################################################################
 require 'windows/device_io'
-require 'test/unit'
+require 'minitest/autorun'
 
 class DeviceIOFoo
    include Windows::DeviceIO
 end
 
-class TC_Windows_DeviceIO < Test::Unit::TestCase
+class TC_Windows_DeviceIO < MiniTest::Unit::TestCase
    def setup
       @foo  = DeviceIOFoo.new
    end

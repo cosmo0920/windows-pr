@@ -4,13 +4,13 @@
 # Test case for the Windows::Window::Properties module.
 #####################################################################
 require 'windows/window/properties'
-require 'test/unit'
+require 'minitest/autorun'
 
 class WindowPropertiesFoo
    include Windows::Window::Properties
 end
 
-class TC_Windows_Window_Properties < Test::Unit::TestCase
+class TC_Windows_Window_Properties < MiniTest::Unit::TestCase
    def setup
       @foo = WindowPropertiesFoo.new
    end
@@ -22,7 +22,7 @@ class TC_Windows_Window_Properties < Test::Unit::TestCase
    def test_method_mixin
       assert_respond_to(@foo, :EnumProps)
    end
-   
+
    def teardown
       @foo = nil
    end

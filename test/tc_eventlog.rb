@@ -4,17 +4,17 @@
 # Test case for the Windows::EventLog module.
 #####################################################################
 require 'windows/eventlog'
-require 'test/unit'
+require 'minitest/autorun'
 
 class EventLogFoo
    include Windows::EventLog
 end
 
-class TC_Windows_EventLog < Test::Unit::TestCase
+class TC_Windows_EventLog < MiniTest::Unit::TestCase
    def setup
       @foo = EventLogFoo.new
    end
-   
+
    def test_numeric_constants
       assert_equal(1, EventLogFoo::EVENTLOG_SEQUENTIAL_READ)
       assert_equal(2, EventLogFoo::EVENTLOG_SEEK_READ)
@@ -28,7 +28,7 @@ class TC_Windows_EventLog < Test::Unit::TestCase
       assert_equal(16, EventLogFoo::EVENTLOG_AUDIT_FAILURE)
       assert_equal(0, EventLogFoo::EVENTLOG_FULL_INFO)
    end
-   
+
    def test_method_constants
       assert_not_nil(EventLogFoo::BackupEventLog)
       assert_not_nil(EventLogFoo::BackupEventLogW)
@@ -51,7 +51,7 @@ class TC_Windows_EventLog < Test::Unit::TestCase
       assert_not_nil(EventLogFoo::ReportEvent)
       assert_not_nil(EventLogFoo::ReportEventW)
    end
-   
+
    def teardown
       @foo = nil
    end

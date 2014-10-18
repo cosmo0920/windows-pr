@@ -4,15 +4,15 @@
 # Test case for the windows/synchronize package.
 ##################################################################
 require "windows/synchronize"
-require "test/unit"
+require "minitest/autorun"
 
-class TC_Windows_Synchronize < Test::Unit::TestCase
+class TC_Windows_Synchronize < MiniTest::Unit::TestCase
   include Windows::Synchronize
 
   def setup
     @handle = (0.chr * 16).unpack('LLLL')
   end
-   
+
   def test_numeric_constants
     assert_not_nil(INFINITE)
     assert_not_nil(WAIT_OBJECT_0)
@@ -43,7 +43,7 @@ class TC_Windows_Synchronize < Test::Unit::TestCase
     assert_not_nil(SEMAPHORE_ALL_ACCESS)
     assert_not_nil(SEMAPHORE_MODIFY_STATE)
   end
-   
+
   def test_method_constants
     assert_not_nil(CreateEvent)
     assert_not_nil(CreateMutex)
@@ -68,7 +68,7 @@ class TC_Windows_Synchronize < Test::Unit::TestCase
     assert_not_nil(WaitForSingleObject)
     assert_not_nil(WaitForSingleObjectEx)
   end
-   
+
   def teardown
     @handle = nil
   end

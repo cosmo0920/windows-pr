@@ -4,13 +4,13 @@
 # Test case for the Windows::Path module.
 #####################################################################
 require "windows/path"
-require "test/unit"
+require "minitest/autorun"
 
 class PathFoo
    include Windows::Path
 end
 
-class TC_Windows_Path < Test::Unit::TestCase
+class TC_Windows_Path < MiniTest::Unit::TestCase
    def setup
       @foo  = PathFoo.new
       @path = "C:\\"

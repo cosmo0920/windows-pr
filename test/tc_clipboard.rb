@@ -4,9 +4,9 @@
 # Test case for the Windows::Clipboard module.
 #####################################################################
 require 'windows/clipboard'
-require 'test/unit'
+require 'minitest/autorun'
 
-class TC_Windows_Clipboard < Test::Unit::TestCase
+class TC_Windows_Clipboard < MiniTest::Unit::TestCase
    include Windows::Clipboard
 
    def test_methods
