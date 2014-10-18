@@ -6,7 +6,7 @@ CLEAN.include("**/*.gem", "**/*.rbc")
 
 namespace 'gem' do
   desc 'Build the windows-pr gem'
-  task :create do
+  task :create => [:clean] do
     spec = eval(IO.read('windows-pr.gemspec'))
     if Gem::VERSION < "2.0"
       Gem::Builder.new(spec).build
