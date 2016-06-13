@@ -10,7 +10,7 @@ class MemoryFoo
    include Windows::Memory
 end
 
-class TC_Windows_Memory < MiniTest::Unit::TestCase
+class TC_Windows_Memory < MiniTest::Test
    def setup
       @foo  = MemoryFoo.new
       @path = "C:\\"

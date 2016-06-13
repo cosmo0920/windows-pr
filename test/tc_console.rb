@@ -6,7 +6,7 @@
 require 'windows/console'
 require 'minitest/autorun'
 
-class TC_Windows_Console < MiniTest::Unit::TestCase
+class TC_Windows_Console < MiniTest::Test
    include Windows::Console
 
    def setup

@@ -10,7 +10,7 @@ class WindowMenuFoo
    include Windows::Window::Menu
 end
 
-class TC_Windows_Window_Menu < MiniTest::Unit::TestCase
+class TC_Windows_Window_Menu < MiniTest::Test
    def setup
       @foo = WindowMenuFoo.new
    end

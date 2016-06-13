@@ -10,7 +10,7 @@ class WinsockFoo
    include Windows::Network::Winsock
 end
 
-class TC_Windows_Network_Winsock < MiniTest::Unit::TestCase
+class TC_Windows_Network_Winsock < MiniTest::Test
    def setup
       @foo = WinsockFoo.new
    end

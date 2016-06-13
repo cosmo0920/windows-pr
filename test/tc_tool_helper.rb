@@ -10,7 +10,7 @@ class ToolHelperFoo
    include Windows::ToolHelper
 end
 
-class TC_Windows_ToolHelper < MiniTest::Unit::TestCase
+class TC_Windows_ToolHelper < MiniTest::Test
    def setup
       @foo  = ToolHelperFoo.new
    end

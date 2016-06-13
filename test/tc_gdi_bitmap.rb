@@ -6,7 +6,7 @@
 require 'windows/gdi/bitmap'
 require 'minitest/autorun'
 
-class TC_Windows_GDI_Bitmap < MiniTest::Unit::TestCase
+class TC_Windows_GDI_Bitmap < MiniTest::Test
    include Windows::GDI::Bitmap
 
    def test_methods

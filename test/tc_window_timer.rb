@@ -10,7 +10,7 @@ class WindowTimerFoo
    include Windows::Window::Timer
 end
 
-class TC_Windows_Window_Timer < MiniTest::Unit::TestCase
+class TC_Windows_Window_Timer < MiniTest::Test
    def setup
       @foo = WindowTimerFoo.new
    end

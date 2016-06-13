@@ -10,7 +10,7 @@ class MFileFoo
    include Windows::MSVCRT::File
 end
 
-class TC_Windows_MSVCRT_File < MiniTest::Unit::TestCase
+class TC_Windows_MSVCRT_File < MiniTest::Test
    def setup
       @foo = MFileFoo.new
    end

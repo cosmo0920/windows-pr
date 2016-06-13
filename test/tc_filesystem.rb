@@ -10,7 +10,7 @@ class FileSystemFoo
   include Windows::FileSystem
 end
 
-class TC_Windows_FileSystem < MiniTest::Unit::TestCase
+class TC_Windows_FileSystem < MiniTest::Test
 
    def setup
       @foo = FileSystemFoo.new

@@ -10,7 +10,7 @@ class NIOFoo
    include Windows::NIO
 end
 
-class TC_Windows_NIO < MiniTest::Unit::TestCase
+class TC_Windows_NIO < MiniTest::Test
    def setup
       @foo = NIOFoo.new
    end

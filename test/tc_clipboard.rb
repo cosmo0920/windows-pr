@@ -6,7 +6,7 @@
 require 'windows/clipboard'
 require 'minitest/autorun'
 
-class TC_Windows_Clipboard < MiniTest::Unit::TestCase
+class TC_Windows_Clipboard < MiniTest::Test
    include Windows::Clipboard
 
    def test_methods

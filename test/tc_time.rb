@@ -10,7 +10,7 @@ class TimeFoo
    include Windows::Time
 end
 
-class TC_Windows_Time < MiniTest::Unit::TestCase
+class TC_Windows_Time < MiniTest::Test
    def setup
       @foo = TimeFoo.new
    end

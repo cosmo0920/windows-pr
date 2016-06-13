@@ -10,7 +10,7 @@ class FileMappingFoo
   include Windows::FileMapping
 end
 
-class TC_Windows_FileMapping < MiniTest::Unit::TestCase
+class TC_Windows_FileMapping < MiniTest::Test
 
    def setup
       @foo = FileMappingFoo.new

@@ -10,7 +10,7 @@ class RegistryFoo
    include Windows::Registry
 end
 
-class TC_Windows_Registry < MiniTest::Unit::TestCase
+class TC_Windows_Registry < MiniTest::Test
    def setup
       @foo  = RegistryFoo.new
    end

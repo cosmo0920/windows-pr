@@ -6,7 +6,7 @@
 require 'windows/wsa'
 require 'minitest/autorun'
 
-class TC_Windows_WSA < MiniTest::Unit::TestCase
+class TC_Windows_WSA < MiniTest::Test
   include Windows::WSA
 
   def test_methods

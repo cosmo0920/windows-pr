@@ -10,7 +10,7 @@ class SocketFoo
   include Windows::Socket
 end
 
-class TC_Windows_Socket < MiniTest::Unit::TestCase
+class TC_Windows_Socket < MiniTest::Test
   def setup
     @socket = SocketFoo.new
   end

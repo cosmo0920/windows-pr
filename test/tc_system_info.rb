@@ -6,7 +6,7 @@
 require 'windows/system_info'
 require 'minitest/autorun'
 
-class TC_Windows_SystemInfo < MiniTest::Unit::TestCase
+class TC_Windows_SystemInfo < MiniTest::Test
   include Windows::SystemInfo
 
   def test_numeric_constants

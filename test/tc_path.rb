@@ -10,7 +10,7 @@ class PathFoo
    include Windows::Path
 end
 
-class TC_Windows_Path < MiniTest::Unit::TestCase
+class TC_Windows_Path < MiniTest::Test
    def setup
       @foo  = PathFoo.new
       @path = "C:\\"

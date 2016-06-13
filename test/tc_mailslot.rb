@@ -6,7 +6,7 @@
 require 'windows/mailslot'
 require 'minitest/autorun'
 
-class TC_Windows_Mailslot < MiniTest::Unit::TestCase
+class TC_Windows_Mailslot < MiniTest::Test
    include Windows::Mailslot
 
    def test_constants

@@ -10,7 +10,7 @@ class LibraryFoo
   include Windows::Library
 end
 
-class TC_Windows_Library < MiniTest::Unit::TestCase
+class TC_Windows_Library < MiniTest::Test
    def setup
       @LibraryFoo  = LibraryFoo.new
    end

@@ -10,7 +10,7 @@ class MIOFoo
    include Windows::MSVCRT::IO
 end
 
-class TC_Windows_MSVCRT_IO < MiniTest::Unit::TestCase
+class TC_Windows_MSVCRT_IO < MiniTest::Test
    def setup
       @foo = MIOFoo.new
    end

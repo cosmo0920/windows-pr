@@ -6,7 +6,7 @@
 require 'windows/msvcrt/string'
 require 'minitest/autorun'
 
-class TC_Windows_MSVCRT_String < MiniTest::Unit::TestCase
+class TC_Windows_MSVCRT_String < MiniTest::Test
   include Windows::MSVCRT::String
 
   def setup

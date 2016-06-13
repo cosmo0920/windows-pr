@@ -10,7 +10,7 @@ class WindowClassesFoo
    include Windows::Window::Classes
 end
 
-class TC_Windows_Window_Classes < MiniTest::Unit::TestCase
+class TC_Windows_Window_Classes < MiniTest::Test
    def setup
       @foo = WindowClassesFoo.new
    end

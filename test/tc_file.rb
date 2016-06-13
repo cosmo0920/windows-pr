@@ -10,7 +10,7 @@ class FileFoo
   include Windows::File
 end
 
-class TC_Windows_File < MiniTest::Unit::TestCase
+class TC_Windows_File < MiniTest::Test
 
    def setup
       @foo = FileFoo.new
