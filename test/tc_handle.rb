@@ -15,8 +15,16 @@ class TC_Windows_Handle < MiniTest::Unit::TestCase
       @foo = HandleFoo.new
    end
 
+   def x64?
+      ['a'].pack('P').length > 4
+   end
+
    def test_numeric_constants
-      assert_equal(0xFFFFFFFF, HandleFoo::INVALID_HANDLE_VALUE)
+      if x64?
+         assert_equal(0xFFFFFFFFFFFFFFFF, HandleFoo::INVALID_HANDLE_VALUE)
+      else
+         assert_equal(0xFFFFFFFF, HandleFoo::INVALID_HANDLE_VALUE)
+      end
       assert_equal(0x00000001, HandleFoo::HANDLE_FLAG_INHERIT)
       assert_equal(0x00000002, HandleFoo::HANDLE_FLAG_PROTECT_FROM_CLOSE)
    end

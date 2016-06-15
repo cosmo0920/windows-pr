@@ -9,7 +9,7 @@ module Windows
 
     private
 
-    INVALID_HANDLE_VALUE           = 0xFFFFFFFF
+    INVALID_HANDLE_VALUE           = (1<<['a'].pack('p').length*8)-1
     HANDLE_FLAG_INHERIT            = 0x00000001
     HANDLE_FLAG_PROTECT_FROM_CLOSE = 0x00000002
 
