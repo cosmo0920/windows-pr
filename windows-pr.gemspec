@@ -18,6 +18,7 @@ Gem::Specification.new do |spec|
     'doc/conversion_guide.txt'
   ]
 
+  spec.add_development_dependency('minitest', '~> 5.9.0')
   spec.add_dependency('windows-api', '>= 0.4.0')
   spec.add_dependency('win32-api', '>= 1.4.5')
 
