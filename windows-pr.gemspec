@@ -19,6 +19,7 @@ Gem::Specification.new do |spec|
   ]
 
   spec.add_development_dependency('minitest', '~> 5.9.0')
+  spec.add_development_dependency('rake')
   spec.add_dependency('windows-api', '>= 0.4.0')
   spec.add_dependency('win32-api', '>= 1.4.5')
 
