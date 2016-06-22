@@ -4,7 +4,7 @@ Gem::Specification.new do |spec|
   spec.name       = 'windows-pr'
   spec.version    = '1.2.4'
   spec.license    = 'Artistic 2.0'
-  spec.authors    = ['Daniel J. Berger', 'Park Heesob']
+  spec.authors    = ['Daniel J. Berger', 'Park Heesob', 'Hiroshi Hatake']
   spec.email      = 'djberg96@gmail.com'
   spec.homepage   = 'https://github.com/djberg96/windows-pr'
   spec.summary    = 'Windows functions and constants bundled via Win32::API'
