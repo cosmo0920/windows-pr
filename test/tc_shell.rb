@@ -10,7 +10,7 @@ class ShellFoo
    include Windows::Shell
 end
 
-class TC_Windows_Shell < MiniTest::Unit::TestCase
+class TC_Windows_Shell < MiniTest::Test
    def setup
       @foo = ShellFoo.new
    end

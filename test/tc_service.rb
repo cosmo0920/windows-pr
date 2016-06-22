@@ -10,7 +10,7 @@ class ServiceFoo
    include Windows::Service
 end
 
-class TC_Windows_Service < MiniTest::Unit::TestCase
+class TC_Windows_Service < MiniTest::Test
    def setup
       @foo = ServiceFoo.new
    end

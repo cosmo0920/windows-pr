@@ -10,7 +10,7 @@ class SoundFoo
    include Windows::Sound
 end
 
-class TC_Windows_Sound < MiniTest::Unit::TestCase
+class TC_Windows_Sound < MiniTest::Test
    def setup
       @foo = SoundFoo.new
    end

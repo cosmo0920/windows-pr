@@ -6,7 +6,7 @@
 require 'windows/process'
 require 'minitest/autorun'
 
-class TC_Windows_Process < MiniTest::Unit::TestCase
+class TC_Windows_Process < MiniTest::Test
   include Windows::Process
 
   def test_constants

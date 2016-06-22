@@ -10,7 +10,7 @@ class SecurityFoo
    include Windows::Security
 end
 
-class TC_Windows_Security < MiniTest::Unit::TestCase
+class TC_Windows_Security < MiniTest::Test
    def setup
       @foo = SecurityFoo.new
    end

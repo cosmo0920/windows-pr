@@ -8,7 +8,7 @@ require 'windows/ntfs/winternl'
 require 'windows/error'
 require 'minitest/autorun'
 
-class TC_Windows_NTFS_Winternl < MiniTest::Unit::TestCase
+class TC_Windows_NTFS_Winternl < MiniTest::Test
   include Windows::Handle
   include Windows::NTFS::Winternl
   include Windows::Error

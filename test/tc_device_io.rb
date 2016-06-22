@@ -10,7 +10,7 @@ class DeviceIOFoo
    include Windows::DeviceIO
 end
 
-class TC_Windows_DeviceIO < MiniTest::Unit::TestCase
+class TC_Windows_DeviceIO < MiniTest::Test
    def setup
       @foo  = DeviceIOFoo.new
    end

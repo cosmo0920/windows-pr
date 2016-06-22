@@ -10,7 +10,7 @@ class EventLogFoo
    include Windows::EventLog
 end
 
-class TC_Windows_EventLog < MiniTest::Unit::TestCase
+class TC_Windows_EventLog < MiniTest::Test
    def setup
       @foo = EventLogFoo.new
    end

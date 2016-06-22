@@ -10,7 +10,7 @@ class NationalFoo
   include Windows::National
 end
 
-class TC_Windows_National < MiniTest::Unit::TestCase
+class TC_Windows_National < MiniTest::Test
    def setup
       @foo = NationalFoo.new
    end

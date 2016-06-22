@@ -6,7 +6,7 @@
 require "windows/synchronize"
 require "minitest/autorun"
 
-class TC_Windows_Synchronize < MiniTest::Unit::TestCase
+class TC_Windows_Synchronize < MiniTest::Test
   include Windows::Synchronize
 
   def setup

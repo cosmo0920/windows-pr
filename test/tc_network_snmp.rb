@@ -10,7 +10,7 @@ class NetworkSNMPFoo
    include Windows::Network::SNMP
 end
 
-class TC_Windows_Network_SNMP < MiniTest::Unit::TestCase
+class TC_Windows_Network_SNMP < MiniTest::Test
    def setup
       @foo = NetworkSNMPFoo.new
    end

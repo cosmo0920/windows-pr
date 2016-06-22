@@ -10,7 +10,7 @@ class NetworkManagementFoo
   include Windows::Network::Management
 end
 
-class TC_Windows_Network_Management < MiniTest::Unit::TestCase
+class TC_Windows_Network_Management < MiniTest::Test
    def setup
       @foo = NetworkManagementFoo.new
    end

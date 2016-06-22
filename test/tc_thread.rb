@@ -10,7 +10,7 @@ class ThreadFoo
    include Windows::Thread
 end
 
-class TC_Windows_Thread < MiniTest::Unit::TestCase
+class TC_Windows_Thread < MiniTest::Test
    def setup
       @foo  = ThreadFoo.new
    end

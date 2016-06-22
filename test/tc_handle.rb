@@ -10,7 +10,7 @@ class HandleFoo
   include Windows::Handle
 end
 
-class TC_Windows_Handle < MiniTest::Unit::TestCase
+class TC_Windows_Handle < MiniTest::Test
    def setup
       @foo = HandleFoo.new
    end

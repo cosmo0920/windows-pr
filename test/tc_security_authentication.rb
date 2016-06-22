@@ -6,7 +6,7 @@
 require 'windows/security/authentication'
 require 'minitest/autorun'
 
-class TC_Windows_Security_Authentication < MiniTest::Unit::TestCase
+class TC_Windows_Security_Authentication < MiniTest::Test
 
    include Windows::Security::Authentication
 

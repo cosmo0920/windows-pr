@@ -6,7 +6,7 @@
 require "windows/com"
 require "minitest/autorun"
 
-class TC_Windows_COM < MiniTest::Unit::TestCase
+class TC_Windows_COM < MiniTest::Test
    include Windows::COM
 
    def test_method_constants

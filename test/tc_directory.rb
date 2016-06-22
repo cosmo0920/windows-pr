@@ -10,7 +10,7 @@ class DirectoryFoo
    include Windows::Directory
 end
 
-class TC_Windows_Directory < MiniTest::Unit::TestCase
+class TC_Windows_Directory < MiniTest::Test
    def setup
       @foo  = DirectoryFoo.new
    end

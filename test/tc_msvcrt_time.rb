@@ -6,7 +6,7 @@
 require 'windows/msvcrt/time'
 require 'minitest/autorun'
 
-class TC_Windows_MSVCRT_Time < MiniTest::Unit::TestCase
+class TC_Windows_MSVCRT_Time < MiniTest::Test
   include Windows::MSVCRT::Time
 
   def test_method_constants

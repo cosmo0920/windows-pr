@@ -10,7 +10,7 @@ class WindowMessageFoo
    include Windows::Window::Message
 end
 
-class TC_Windows_Window_Message < MiniTest::Unit::TestCase
+class TC_Windows_Window_Message < MiniTest::Test
    def setup
       @foo = WindowMessageFoo.new
    end

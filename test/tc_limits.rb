@@ -10,7 +10,7 @@ class LimitsFoo
   include Windows::Limits
 end
 
-class TC_Windows_Limits < MiniTest::Unit::TestCase
+class TC_Windows_Limits < MiniTest::Test
    def setup
       @foo = LimitsFoo.new
    end

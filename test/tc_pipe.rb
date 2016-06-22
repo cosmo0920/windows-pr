@@ -10,7 +10,7 @@ class PipeFoo
    include Windows::Pipe
 end
 
-class TC_Windows_Pipe < MiniTest::Unit::TestCase
+class TC_Windows_Pipe < MiniTest::Test
    def setup
       @foo = PipeFoo.new
    end

@@ -7,7 +7,7 @@
 require "windows/unicode"
 require "minitest/autorun"
 
-class TC_Windows_Unicode < MiniTest::Unit::TestCase
+class TC_Windows_Unicode < MiniTest::Test
   include Windows::Unicode
 
   def test_numeric_constants

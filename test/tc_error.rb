@@ -6,7 +6,7 @@
 require "windows/error"
 require "minitest/autorun"
 
-class TC_Windows_Error < MiniTest::Unit::TestCase
+class TC_Windows_Error < MiniTest::Test
   include Windows::Error
 
   def test_numeric_constants

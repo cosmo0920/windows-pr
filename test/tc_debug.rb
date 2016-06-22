@@ -10,7 +10,7 @@ class DebugFoo
    include Windows::Debug
 end
 
-class TC_Windows_Debug < MiniTest::Unit::TestCase
+class TC_Windows_Debug < MiniTest::Test
    def setup
       @foo = DebugFoo.new
       @ver = `ver`.chomp

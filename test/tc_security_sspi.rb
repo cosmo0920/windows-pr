@@ -6,7 +6,7 @@
 require 'windows/security/SSPI'
 require 'minitest/autorun'
 
-class TC_Windows_Security_SSPI < MiniTest::Unit::TestCase
+class TC_Windows_Security_SSPI < MiniTest::Test
   include Windows::Security::SSPI
 
   def test_methods

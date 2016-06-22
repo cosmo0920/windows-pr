@@ -10,7 +10,7 @@ class WindowPropertiesFoo
    include Windows::Window::Properties
 end
 
-class TC_Windows_Window_Properties < MiniTest::Unit::TestCase
+class TC_Windows_Window_Properties < MiniTest::Test
    def setup
       @foo = WindowPropertiesFoo.new
    end

@@ -6,7 +6,7 @@
 require 'windows/volume'
 require 'minitest/unit'
 
-class TC_Windows_Volume < MiniTest::Unit::TestCase
+class TC_Windows_Volume < MiniTest::Test
   include Windows::Volume
 
   def test_constants

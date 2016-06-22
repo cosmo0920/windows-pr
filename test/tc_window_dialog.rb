@@ -10,7 +10,7 @@ class WindowDialogFoo
    include Windows::Window::Dialog
 end
 
-class TC_Windows_Window_Dialog < MiniTest::Unit::TestCase
+class TC_Windows_Window_Dialog < MiniTest::Test
    def setup
       @foo = WindowDialogFoo.new
    end

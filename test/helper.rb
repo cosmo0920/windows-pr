@@ -1,3 +1,4 @@
+require 'minitest/autorun'
 require 'minitest/unit'
 
 module Minitest::Assertions

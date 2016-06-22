@@ -6,7 +6,7 @@
 require 'windows/gdi/metafile'
 require 'minitest/autorun'
 
-class TC_Windows_GDI_MetaFile < MiniTest::Unit::TestCase
+class TC_Windows_GDI_MetaFile < MiniTest::Test
    include Windows::GDI::MetaFile
 
    def test_methods
