@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.homepage   = 'https://github.com/djberg96/windows-pr'
   spec.summary    = 'Windows functions and constants bundled via Win32::API'
   spec.test_files = Dir["test/tc*"]
-  spec.files      = Dir["**/*"].reject{ |f| f.include?('git') }
+  spec.files      = `git ls-files`.split($\)
 
   spec.extra_rdoc_files = [
     'MANIFEST',
