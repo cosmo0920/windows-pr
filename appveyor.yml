@@ -24,4 +24,4 @@ environment:
 
 matrix:
   allow_failures:
-    - ruby_version: "24"
+    - ruby_version: "24" # FIXME
