@@ -36,7 +36,7 @@ class TC_Windows_NTFS_Winternl < MiniTest::Test
     hdl = get_osfhandle(@handle.fileno)
 
     assert_nothing_raised{ res = GetFinalPathNameByHandle(hdl, buf, buf.size, 2) }
-    assert_kind_of(Fixnum, res)
+    assert_kind_of(Integer, res)
     assert_equal(@name, File.basename(buf.strip))
   end
 
