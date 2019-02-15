@@ -55,7 +55,7 @@ class TC_Windows_MSVCRT_String < MiniTest::Test
 
   def test_strcpy
     assert(self.respond_to?(:strcpy, true))
-    assert_kind_of(Fixnum, strcpy(@buf, ['hello'].pack('p*').unpack('L')[0]))
+    assert_kind_of(Integer, strcpy(@buf, ['hello'].pack('p*').unpack('L')[0]))
     assert_equal('hello', @buf.strip)
   end
 
