@@ -3,6 +3,7 @@ version: '{build}'
 image: Visual Studio 2019
 
 install:
+  - set SSL_CERT_FILE=C:/ruby24-x64/ssl/cert.pem
   - SET PATH=C:\Ruby%ruby_version%\bin;%PATH%
   - ruby --version
   - gem --version
@@ -25,3 +26,9 @@ environment:
     - ruby_version: "24"
     - ruby_version: "23-x64"
     - ruby_version: "23"
+    - ruby_version: "22-x64"
+    - ruby_version: "22"
+    - ruby_version: "21-x64"
+    - ruby_version: "21"
+    - ruby_version: "200-x64"
+    - ruby_version: "200"
