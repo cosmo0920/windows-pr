@@ -1,3 +1,4 @@
+require 'win32api'
 require 'windows/api'
 
 # I don't use the Boolean flag for the return types of these methods because
