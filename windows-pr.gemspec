@@ -11,13 +11,6 @@ Gem::Specification.new do |spec|
   spec.test_files = Dir["test/tc*"]
   spec.files      = `git ls-files`.split($\)
 
-  spec.extra_rdoc_files = [
-    'MANIFEST',
-    'README.md',
-    'CHANGES',
-    'doc/conversion_guide.txt'
-  ]
-
   spec.add_development_dependency('minitest', '~> 5.9.0')
   spec.add_development_dependency('rake')
   spec.add_dependency('windows-api', '>= 0.4.0')
