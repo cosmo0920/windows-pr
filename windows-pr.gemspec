@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
 
   spec.extra_rdoc_files = [
     'MANIFEST',
-    'README',
+    'README.md',
     'CHANGES',
     'doc/conversion_guide.txt'
   ]
