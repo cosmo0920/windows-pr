@@ -1,3 +1,4 @@
+require 'win32api'
 require 'windows/api'
 
 # This library exposes functions from ntdll, which are typically undocumented.
