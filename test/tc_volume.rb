@@ -4,7 +4,7 @@
 # Test case for the Windows::Volume module.
 #####################################################################
 require 'windows/volume'
-require 'minitest/unit'
+require 'minitest/autorun'
 
 class TC_Windows_Volume < MiniTest::Test
   include Windows::Volume

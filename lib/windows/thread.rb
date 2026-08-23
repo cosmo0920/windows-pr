@@ -57,7 +57,7 @@ module Windows
     begin
       API.new('AttachThreadInput', 'LLI', 'B', 'user32')
       API.new('GetThreadIOPendingFlag', 'LP', 'B')
-    rescue Win32::API::LoadLibraryError
+    rescue Windows::API::LoadLibraryError
       # Windows XP or later
     end
   end

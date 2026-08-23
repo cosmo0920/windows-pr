@@ -56,7 +56,7 @@ module Windows
 
     begin
       API.new('GetLayeredWindowAttributes', 'LPBL', 'B', 'user32')
-    rescue Win32::API::LoadLibraryError
+    rescue Windows::API::LoadLibraryError
       # Windows XP or later
     end
 
@@ -64,7 +64,7 @@ module Windows
     #
     begin
       API.new('CreateWindow', 'PPLIIIILLLL', 'L', 'user32')
-    rescue Win32::API::LoadLibraryError
+    rescue Windows::API::LoadLibraryError
       def CreateWindow(lpClassName, lpWindowName, dwStyle, x, y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam)
           CreateWindowEx(0, lpClassName, lpWindowName, dwStyle, x, y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam)
       end

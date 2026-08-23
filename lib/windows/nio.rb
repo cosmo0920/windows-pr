@@ -43,7 +43,7 @@ module Windows
     begin
       API.new('CancelIoEx', 'LP', 'B')
       API.new('CancelSynchronousIo', 'L', 'B')
-    rescue Win32::API::LoadLibraryError
+    rescue Windows::API::LoadLibraryError
       # Windows Vista or later
     end
   end

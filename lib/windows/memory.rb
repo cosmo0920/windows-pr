@@ -121,7 +121,7 @@ module Windows
     begin
       API.new('HeapQueryInformation', 'LIPLL', 'B')
       API.new('HeapSetInformation', 'LIPL', 'B')
-    rescue Win32::API::LoadLibraryError
+    rescue Windows::API::LoadLibraryError
       # Do nothing - you must check for their existence
     end
   end

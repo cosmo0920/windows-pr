@@ -164,7 +164,7 @@ module Windows
       API.new('SHGetKnownFolderPath', 'LLLP', 'L', 'shell32')
       API.new('SHGetKnownFolderIDList', 'LLLP', 'L', 'shell32')
       API.new('SHGetNameFromIDList', 'PLP', 'L', 'shell32')
-    rescue Win32::API::LoadLibraryError
+    rescue Windows::API::LoadLibraryError
       # Windows Vista or later
     end
   end

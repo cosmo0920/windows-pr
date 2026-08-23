@@ -138,13 +138,13 @@ module Windows
 
     begin
       API.new('RegGetValue', 'LPPLPPP', 'L', 'advapi32')
-    rescue Win32::API::LoadLibraryError
+    rescue Windows::API::LoadLibraryError
       # Windows XP 64 or later
     end
     
     begin
       API.new('RegSaveKeyEx', 'LPPL', 'L', 'advapi32')
-    rescue Win32::API::LoadLibraryError
+    rescue Windows::API::LoadLibraryError
       # Windows XP or later
     end
 
@@ -164,7 +164,7 @@ module Windows
       API.new('RegLoadMUIString', 'LPPLPLP', 'L', 'advapi32')  
       API.new('RegOpenKeyTransacted','LPLLPLP','L','advapi32')  
       API.new('RegSetKeyValue','LPPLPL','L','advapi32') 
-    rescue Win32::API::LoadLibraryError
+    rescue Windows::API::LoadLibraryError
       # Windows Vista or later
     end
   end

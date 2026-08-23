@@ -1,4 +1,3 @@
-require 'win32api'
 require 'windows/api'
 
 module Windows
@@ -85,7 +84,7 @@ module Windows
         API.new('SnmpCreateSession', 'LLKP', 'L', 'wsnmp32')
         API.new('SnmpCleanupEx', 'V', 'I', 'wsnmp32')
         API.new('SnmpStartupEx', 'PPPPP', 'L', 'wsnmp32')
-      rescue Win32::API::LoadLibraryError
+      rescue Windows::API::LoadLibraryError
         # Do nothing. It's up to you to check for their existence.
       end
     end

@@ -4,7 +4,7 @@
 # Test case for the Windows::Window::Timer module.
 #####################################################################
 require 'windows/window/timer'
-require 'minitest/unit'
+require 'minitest/autorun'
 
 class WindowTimerFoo
    include Windows::Window::Timer

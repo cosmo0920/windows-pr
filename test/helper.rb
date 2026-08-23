@@ -1,5 +1,7 @@
 require 'minitest/autorun'
-require 'minitest/unit'
+
+# The test classes still use Minitest's historical constant spelling.
+MiniTest = Minitest
 
 module Minitest::Assertions
   def assert_not_nil(*args)

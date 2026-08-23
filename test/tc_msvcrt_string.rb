@@ -28,7 +28,7 @@ class TC_Windows_MSVCRT_String < MiniTest::Test
   def test_strchr
     assert(self.respond_to?(:strchr, true))
     assert_equal('llo', strchr('hello', 108))
-    assert_equal(nil, strchr('hello', 120))
+    assert_nil(strchr('hello', 120))
   end
 
   def test_strchr_with_zero
@@ -55,7 +55,7 @@ class TC_Windows_MSVCRT_String < MiniTest::Test
 
   def test_strcpy
     assert(self.respond_to?(:strcpy, true))
-    assert_kind_of(Integer, strcpy(@buf, ['hello'].pack('p*').unpack('L')[0]))
+    assert_kind_of(Integer, strcpy(@buf, ['hello'].pack('p').unpack1('J')))
     assert_equal('hello', @buf.strip)
   end
 

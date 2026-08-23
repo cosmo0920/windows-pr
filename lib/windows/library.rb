@@ -37,7 +37,7 @@ module Windows
       API.new('GetDllDirectory', 'LP', 'L')
       API.new('GetModuleHandleEx', 'LPP', 'I')
       API.new('SetDllDirectory', 'P', 'I')
-    rescue Win32::API::LoadLibraryError
+    rescue Windows::API::LoadLibraryError
       # Windows XP or later
     end
   end

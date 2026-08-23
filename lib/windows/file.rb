@@ -239,7 +239,7 @@ module Windows
       begin
          API.new('SetFileShortName', 'LP', 'B')
          API.new('SetFileValidData', 'LL', 'B')
-      rescue Win32::API::LoadLibraryError
+      rescue Windows::API::LoadLibraryError
          # Windows XP or later
       end
 
@@ -247,7 +247,7 @@ module Windows
          API.new('Wow64DisableWow64FsRedirection', 'P', 'B')
          API.new('Wow64EnableWow64FsRedirection', 'I', 'I')
          API.new('Wow64RevertWow64FsRedirection', 'L', 'B')
-      rescue Win32::API::LoadLibraryError
+      rescue Windows::API::LoadLibraryError
          # Windows XP 64-bit and later
       end
 
@@ -257,7 +257,7 @@ module Windows
          API.new('GetFileInformationByHandleEx', 'LLPL', 'B')
          API.new('GetFinalPathNameByHandle', 'LPLL', 'L')
          API.new('SetFileInformationByHandle', 'LLPL', 'B')
-      rescue Win32::API::LoadLibraryError
+      rescue Windows::API::LoadLibraryError
          # Windows Vista
       end
    end

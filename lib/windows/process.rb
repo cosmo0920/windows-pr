@@ -153,7 +153,7 @@ module Windows
       API.new('GetProcessHandleCount', 'LP', 'B')
       API.new('IsProcessInJob', 'LLP', 'B')
       API.new('IsWow64Process', 'LP', 'B')
-    rescue Win32::API::LoadLibraryError
+    rescue Windows::API::LoadLibraryError
       # Windows XP or later
     end
 

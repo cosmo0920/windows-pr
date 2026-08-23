@@ -25,7 +25,7 @@ class TC_Windows_MSVCRT_Buffer < MiniTest::Test
     assert_not_nil(Swab)
   end
 
-  # This is an issue with the windows-api lib
+  # The underlying CRT function does not expose the buffer size here.
 
 =begin
   def test_memcpy

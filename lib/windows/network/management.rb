@@ -1,4 +1,3 @@
-require 'win32api'
 require 'windows/api'
 
 # I don't use the Boolean flag for the return types of these methods because
@@ -193,7 +192,7 @@ module Windows
       begin 
         API.new('GetNetScheduleAccountInformation', 'PLP', 'L', 'mstask')
         API.new('SetNetScheduleAccountInformation', 'PPP', 'L', 'netapi32')
-      rescue Win32::API::LoadLibraryError
+      rescue Windows::API::LoadLibraryError
         # Do nothing.  Not supported on current platform.
       end
 
@@ -518,7 +517,7 @@ module Windows
         def SetNetScheduleAccountInformation(server, account, password)
           SetNetScheduleAccountInformation.call(server, account, password) == NERR_Success
         end
-      rescue Win32::API::LoadLibraryError
+      rescue Windows::API::LoadLibraryError
         # Do nothing. It's up to you to check for their existence.
       end
     end

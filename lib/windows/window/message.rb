@@ -250,7 +250,7 @@ module Windows
       WM_USER                       = 0x0400
 
       # I'd rather not mixin Windows::SystemInfo
-      getVersionEx = Win32::API.new('GetVersionEx', 'P', 'B')
+      getVersionEx = Windows::API.new('GetVersionEx', 'P', 'B')
       vbuf  = "\0" * 128
       vinfo = [148, 0 ,0, 0, 0, vbuf].pack("LLLLLa128")
       getVersionEx.call(vinfo)
@@ -289,7 +289,7 @@ module Windows
        
       begin
         API.new('BroadcastSystemMessageEx', 'LPILLP', 'L', 'user32')
-      rescue Win32::API::LoadLibraryError
+      rescue Windows::API::LoadLibraryError
         # Windows XP or later
       end
     end

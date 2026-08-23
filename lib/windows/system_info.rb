@@ -84,7 +84,7 @@ module Windows
 
     begin
        API.new('GetSystemWow64Directory', 'PI', 'I')
-    rescue Win32::API::LoadLibraryError
+    rescue Windows::API::LoadLibraryError
        # XP or later
     end
 

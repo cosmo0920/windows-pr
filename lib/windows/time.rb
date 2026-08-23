@@ -41,7 +41,7 @@ module Windows
     begin
       API.new('GetSystemTimes', 'PPP', 'B')
       API.new('TzSpecificLocalTimeToSystemTime', 'PPP', 'B')
-    rescue Win32::API::LoadLibraryError
+    rescue Windows::API::LoadLibraryError
       # Windows XP or later
     end
   end

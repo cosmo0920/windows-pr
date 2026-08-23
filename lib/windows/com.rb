@@ -1,4 +1,3 @@
-require 'win32api'
 require 'windows/api'
 
 module Windows
@@ -186,7 +185,7 @@ module Windows
 
     begin
       API.new('CoDisconnectContext', 'L', 'L', 'ole32')
-    rescue Win32::API::LoadLibraryError
+    rescue Windows::API::LoadLibraryError
       # Windows Vista
     end
   end

@@ -39,7 +39,7 @@ module Windows
         API.new('_mktemp_s', 'PL', 'L', MSVCRT_DLL)
         API.new('_umask_s', 'IP', 'L', MSVCRT_DLL)
         API.new('_wmktemp_s', 'PL', 'L', MSVCRT_DLL)
-      rescue Win32::API::LoadLibraryError
+      rescue Windows::API::LoadLibraryError
         # Ignore - you must check for it via 'defined?'
       end
     end

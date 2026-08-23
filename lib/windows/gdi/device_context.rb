@@ -1,4 +1,3 @@
-require 'win32api'
 require 'windows/api'
 
 module Windows
