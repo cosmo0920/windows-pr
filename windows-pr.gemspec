@@ -5,7 +5,7 @@ Gem::Specification.new do |spec|
   spec.version    = '1.2.6'
   spec.license    = 'Artistic-2.0'
   spec.authors    = ['Daniel J. Berger', 'Park Heesob', 'Hiroshi Hatake']
-  spec.emails     = ['cosmo0920.oucc@gmail.com', 'djberg96@gmail.com']
+  spec.email      = ['cosmo0920.oucc@gmail.com', 'djberg96@gmail.com']
   spec.homepage   = 'https://github.com/djberg96/windows-pr'
   spec.summary    = 'Windows functions and constants bundled via Fiddle'
   spec.test_files = Dir["test/tc*"]
