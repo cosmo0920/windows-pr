@@ -554,7 +554,7 @@ module Windows
       API.new('EnumTimeFormatsEx', 'KSLP', 'B')
       API.new('GetCurrencyFormatEx', 'PLPPPI', 'I')
       API.new('GetDateFormatEx', 'SLPSPIS', 'I')
-    rescue Win32::API::LoadLibraryError
+    rescue Windows::API::LoadLibraryError
       # Windows Vista or later
     end
     

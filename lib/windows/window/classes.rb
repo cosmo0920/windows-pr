@@ -1,4 +1,3 @@
-require 'win32api'
 require 'windows/api'
 
 module Windows
@@ -51,7 +50,7 @@ module Windows
       begin
         API.new('GetWindowLongPtr', 'LI', 'L', 'user32')
         API.new('SetWindowLongPtr', 'LIP', 'L', 'user32')
-      rescue Win32::API::LoadLibraryError
+      rescue Windows::API::LoadLibraryError
         alias :GetWindowLongPtr :GetWindowLong
         alias :SetWindowLongPtr :SetWindowLong
       end

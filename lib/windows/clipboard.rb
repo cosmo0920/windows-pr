@@ -1,4 +1,3 @@
-require 'win32api'
 require 'windows/api'
 
 module Windows
@@ -55,7 +54,7 @@ module Windows
       API.new('AddClipboardFormatListener', 'L', 'B', 'user32')
       API.new('GetUpdatedClipboardFormats', 'PIP', 'I', 'user32')
       API.new('RemoveClipboardFormatListener', 'L', 'B', 'user32')
-    rescue Win32::API::LoadLibraryError
+    rescue Windows::API::LoadLibraryError
       # Windows Vista or later
     end
   end

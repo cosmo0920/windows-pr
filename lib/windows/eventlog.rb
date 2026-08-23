@@ -73,7 +73,7 @@ module Windows
       API.new('EvtSetChannelConfigProperty', 'LLLP', 'B', 'wevtapi')
       API.new('EvtSubscribe', 'LLPPLPKL', 'L', 'wevtapi')
       API.new('EvtUpdateBookmark', 'LL', 'B', 'wevtapi')
-    rescue Win32::API::LoadLibraryError
+    rescue Windows::API::LoadLibraryError
       # Windows Vista or later
     end
   end

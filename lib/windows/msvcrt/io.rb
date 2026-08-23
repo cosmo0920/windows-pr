@@ -65,7 +65,7 @@ module Windows
         API.new('_sopen_s', 'PPIII', 'L', MSVCRT_DLL)
         API.new('_tmpfile_s', 'P', 'L', MSVCRT_DLL)
         API.new('_wsopen_s', 'PPIII', 'L', MSVCRT_DLL)
-      rescue Win32::API::LoadLibraryError
+      rescue Windows::API::LoadLibraryError
         # Ignore - you must check for it via 'defined?'
       end
     end

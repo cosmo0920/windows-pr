@@ -7,18 +7,28 @@ Gem::Specification.new do |spec|
   spec.authors    = ['Daniel J. Berger', 'Park Heesob', 'Hiroshi Hatake']
   spec.email      = 'djberg96@gmail.com'
   spec.homepage   = 'https://github.com/djberg96/windows-pr'
-  spec.summary    = 'Windows functions and constants bundled via Win32::API'
+  spec.summary    = 'Windows functions and constants bundled via Fiddle'
   spec.test_files = Dir["test/tc*"]
-  spec.files      = `git ls-files`.split($\)
+  spec.files      = `git ls-files -z`.split("\x0").reject do |file|
+    file.end_with?('.gem', '.log') ||
+      file.start_with?(
+        '.bundle/',
+        '.git',
+        '.github/',
+        'coverage/',
+        'pkg/',
+        'tmp/',
+        'vendor/bundle/'
+      )
+  end
 
-  spec.add_development_dependency('minitest', '~> 5.9.0')
+  spec.add_development_dependency('minitest', '~> 6.0')
   spec.add_development_dependency('rake')
-  spec.add_dependency('windows-api', '>= 0.4.0')
-  spec.add_dependency('win32-api', '>= 1.4.5')
+  spec.add_dependency('fiddle')
 
   spec.description = <<-EOF
     The windows-pr library is a collection of Windows functions and constants
-    pre-defined for you using the windows-api library. It also autogenerates
+    pre-defined for you using Ruby's Fiddle library. It also autogenerates
     explicit ANSI and Wide character versions of those functions, as well as
     constants that can be used as methods, e.g. CloseHandle() instead of
     CloseHandle.call().

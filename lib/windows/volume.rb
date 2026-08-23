@@ -37,13 +37,13 @@ module Windows
 
     begin
       API.new('GetVolumePathNamesForVolumeName', 'SPLL', 'B')
-    rescue Win32::API::LoadLibraryError
+    rescue Windows::API::LoadLibraryError
       # Windows XP or later
     end
 
     begin
        API.new('GetVolumeInformationByHandleW', 'LPLPPPPL', 'B')
-    rescue Win32::API::LoadLibraryError
+    rescue Windows::API::LoadLibraryError
        # Windows Vista or later
     end
 

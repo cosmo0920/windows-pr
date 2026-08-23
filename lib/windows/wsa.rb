@@ -87,7 +87,7 @@ module Windows
       API.new('WSASendMsg', 'LPLPPP', 'I', 'ws2_32')
       API.new('WSASetSocketPeerTargetName', 'LPLPP', 'I', 'fwpuclnt')
       API.new('WSASetSocketSecurity', 'LPLPP', 'I', 'fwpuclnt')
-    rescue Win32::API::LoadLibraryError
+    rescue Windows::API::LoadLibraryError
       # Vista or later
     end
 
@@ -95,7 +95,7 @@ module Windows
       API.new('WSAEnumNameSpaceProviders', 'PP', 'I', 'ws2_32')
       API.new('WSAImpersonateSocketPeer', 'LPL', 'I', 'fwpuclnt')
       API.new('WSANSPIoctl', 'LLPLPLPP', 'I', 'ws2_32')
-    rescue Win32::API::LoadLibraryError
+    rescue Windows::API::LoadLibraryError
       # XP or later
     end
   end

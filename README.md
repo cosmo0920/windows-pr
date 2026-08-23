@@ -1,9 +1,8 @@
 # windows-pr
 
 `windows-pr` is a collection of Windows API functions and constants predefined
-for Ruby through [`windows-api`](https://rubygems.org/gems/windows-api) and
-[`win32-api`](https://rubygems.org/gems/win32-api). The `pr` stands for "Pure
-Ruby."
+for Ruby through its standard [`Fiddle`](https://ruby-doc.org/stdlib/libdoc/fiddle/rdoc/Fiddle.html)
+foreign-function interface. The `pr` stands for "Pure Ruby."
 
 Daniel J. Berger created the project with contributions from Park Heesob. In
 2016, maintenance passed to [Hiroshi Hatake](https://github.com/cosmo0920).
@@ -51,15 +50,15 @@ for the available modules.
 
 ## API conventions
 
-Each module defines constants containing `Win32::API` objects for the Windows
+Each module defines callable objects for the Windows
 functions it exposes. Requiring `windows/path`, for example, makes constants
 such as `PathIsRoot` and `PathIsUNC` available within `Windows::Path`.
 
 Convenience wrapper methods let you call a function without an explicit
-`Win32::API#call`:
+explicit `call` method:
 
 ```ruby
-PathIsRoot.call(path) # Win32::API object
+PathIsRoot.call(path) # Fiddle function object
 PathIsRoot(path)      # wrapper method
 ```
 

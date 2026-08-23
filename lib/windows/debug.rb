@@ -28,7 +28,7 @@ module Windows
          API.new('DebugActiveProcessStop', 'L', 'B')
          API.new('DebugBreakProcess', 'L', 'B')
          API.new('DebugSetProcessKillOnExit', 'I', 'B')
-      rescue Win32::API::LoadLibraryError
+      rescue Windows::API::LoadLibraryError
          # Windows XP or later
       end
    end

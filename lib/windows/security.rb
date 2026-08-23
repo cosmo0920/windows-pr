@@ -463,7 +463,7 @@ module Windows
       API.new('FreeInheritedFromArray', 'PIP', 'B', 'advapi32')
       API.new('GetInheritanceSource', 'PLLIPLPPLP', 'L', 'advapi32')
       API.new('IsWellKnownSid', 'PI', 'B', 'advapi32')
-    rescue Win32::API::LoadLibraryError
+    rescue Windows::API::LoadLibraryError
       # Windows XP or later
     end
 
@@ -472,7 +472,7 @@ module Windows
       API.new('AuditComputeEffectivePolicyByToken', 'LPLP', 'B', 'advapi32')
       API.new('AuditEnumerateCategories', 'PP', 'B', 'advapi32')
       API.new('AuditEnumeratePerUserPolicy', 'P', 'B', 'advapi32')
-    rescue Win32::API::LoadLibraryError
+    rescue Windows::API::LoadLibraryError
       # Windows Vista or later
     end
   end

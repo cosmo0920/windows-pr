@@ -108,7 +108,7 @@ module Windows
         API.new('GetAddrInfoW', 'PPPP', 'I', 'mswsock')
         API.new('getnameinfo', 'PLPLPLI', 'I', 'ws2_32')
         API.new('GetNameInfoW', 'PLPLPLI', 'I', 'ws2_32')
-      rescue Win32::API::LoadLibraryError
+      rescue Windows::API::LoadLibraryError
         # Do nothing, not supported on your platform.
       end
 
@@ -120,7 +120,7 @@ module Windows
         API.new('WSAConnectByName', 'LPPPPPPP', 'B', 'ws2_32')
         API.new('WSADeleteSocketPeerTargetName', 'LPPPP', 'I', 'ws2_32')
         API.new('WSAPoll', 'PLI', 'I', 'ws2_32')
-      rescue Win32::API::LoadLibraryError
+      rescue Windows::API::LoadLibraryError
         # Do nothing, not supported on your platform.
       end
     end

@@ -429,13 +429,13 @@ module Windows
 
     begin
       API.new('GetErrorMode', 'V', 'I')
-    rescue Win32::API::LoadLibraryError
+    rescue Windows::API::LoadLibraryError
       # Vista or later
     end
 
     begin
       API.new('SetLastErrorEx', 'LL', 'V', 'user32')
-    rescue Win32::API::LoadLibraryError
+    rescue Windows::API::LoadLibraryError
       # VC++ 7.0 or later
     end
 

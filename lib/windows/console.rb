@@ -107,7 +107,7 @@ module Windows
          API.new('GetConsoleSelectionInfo', 'P', 'B')
          API.new('GetCurrentConsoleFont' , 'LIP', 'B')
          API.new('SetConsoleDisplayMode', 'LLP', 'B')
-      rescue Win32::API::LoadLibraryError
+      rescue Windows::API::LoadLibraryError
          # Windows XP or later
       end
    end

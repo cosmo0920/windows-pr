@@ -44,7 +44,7 @@ module Windows
        
       begin
         Strtok_s = API.new('strtok_s', 'PPI', 'P', MSVCRT_DLL)
-      rescue Win32::API::LoadLibraryError
+      rescue Windows::API::LoadLibraryError
         # Do nothing. Not supported on your system.
       end
          

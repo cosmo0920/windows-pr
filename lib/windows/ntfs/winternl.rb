@@ -1,4 +1,3 @@
-require 'win32api'
 require 'windows/api'
 
 # This library exposes functions from ntdll, which are typically undocumented.
@@ -67,7 +66,7 @@ module Windows
 
       begin
         API.new('RtlSetProcessIsCritical', 'IPI', 'L', 'ntdll')
-      rescue Win32::API::LoadLibraryError
+      rescue Windows::API::LoadLibraryError
         # XP or later
       end
 
@@ -75,7 +74,7 @@ module Windows
       unless defined? GetFinalPathNameByHandle
         begin
           API.new('GetFinalPathNameByHandle', 'LPLL', 'L')
-        rescue Win32::API::LoadLibraryError
+        rescue Windows::API::LoadLibraryError
           require 'windows/error'
           require 'windows/unicode'
           require 'windows/volume'

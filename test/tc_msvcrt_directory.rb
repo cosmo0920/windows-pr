@@ -88,7 +88,8 @@ class TC_Windows_MSVCRT_Directory < MiniTest::Test
   end
 
   def teardown
-    FileUtils.rm_f(@dir) if File.exist?(@dir)
+    Dir.chdir(@pwd)
+    FileUtils.rm_rf(@dir) if File.exist?(@dir)
     @pwd = nil
     @dir = nil
     @buf = 0

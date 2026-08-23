@@ -79,7 +79,7 @@ module Windows
       API.new('InetNtop', 'IPPL', 'P', 'ws2_32')
       API.new('inet_pton', 'IPP', 'I', 'ws2_32')
       API.new('SetAddrInfoEx', 'SSPLPLLPPPPP', 'I', 'ws2_32')
-    rescue Win32::API::LoadLibraryError
+    rescue Windows::API::LoadLibraryError
       # XP or later
     end
   end
