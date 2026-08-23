@@ -1,3 +1,5 @@
+[![Ruby](https://github.com/cosmo0920/windows-pr/actions/workflows/ci.yml/badge.svg)](https://github.com/cosmo0920/windows-pr/actions/workflows/ci.yml)
+
 # windows-pr
 
 `windows-pr` is a collection of Windows API functions and constants predefined
