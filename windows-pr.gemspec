@@ -5,10 +5,11 @@ Gem::Specification.new do |spec|
   spec.version    = '1.2.6'
   spec.license    = 'Artistic-2.0'
   spec.authors    = ['Daniel J. Berger', 'Park Heesob', 'Hiroshi Hatake']
-  spec.email      = 'djberg96@gmail.com'
+  spec.emails     = ['cosmo0920.oucc@gmail.com', 'djberg96@gmail.com']
   spec.homepage   = 'https://github.com/djberg96/windows-pr'
   spec.summary    = 'Windows functions and constants bundled via Fiddle'
   spec.test_files = Dir["test/tc*"]
+  
   spec.files      = `git ls-files -z`.split("\x0").reject do |file|
     file.end_with?('.gem', '.log') ||
       file.start_with?(
@@ -25,6 +26,13 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency('minitest', '~> 6.0')
   spec.add_development_dependency('rake')
   spec.add_dependency('fiddle')
+
+  spec.metadata   = {
+    'bug_tracker_uri' => 'https://github.com/cosmo0920/windows-pr/issues',
+    'changelog_uri' => 'https://github.com/cosmo0920/windows-pr/blob/master/CHANGES',
+    'documentation_uri' => 'https://www.rubydoc.info/gems/windows-pr',
+    'source_code_uri' => 'https://github.com/cosmo0920/windows-pr'
+  }
 
   spec.description = <<-EOF
     The windows-pr library is a collection of Windows functions and constants
